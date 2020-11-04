@@ -62,8 +62,8 @@ lang.tips_conPolygon = {
 	'just like your kind'
 }
 lang.tips_polygon = {
-	'you didn't fall into their trap',
-	'they don't believe in circle',
+	'you didn\'t fall into their trap',
+	'they don\'t believe in circle',
 	'concave shap got SHIFT first',
 	'same as you have',
 	'we plan to get out',
