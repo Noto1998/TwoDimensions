@@ -1,68 +1,61 @@
---- LOADING SCREEN
+-- LOADING SCREEN
+local img = love.graphics.newImage('img/loading.png')
 love.graphics.clear(0, 0, 0)
-local img = love.graphics.newImage("img/loading.png")
 love.graphics.draw(img)
 love.graphics.present()
----
 
---- FONT
--- for base. can get font's height
-local font = love.graphics.newFont("font/SourceHanSansCN-Medium.otf", 20)
+
+-- FONT
+-- for lib.base.lua can get font's height
+local font = love.graphics.newFont('font/SourceHanSansCN-Medium.otf', 20)
 love.graphics.setFont(font)
----
 
---- IMPORT CLASSIC
--- object-oriented
-Object = require "lib.classic"
--- input
-keys = require "lib.keys"
--- baseClassic
-base = require "lib.base"
+
+-- IMPORT CLASSIC
+Object = require 'lib.classic'-- oop
+base = require 'lib.base'-- helpful tool
 -- shape
-require "lib.shape.shape"
-require "lib.shape.rectangle"
-require "lib.shape.circle"
-require "lib.shape.cuboid"
-require "lib.shape.laser"
-require "lib.shape.ball"
-require "lib.shape.tips"
-require "lib.shape.fourD"
-require "lib.shape.moveCuboid"
-require "lib.shape.conPolygon"
-require "lib.shape.allForOne"
--- player
-require "lib.player"
--- destination
-require "lib.destination"
+require 'lib.shape.shape'
+require 'lib.shape.rectangle'
+require 'lib.shape.circle'
+require 'lib.shape.cuboid'
+require 'lib.shape.laser'
+require 'lib.shape.ball'
+require 'lib.shape.tips'
+require 'lib.shape.fourD'
+require 'lib.shape.moveCuboid'
+require 'lib.shape.conPolygon'
+require 'lib.shape.allForOne'
 -- level
-require "lib.shift" -- frist
-require "lib.level"
--- keyTips
-require "lib.keyTips"
--- screenManager
-local ScreenManager = require "lib.screenManager"
--- bgmManager
-local BgmManager = require "lib.bgmManager"
--- lang
-lang = {}
----
+require 'lib.game.shift' -- frist
+require 'lib.game.level'
 
---- LOAD SCREENS
-local MainScreen = require "screens.mainScreen"
-local LangSwitchScreen = require "screens.langSwitchScreen"
+require 'lib.game.player'-- player
+require 'lib.game.destination'-- destination
+require 'lib.game.keyTips'-- keyTips
+
+local ScreenManager = require 'lib.game.screenManager'
+local BgmManager = require 'lib.game.bgmManager'
+
+lang = {}-- language table
+
+
+-- LOAD SCREENS
+local MainScreen = require 'screens.mainScreen'
+local LangSwitchScreen = require 'screens.langSwitchScreen'
 -- load level data
-levelString = require "screens.level.levelConf"
-local LevelScreen = {}
+levelString = require 'screens.level.levelConf'
+local LevelScreenList = {}
 for i, value in ipairs(levelString) do
-    local fileName = "screens/level/" .. value .. ".lua"
+    local fileName = 'screens/level/all/' .. value .. '.lua'
     local file = love.filesystem.getInfo(fileName)
     if file ~= nil then
-        table.insert(LevelScreen, require("screens.level." .. value))
+        table.insert(LevelScreenList, require('screens.level.all.' .. value))
     end
 end
 
 
---- LOAD GAME
+-- LOAD GAME
 function love.load()
     -- DEBUG
     debugMode = true        -- work when ./debug/ have files, so remember not git ./debug/
@@ -73,16 +66,16 @@ function love.load()
     resetLevelString = nil  -- for reset level, set in screenManager.lua
 
     -- sound
-    sfx_menu        = love.audio.newSource("sound/bibi.mp3", "static")
-    sfx_touchGound  = love.audio.newSource("sound/touchGound.mp3", "static")
-    sfx_shift       = love.audio.newSource("sound/shift.mp3", "static")
-    sfx_finish      = love.audio.newSource("sound/finish.mp3", "static")
-    sfx_restart     = love.audio.newSource("sound/dead.mp3", "static")
-    sfx_shoot       = love.audio.newSource("sound/shoot.mp3", "static")
-    bgm_main        = love.audio.newSource("sound/bgm_191208.mp3", "stream")
+    sfx_menu        = love.audio.newSource('sound/bibi.mp3', 'static')
+    sfx_touchGound  = love.audio.newSource('sound/touchGound.mp3', 'static')
+    sfx_shift       = love.audio.newSource('sound/shift.mp3', 'static')
+    sfx_finish      = love.audio.newSource('sound/finish.mp3', 'static')
+    sfx_restart     = love.audio.newSource('sound/dead.mp3', 'static')
+    sfx_shoot       = love.audio.newSource('sound/shoot.mp3', 'static')
+    bgm_main        = love.audio.newSource('sound/bgm_191208.mp3', 'stream')
     bgmManager = BgmManager(bgm_main)
 
-    --- canvas
+    -- canvas
     canvasBG = love.graphics.newCanvas()
     love.graphics.setCanvas(canvasBG)
         love.graphics.clear()
@@ -97,16 +90,15 @@ function love.load()
             love.graphics.line(x, 0, x, base.guiHeight)
         end
     love.graphics.setCanvas()
-    ---
 
     -- register screens
     local screenManager = ScreenManager()
-    screenManager:register("/", LangSwitchScreen)   -- frist
-    screenManager:register("MainScreen", MainScreen)
+    screenManager:register('/', LangSwitchScreen)   -- frist
+    screenManager:register('MainScreen', MainScreen)
+
     -- register level
-    for i, level in ipairs(LevelScreen) do
+    for i, level in ipairs(LevelScreenList) do
         local levelName = levelString[i]
         screenManager:register(levelName, level)
     end
 end
----

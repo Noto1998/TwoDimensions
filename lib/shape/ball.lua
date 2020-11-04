@@ -79,10 +79,10 @@ function Ball:draw(mode)
 
     -- fill
     love.graphics.setColor(self.cFill)
-    love.graphics.circle("fill", self.x, _y, self.radius)
+    love.graphics.circle('fill', self.x, _y, self.radius)
     -- line
     love.graphics.setColor(cTable1)
-    love.graphics.circle("line", self.x, _y, self.radius)
+    love.graphics.circle('line', self.x, _y, self.radius)
 end
 
 

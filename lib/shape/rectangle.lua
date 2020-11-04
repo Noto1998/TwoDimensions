@@ -9,7 +9,7 @@ function Rectangle:new(x, y, z, lenX, lenY, dir, cFill, cLine, cMesh)
     self.dir = 0
     if dir~=nil then
         if dir > 0 or dir < -math.pi then
-            error("dir, expected 0 to -pi, got " .. dir)
+            error('dir, expected 0 to -pi, got ' .. dir)
         end
         self.dir = dir
     end
@@ -29,7 +29,7 @@ function Rectangle:new(x, y, z, lenX, lenY, dir, cFill, cLine, cMesh)
             1, 1, 1                                            -- color of the vertex
         }
     end
-    self.mesh = love.graphics.newMesh(vertices, "fan")
+    self.mesh = love.graphics.newMesh(vertices, 'fan')
     self.mesh:setTexture(canvasBG)
 end
 
@@ -51,7 +51,7 @@ function Rectangle:draw(mode)
             x1, y2 + self:getZ(1) * mode,
         }
         love.graphics.setColor(self.cFill)
-        love.graphics.polygon("fill", _table)
+        love.graphics.polygon('fill', _table)
         
         -- mesh
         if mode ~= 0 then
@@ -65,7 +65,7 @@ function Rectangle:draw(mode)
 
         -- line
         love.graphics.setColor(self.cLine)
-        love.graphics.polygon("line", _table)
+        love.graphics.polygon('line', _table)
     end
 end
 
@@ -86,7 +86,7 @@ function Rectangle:getX(num)
     elseif num == 2 then
         return self.x + self:getLenDX()
     else
-        error("expected 1~2, got " .. num)
+        error('expected 1~2, got ' .. num)
     end
     
 end
@@ -96,7 +96,7 @@ function Rectangle:getZ(num)
     elseif num == 2 then
         return self.z + self:getLenDZ()
     else
-        error("expected 1~2, got " .. num)
+        error('expected 1~2, got ' .. num)
     end
     
 end

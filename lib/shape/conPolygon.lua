@@ -26,9 +26,9 @@ function ConPolygon:draw(mode)
     love.graphics.setColor(self.cFill)
     local triList = love.math.triangulate(table)
     for key, triTable in pairs(triList) do
-        love.graphics.polygon("fill", triTable)
+        love.graphics.polygon('fill', triTable)
     end
     -- line
     love.graphics.setColor(self.cLine)
-    love.graphics.polygon("line", table)
+    love.graphics.polygon('line', table)
 end

@@ -6,9 +6,9 @@ local imgGameLogo, imgMofishLogo
 local tipsList
 
 local function getLevelName(page)
-	local string = "bug"
+	local string = 'bug'
 	-- class
-	local Test = require ("screens.level." .. levelString[page])
+	local Test = require ('screens.level.all.' .. levelString[page])
 	-- obj
 	local test = Test()
 
@@ -19,7 +19,7 @@ local function getLevelName(page)
 
 	-- hide
 	if page > (#levelString - pageHide) then
-		string = "???"
+		string = '???'
 	end
 
 	return string
@@ -32,8 +32,8 @@ function Screen:activate(shiftModeDe)
 
 	-- img
 	page = 1
-	imgGameLogo = love.graphics.newImage("img/gameLogo.png")
-	imgMofishLogo = love.graphics.newImage("img/mofishLogo.png")
+	imgGameLogo = love.graphics.newImage('img/gameLogo.png')
+	imgMofishLogo = love.graphics.newImage('img/mofishLogo.png')
 
 	--- tips
 	local y1 = base.guiHeight-base.guiFontHeight
@@ -41,17 +41,17 @@ function Screen:activate(shiftModeDe)
 	local creditsY = base.guiFontHeight
 
 	tipsList = {
-		Tips(lang.ui_level_choice(page, getLevelName(page)), base.guiWidth/2, y2, -50, "center", "bottom"),
-		Tips(lang.ui_key_start_and_move,	base.guiWidth/2, y1, -50, "center", "bottom")
+		Tips(lang.ui_level_choice(page, getLevelName(page)), base.guiWidth/2, y2, -50, 'center', 'bottom'),
+		Tips(lang.ui_key_start_and_move,	base.guiWidth/2, y1, -50, 'center', 'bottom')
 	}
 	table.insert(
 		tipsList,
-		Tips(lang.ui_thank_you_for_playing,		base.guiWidth/2, base.guiHeight+50, creditsY, "center")
+		Tips(lang.ui_thank_you_for_playing,		base.guiWidth/2, base.guiHeight+50, creditsY, 'center')
 	)
 	for i, tipsString in ipairs(lang.ui_credits) do
 		table.insert(
 			tipsList,
-			Tips(lang.ui_credits[i],		base.guiWidth/2, base.guiHeight+50, creditsY + (base.guiFontHeight+base.guiBorder/2)*i,	"center")
+			Tips(lang.ui_credits[i],		base.guiWidth/2, base.guiHeight+50, creditsY + (base.guiFontHeight+base.guiBorder/2)*i,	'center')
 		)
 	end
 	
@@ -101,7 +101,7 @@ end
 function Screen:draw()
 	-- draw BG
 	love.graphics.setColor(base.cBlack)
-	love.graphics.rectangle("fill", 0, 0, base.guiWidth, base.guiHeight)
+	love.graphics.rectangle('fill', 0, 0, base.guiWidth, base.guiHeight)
 
 	-- bgmManager
 	bgmManager:draw()
@@ -128,7 +128,7 @@ function Screen:draw()
 	local c2 = base.cloneTable(base.cDarkGray)
 	c2[4] = self.shiftMode
 	love.graphics.setColor(c2)
-	base.print(lang.ui_key_credits, base.guiWidth-base.guiBorder-base.guiFontHeight, 0, "right")
+	base.print(lang.ui_key_credits, base.guiWidth-base.guiBorder-base.guiFontHeight, 0, 'right')
 end
 
 

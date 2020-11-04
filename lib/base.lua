@@ -1,6 +1,8 @@
+local keys = require 'lib.game.keys'-- input
+
 local base = {}
 
---- function
+-- FUNCTION
 function base.sign(number)
     if number > 0 then
         return 1
@@ -10,8 +12,9 @@ function base.sign(number)
         return 0
     end
 end
+
+-- easy text print, xMode using love.graphics.printf(), yMode get font's pixels height and move x/y
 function base.print(string, x, y, xMode, yMode)
-    -- easy text print, xMode using love.graphics.printf(), yMode get font's pixels height and move x/y
     -- xMode
     if xMode == nil and yMode == nil then
         love.graphics.print(string, x, y)
@@ -21,26 +24,27 @@ function base.print(string, x, y, xMode, yMode)
         local y2 = y
         local xMode2 = xMode -- more usual
         -- yMode
-        if yMode == "top" or yMode == nil then
+        if yMode == 'top' or yMode == nil then
             --default
-        elseif yMode == "center" then
+        elseif yMode == 'center' then
             y2 = math.floor(y - h/2)
-        elseif yMode == "bottom" then
+        elseif yMode == 'bottom' then
             y2 = y - h
         else
-            error("Invalid alignment " .. yMode .. ", expected one of: 'top','center','bottom'");
+            error('Invalid alignment ' .. yMode .. ', expected one of: \"top\",\"center\",\"bottom\"');
         end
 
         if xMode ~= nil then
-            if xMode == "left" then
-                xMode2 = "right"
-            elseif xMode == "right" then
-                xMode2 = "left"
+            if xMode == 'left' then
+                xMode2 = 'right'
+            elseif xMode == 'right' then
+                xMode2 = 'left'
             end
         end
         love.graphics.printf(string, math.floor(x-w/2), y2, w, xMode2)
     end
 end
+
 function base.cloneTable(table)
     local t1 ={}--new table
     for i = 1, #table do
@@ -49,9 +53,11 @@ function base.cloneTable(table)
 
     return t1
 end
+
 function base.isDown(keyName)
     return love.keyboard.isDown(keyName.keyboard) or (joystick ~= nil and joystick:isGamepadDown(keyName.gamepad))
 end
+
 function base.pressedSetting(keyName, dt)
     local flag = false
     
@@ -62,6 +68,7 @@ function base.pressedSetting(keyName, dt)
         keyName.timer = 0
     else
         keyName.timer = keyName.timer + dt
+        
         if keyName.timerMax == 0 then   -- only 1 frame
             keyName.timerMax = dt
         end
@@ -78,15 +85,18 @@ function base.pressedSetting(keyName, dt)
 
     return flag
 end
+
 function base.isPressed(keyName)
     return keyName.isPressed
 end
+
 function base.getDistance(x1, y1, x2, y2)
     local disX = x1 - x2
     local disY = y1 - y2
     
     return math.sqrt(disX^2 + disY^2)
 end
+
 function base.drawRoundedRectangle(x, y, width, height)
     local segments = 20
     local radius = math.floor(base.guiFontHeight/3)
@@ -107,11 +117,12 @@ function base.drawRoundedRectangle(x, y, width, height)
         {math.pi/2,     math.pi},
     }
     for i = 1, 4 do
-        love.graphics.arc("fill", xyTable[i][1], xyTable[i][2], radius, dirTable[i][1], dirTable[i][2], segments)
+        love.graphics.arc('fill', xyTable[i][1], xyTable[i][2], radius, dirTable[i][1], dirTable[i][2], segments)
     end
-    love.graphics.rectangle("fill", x, y1, width,          height-radius*2)
-    love.graphics.rectangle("fill", x1, y, width-radius*2, height)
+    love.graphics.rectangle('fill', x, y1, width,          height-radius*2)
+    love.graphics.rectangle('fill', x1, y, width-radius*2, height)
 end
+
 function base.dirGetXY(dir, dis, xy)
     local x = math.cos(dir)*dis
     local y = math.sin(dir)*dis
@@ -124,6 +135,7 @@ function base.dirGetXY(dir, dis, xy)
         return x, y
     end
 end
+
 local function keyCreater(keyboard, gamepad)
     local table = {}
 
@@ -137,22 +149,23 @@ local function keyCreater(keyboard, gamepad)
 
     return table
 end
----
 
---- gui
+
+-- GUI
 base.guiWidth = love.graphics.getWidth()
 base.guiHeight = love.graphics.getHeight()
 base.guiBorder = base.guiWidth/30
 base.guiFontHeight = love.graphics.getFont():getHeight()
----
 
---- color
+
+-- color
 base.cBlack = {0, 0, 0}
 base.cWhite = {1, 1, 1}
 base.cYellow = {1, 1, 0}
 base.cRed = {1, 0, 0}
 base.cGray = {0.5, 0.5, 0.5}
 base.cDarkGray = {0.25, 0.25, 0.25}
+
 -- shape
 base.cFill = base.cBlack
 base.cLine = base.cWhite
@@ -168,31 +181,33 @@ base.cfourD1 = {0.92, 0.02, 0.76, 0.25}
 base.cfourD2 = {0.02, 0.92, 0.7, 0.25}
 ---
 
---- keys
+-- KEY
 -- gamepad
 local joysticks = love.joystick.getJoysticks()
 local joystick = joysticks[1]
 -- all key
-base.keys = {}
-base.keys.up    = keyCreater(keys.DPad_up,      "dpup")
-base.keys.down  = keyCreater(keys.DPad_down,    "dpdown")
-base.keys.left  = keyCreater(keys.DPad_left,    "dpleft")
-base.keys.right  = keyCreater(keys.DPad_right,  "dpright")
-base.keys.shift  = keyCreater(keys.Y,           "y")
-base.keys.enter  = keyCreater(keys.A,           "a")
-base.keys.cancel = keyCreater(keys.B,           "b")
-base.keys.keyTips= keyCreater(keys.X,           "x")
-base.keys.music  = keyCreater(keys.Select,      "back")
-base.keys.reset  = keyCreater(keys.Start,       "start")
----
+base.keys = {
+    up      = keyCreater(keys.DPad_up,     'dpup'),
+    down    = keyCreater(keys.DPad_down,   'dpdown'),
+    left    = keyCreater(keys.DPad_left,   'dpleft'),
+    right   = keyCreater(keys.DPad_right,  'dpright'),
+    shift   = keyCreater(keys.Y,           'y'),
+    enter   = keyCreater(keys.A,           'a'),
+    cancel  = keyCreater(keys.B,           'b'),
+    keyTips = keyCreater(keys.X,           'x'),
+    music   = keyCreater(keys.Select,      'back'),
+    reset   = keyCreater(keys.Start,       'start')
+}
 
+
+-- ELSE
 base.garvity = 100
 -- player
-base.player = {}
-base.player.len = 50
-base.player.spdXY = 100
-base.player.spdXZ = math.pi/2
--- 
+base.player = {
+    len = 50,
+    spdXY = 100,
+    spdXZ = math.pi/2
+}
 base.lenDestination = 50
 
 return base

@@ -65,10 +65,10 @@ function Laser:draw(mode)
     
     -- draw self
     love.graphics.setColor(self.cFill)
-    love.graphics.circle("fill", self.x, _y, radius*2)
+    love.graphics.circle('fill', self.x, _y, radius*2)
     love.graphics.setColor(self.cLine)
-    love.graphics.circle("line", self.x, _y, radius)
-    love.graphics.circle("line", self.x, _y, radius*2)
+    love.graphics.circle('line', self.x, _y, radius)
+    love.graphics.circle('line', self.x, _y, radius*2)
     
     -- draw shoot line
     if self.turnOn then

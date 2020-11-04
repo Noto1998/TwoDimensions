@@ -30,16 +30,16 @@ function Tips:draw(mode)
     
     -- center
     if self.xMode ~= nil then
-        if self.xMode == "center" then
+        if self.xMode == 'center' then
             _x = _x - reWidth/2
-        elseif self.xMode == "right" then
+        elseif self.xMode == 'right' then
             _x = _x - reWidth
         end
     end
     if self.yMode ~= nil then
-        if self.yMode == "center" then
+        if self.yMode == 'center' then
             _y = _y - base.guiFontHeight/2
-        elseif self.yMode == "bottom" then
+        elseif self.yMode == 'bottom' then
             _y = _y - base.guiFontHeight
         end
     end
@@ -49,5 +49,5 @@ function Tips:draw(mode)
     base.drawRoundedRectangle(_x, _y, reWidth, base.guiFontHeight)
     -- text
     love.graphics.setColor(base.cBlack)
-    base.print(self.string, _x+reWidth/2, _y, "center")
+    base.print(self.string, _x+reWidth/2, _y, 'center')
 end
