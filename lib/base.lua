@@ -31,7 +31,7 @@ function base.print(string, x, y, xMode, yMode)
         elseif yMode == 'bottom' then
             y2 = y - h
         else
-            error('Invalid alignment ' .. yMode .. ', expected one of: \"top\",\"center\",\"bottom\"');
+            error('Invalid alignment ' .. yMode .. ', expected one of: \"top\",\"center\",\"bottom\"')
         end
 
         if xMode ~= nil then

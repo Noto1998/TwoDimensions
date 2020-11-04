@@ -6,18 +6,14 @@ local imgGameLogo, imgMofishLogo
 local tipsList
 
 local function getLevelName(page)
-	local string = 'bug'
-	-- class
-	local Test = require ('screens.level.all.' .. levelString[page])
-	-- obj
-	local test = Test()
+	local levelName = levelString[page]
+	local string = lang[levelName]
+	
+	if string==nil then
+		error('level name do not exist')
+	end
 
-	test:activate()
-	string = test.levelName
-	-- release
-	test = nil
-
-	-- hide
+	-- hiden level
 	if page > (#levelString - pageHide) then
 		string = '???'
 	end
