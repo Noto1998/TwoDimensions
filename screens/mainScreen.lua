@@ -6,15 +6,15 @@ local imgGameLogo, imgMofishLogo
 local tipsList
 
 local function getLevelName(page)
-	local levelName = levelString[page]
-	local string = lang[levelName]
+	local levelName = LEVEL_STRING[page]
+	local string = Lang[levelName]
 	
 	if string==nil then
 		error('level name do not exist')
 	end
 
 	-- hiden level
-	if page > (#levelString - pageHide) then
+	if page > (#LEVEL_STRING - pageHide) then
 		string = '???'
 	end
 
@@ -37,17 +37,17 @@ function Screen:activate()
 	local creditsY = base.guiFontHeight
 
 	tipsList = {
-		Tips(lang.ui_level_choice(page, getLevelName(page)), base.guiWidth/2, y2, -50, 'center', 'bottom'),
-		Tips(lang.ui_key_start_and_move,	base.guiWidth/2, y1, -50, 'center', 'bottom')
+		Tips(Lang.ui_level_choice(page, getLevelName(page)), base.guiWidth/2, y2, -50, 'center', 'bottom'),
+		Tips(Lang.ui_key_start_and_move,	base.guiWidth/2, y1, -50, 'center', 'bottom')
 	}
 	table.insert(
 		tipsList,
-		Tips(lang.ui_thank_you_for_playing,		base.guiWidth/2, base.guiHeight+50, creditsY, 'center')
+		Tips(Lang.ui_thank_you_for_playing,		base.guiWidth/2, base.guiHeight+50, creditsY, 'center')
 	)
-	for i, tipsString in ipairs(lang.ui_credits) do
+	for i, tipsString in ipairs(Lang.ui_credits) do
 		table.insert(
 			tipsList,
-			Tips(lang.ui_credits[i],		base.guiWidth/2, base.guiHeight+50, creditsY + (base.guiFontHeight+base.guiBorder/2)*i,	'center')
+			Tips(Lang.ui_credits[i],		base.guiWidth/2, base.guiHeight+50, creditsY + (base.guiFontHeight+base.guiBorder/2)*i,	'center')
 		)
 	end
 	
@@ -61,7 +61,7 @@ function Screen:update(dt)
 	-- switch level
 	if self.shiftMode == 0 then
 		if base.isPressed(base.keys.right) or base.isPressed(base.keys.left) then
-			local levelMax = #levelString - pageHide + 1--show the laser
+			local levelMax = #LEVEL_STRING - pageHide + 1--show the laser
 			
 			-- change page
 			if base.isPressed(base.keys.right) then
@@ -79,16 +79,16 @@ function Screen:update(dt)
 			end
 			
 			-- update levelName string
-			tipsList[1].string = lang.ui_level_choice(page, getLevelName(page))
+			tipsList[1].string = Lang.ui_level_choice(page, getLevelName(page))
 
 			-- sfx
-			love.audio.play(sfx_menu)
+			love.audio.play(SFX_MENU)
 		end
 
 		-- start level
-		if base.isPressed(base.keys.enter) and page <= (#levelString - pageHide) then 
-			levelChoice = page
-			self.screen:view(levelString[levelChoice])
+		if base.isPressed(base.keys.enter) and page <= (#LEVEL_STRING - pageHide) then 
+			LEVEL_CHOICE = page
+			self.screen:view(LEVEL_STRING[LEVEL_CHOICE])
 		end
 	end
 end
@@ -124,7 +124,7 @@ function Screen:draw()
 	local c2 = base.cloneTable(base.cDarkGray)
 	c2[4] = self.shiftMode
 	love.graphics.setColor(c2)
-	base.print(lang.ui_key_credits, base.guiWidth-base.guiBorder-base.guiFontHeight, 0, 'right')
+	base.print(Lang.ui_key_credits, base.guiWidth-base.guiBorder-base.guiFontHeight, 0, 'right')
 end
 
 

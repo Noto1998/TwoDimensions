@@ -16,7 +16,7 @@ function Screen:activate()
 	---
 
 	-- levelName
-	local levelName = lang.level_Tunnel
+	local levelName = Lang.level_Tunnel
 	-- player location
 	local playerX = 80
 	local playerY = 40

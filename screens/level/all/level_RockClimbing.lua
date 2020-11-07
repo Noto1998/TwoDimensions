@@ -9,7 +9,7 @@ function Screen:activate()
 	---
 
 	-- levelName
-	local levelName = lang.level_RockClimbing
+	local levelName = Lang.level_RockClimbing
 	-- player location
 	local playerX = 50
 	local playerY = 90

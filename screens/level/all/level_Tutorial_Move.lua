@@ -10,7 +10,7 @@ function Screen:activate()
 	---
 	
 	-- levelName
-	local levelName = lang.level_Tutorial_Move
+	local levelName = Lang.level_Tutorial_Move
 	-- player location
 	local playerX = 80-base.player.len/2
 	local playerY = base.guiHeight/2-base.player.len/2
@@ -26,9 +26,9 @@ function Screen:activate()
 	self:addShapeList(Cuboid,		border, border, cubeZ,		cubeLenX, cubeLenY, cubeLenZ)
 
 	--- here to create tips
-	self:addTipsList(lang.tips_use_arrows_to_move,		base.guiBorder, base.guiHeight/2+40, playerZ-50)
-	self:addTipsList(lang.tips_touch_the_green_goal,	base.guiWidth-base.guiBorder, base.guiHeight/2-40, destinationZ-50, "right", "bottom")
-	self:addTipsList(lang.tips_wait_not_teach_yet,		base.guiWidth/2, 300, base.guiHeight/2+50, "center", "center")
+	self:addTipsList(Lang.tips_use_arrows_to_move,		base.guiBorder, base.guiHeight/2+40, playerZ-50)
+	self:addTipsList(Lang.tips_touch_the_green_goal,	base.guiWidth-base.guiBorder, base.guiHeight/2-40, destinationZ-50, "right", "bottom")
+	self:addTipsList(Lang.tips_wait_not_teach_yet,		base.guiWidth/2, 300, base.guiHeight/2+50, "center", "center")
 end
 
 

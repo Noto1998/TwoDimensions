@@ -30,7 +30,7 @@ function Rectangle:new(x, y, z, lenX, lenY, dir, cFill, cLine, cMesh)
         }
     end
     self.mesh = love.graphics.newMesh(vertices, 'fan')
-    self.mesh:setTexture(canvasBG)
+    self.mesh:setTexture(CANVAS_BG)
 end
 
 

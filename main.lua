@@ -38,16 +38,17 @@ require 'lib.game.keyTips'-- keyTips
 local ScreenManager = require 'lib.game.screenManager'
 local BgmManager = require 'lib.game.bgmManager'
 
-lang = {}-- language table
+Lang = {}-- language table
 
 
 -- LOAD SCREENS
 local MainScreen = require 'screens.mainScreen'
 local LangSwitchScreen = require 'screens.langSwitchScreen'
+
 -- load level data
-levelString = require 'screens.level.levelConf'
+LEVEL_STRING = require 'screens.level.levelConf'
 local LevelScreenList = {}
-for i, value in ipairs(levelString) do
+for i, value in ipairs(LEVEL_STRING) do
     local fileName = 'screens/level/all/' .. value .. '.lua'
     local file = love.filesystem.getInfo(fileName)
     if file ~= nil then
@@ -59,27 +60,27 @@ end
 -- LOAD GAME
 function love.load()
     -- DEBUG
-    debugMode = true        -- work when ./debug/ have files, so remember not git ./debug/
-    debugLevel = nil        -- pressed f1 to run level
-    
+    DEBUG_MODE = true        -- work when ./debug/ have files, so remember not git ./debug/
+    DEBUG_LEVEL = nil        -- pressed f1 to run level
+
     -- level
-    levelChoice = 1         -- for goto next level
-    resetLevelString = nil  -- for reset level, set in screenManager.lua
+    LEVEL_CHOICE = 1         -- for goto next level
+    RESET_LEVEL_PATH = nil  -- for reset level, set in screenManager.lua
 
     -- sound
-    sfx_menu        = love.audio.newSource('sound/bibi.mp3', 'static')
-    sfx_touchGound  = love.audio.newSource('sound/touchGound.mp3', 'static')
-    sfx_shift       = love.audio.newSource('sound/shift.mp3', 'static')
-    sfx_finish      = love.audio.newSource('sound/finish.mp3', 'static')
-    sfx_restart     = love.audio.newSource('sound/dead.mp3', 'static')
-    sfx_shoot       = love.audio.newSource('sound/shoot.mp3', 'static')
-    bgm_main        = love.audio.newSource('sound/bgm_191208.mp3', 'stream')
-    
-    bgmManager = BgmManager(bgm_main)
+    SFX_MENU        = love.audio.newSource('sound/bibi.mp3', 'static')
+    SFX_TOUCH_GOUND = love.audio.newSource('sound/touchGound.mp3', 'static')
+    SFX_SHIFT       = love.audio.newSource('sound/shift.mp3', 'static')
+    SFX_FINISH      = love.audio.newSource('sound/finish.mp3', 'static')
+    SFX_RESTART     = love.audio.newSource('sound/dead.mp3', 'static')
+    SFX_SHOOT       = love.audio.newSource('sound/shoot.mp3', 'static')
+    BGM_MAIN        = love.audio.newSource('sound/bgm_191208.mp3', 'stream')
+
+    bgmManager = BgmManager(BGM_MAIN)
 
     -- canvas
-    canvasBG = love.graphics.newCanvas()
-    love.graphics.setCanvas(canvasBG)
+    CANVAS_BG = love.graphics.newCanvas()
+    love.graphics.setCanvas(CANVAS_BG)
         love.graphics.clear()
         local lineBorder = 40
         love.graphics.setColor(base.cDarkGray)
@@ -100,7 +101,7 @@ function love.load()
 
     -- register level
     for i, level in ipairs(LevelScreenList) do
-        local levelName = levelString[i]
+        local levelName = LEVEL_STRING[i]
         screenManager:register(levelName, level)
     end
 end

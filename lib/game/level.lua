@@ -51,7 +51,7 @@ end
 
 function Level:update(dt, canShift)
 	-- shift/bgmManager/pressedSetting
-	local canShift = (self.shiftMode~=1 or player:isOnGround()) and (not finishFlag) and (not keyTips:getShowFlag()) and (canShift == nil or canShift==true)
+	canShift = (self.shiftMode~=1 or player:isOnGround()) and (not finishFlag) and (not keyTips:getShowFlag()) and (canShift == nil or canShift==true)
 	Level.super.update(self, dt, canShift)
 	
 	-- keyTips
@@ -63,7 +63,7 @@ function Level:update(dt, canShift)
 	if (not finishFlag) and (not keyTips:getShowFlag()) then
 		-- reset
 		if base.isPressed(base.keys.reset) then
-			self.screen:view(resetLevelString)
+			self.screen:view(RESET_LEVEL_PATH)
 		end
 		
 		-- goto MainScreens
@@ -83,8 +83,8 @@ function Level:update(dt, canShift)
 	-- goto next level
 	if finishFlag then
 		if not showDoc and base.isPressed(base.keys.enter) then
-			levelChoice = levelChoice + 1
-			local levelName = levelString[levelChoice]
+			LEVEL_CHOICE = LEVEL_CHOICE + 1
+			local levelName = LEVEL_STRING[LEVEL_CHOICE]
 			self.screen:view(levelName)
 		end
 	end
@@ -127,7 +127,7 @@ function Level:update(dt, canShift)
 		if not finishFlag then
 			finishFlag = true
 			--sfx
-			love.audio.play(sfx_finish)
+			love.audio.play(SFX_FINISH)
 		end
 	end
 
@@ -210,7 +210,7 @@ function Level:draw()
 	-- draw stuck warning
 	if self.shiftMode == 0 and player.stuck then
 		love.graphics.setColor(base.cWhite)
-		base.print(lang.ui_player_stuck, base.guiWidth/2, base.guiHeight/2, 'center', 'center')
+		base.print(Lang.ui_player_stuck, base.guiWidth/2, base.guiHeight/2, 'center', 'center')
 	end
 
 	-- XYZ
@@ -220,7 +220,7 @@ function Level:draw()
 	if not _isTutorial then
 		-- draw keyTips text
 		love.graphics.setColor(base.cDarkGray)
-		base.print(lang.ui_key_keyTips, base.guiWidth-base.guiBorder, base.guiHeight, 'right', 'bottom')
+		base.print(Lang.ui_key_keyTips, base.guiWidth-base.guiBorder, base.guiHeight, 'right', 'bottom')
 		
 		-- draw keyTips
 		keyTips:draw()
@@ -231,8 +231,8 @@ function Level:draw()
 		love.graphics.setColor(0,0,0, 0.9)
 		love.graphics.rectangle('fill', 0, 0, base.guiWidth, base.guiHeight)
 		love.graphics.setColor(base.cWhite)
-		base.print(lang.ui_level_finish, base.guiWidth/2, base.guiHeight/3, 'center', 'center')
-		local string = lang.ui_key_continue
+		base.print(Lang.ui_level_finish, base.guiWidth/2, base.guiHeight/3, 'center', 'center')
+		local string = Lang.ui_key_continue
 		base.print(string, base.guiWidth/2, base.guiHeight/3*2, 'center', 'center')
 	end
 end
@@ -251,10 +251,10 @@ end
 
 function Level:playerDead()
 	-- sfx
-	sfx_restart:seek(0.15)
-	love.audio.play(sfx_restart)
+	SFX_RESTART:seek(0.15)
+	love.audio.play(SFX_RESTART)
 	-- reset
-	self.screen:view(resetLevelString)
+	self.screen:view(RESET_LEVEL_PATH)
 end
 
 function Level:drawXYZ()

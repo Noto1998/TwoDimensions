@@ -1,6 +1,7 @@
 -- base on https://github.com/Skayo/Gameshell-Love2D-Template, change a little bit
 local ScreenManager = Object:extend()
 
+
 function ScreenManager:new()
 	self.routes = {}
 	self.currentScreen = nil
@@ -8,6 +9,7 @@ function ScreenManager:new()
 	
 	self:registerEvents()
 end
+
 
 function ScreenManager:event(event, arguments)
 	if arguments == nil then
@@ -20,6 +22,7 @@ function ScreenManager:event(event, arguments)
 		self.activeScreen[event](--[[self=]] self.activeScreen, unpack(arguments))
 	end
 end
+
 
 function ScreenManager:register(path, screenClass)
 	local newRoute = {
@@ -36,6 +39,7 @@ function ScreenManager:register(path, screenClass)
 	return table.insert(self.routes, newRoute)
 end
 
+
 function ScreenManager:view(path, ...)
 	for _, route in pairs(self.routes) do
 		if path == route.path then
@@ -46,8 +50,9 @@ function ScreenManager:view(path, ...)
 	end
 
 	-- for reset level
-	resetLevelString = path
+	RESET_LEVEL_PATH = path
 end
+
 
 -- Register Löve2D events
 function ScreenManager:registerEvents()
@@ -58,8 +63,8 @@ function ScreenManager:registerEvents()
 	
 	--function love.directorydropped(...) _self:event('directorydropped', ...) end
 	function love.draw(...)	_self:event('draw', ...) end
-	----function love.errhand(...) _self:event('errhand', ...) end
-	----function love.errorhandler(...) _self:event('errorhandler', ...) end
+	--function love.errhand(...) _self:event('errhand', ...) end
+	--function love.errorhandler(...) _self:event('errorhandler', ...) end
 	--function love.filedropped(...) _self:event('filedropped', ...) end
 	function love.focus(...) _self:event('focus', ...) end
 	function love.keypressed(...)
@@ -67,15 +72,15 @@ function ScreenManager:registerEvents()
 			love.event.quit()
 		end
 		
-		--- [debug] f1, run the file in screens/debug
-		if debugMode and select(1, ...) == 'f1' then
+		-- [debug] f1, run the file in screens/debug
+		if DEBUG_MODE and select(1, ...) == 'f1' then
 			local fileTable = love.filesystem.getDirectoryItems('screens/debug')
 			local fileName
 			for key, value in pairs(fileTable) do
 				fileName = value
 			end
 			if fileName ~= nil then
-				lang = require('lib.lang.lang_cn')
+				Lang = require('lib.Lang.lang_cn')
 				
 				local levelName = string.sub(fileName, 1, string.len(fileName)-string.len('.lua'))
 				self:register(levelName, require('screens.debug.' .. levelName))
@@ -85,7 +90,7 @@ function ScreenManager:registerEvents()
 				print('debug: file don\'t exist.')
 			end
 		end
-		---
+		
 
 		_self:event('keypressed', ...)
 	end

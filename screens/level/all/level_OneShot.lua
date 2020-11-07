@@ -25,7 +25,7 @@ function Screen:activate()
 	local tSY2 = base.guiHeight/(base.guiWidth/3)
 	
 	-- levelName
-	local levelName = lang.level_OneShot
+	local levelName = Lang.level_OneShot
 	-- player location
 	local playerX = 20
 	local playerY = base.guiHeight/2-base.player.len/2

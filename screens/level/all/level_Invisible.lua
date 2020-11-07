@@ -10,7 +10,7 @@ function Screen:activate()
 	---
 
 	-- levelName
-	local levelName = lang.level_Invisible
+	local levelName = Lang.level_Invisible
 	-- player location
 	local playerX = 50
 	local playerY = 150

@@ -11,7 +11,7 @@ function Screen:activate()
 	local cLenY = base.guiHeight-1*2
 	local cLenZ = 50
 	-- create player and destination
-	local tipsTable = lang.tips_polygon 
+	local tipsTable = Lang.tips_polygon 
 	local levelName = ""
 	local waitTime = 10.3
 	Screen.super.activate(self, tipsTable, levelName, waitTime)

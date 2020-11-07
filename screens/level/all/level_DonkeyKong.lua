@@ -13,7 +13,7 @@ function Screen:activate()
 	---
 
 	-- levelName
-	local levelName = lang.level_DonkeyKong
+	local levelName = Lang.level_DonkeyKong
 	-- player location
 	local playerX = base.guiWidth/2-base.player.len/2
 	local playerY = base.guiHeight/4*3-base.player.len/2

@@ -13,7 +13,7 @@ function Screen:activate()
 	---
 	
 	-- levelName
-	local levelName = lang.level_Tutorial_Ball
+	local levelName = Lang.level_Tutorial_Ball
 	-- player location
 	local playerX = base.guiWidth/4
 	local playerY = base.guiHeight/2-base.player.len/2

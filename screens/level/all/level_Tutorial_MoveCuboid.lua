@@ -4,7 +4,7 @@ local player
 
 function Screen:activate()
 	-- levelName
-	local levelName = lang.level_Tutorial_MoveCuboid
+	local levelName = Lang.level_Tutorial_MoveCuboid
 	-- player location
 	local playerX = 20
 	local playerY = base.guiHeight/2-base.player.len/2

@@ -10,7 +10,7 @@ function Screen:activate()
 	---
 
 	-- levelName
-	local levelName = lang.level_CrossTheRiver
+	local levelName = Lang.level_CrossTheRiver
 	-- player location
 	local playerX = 50
 	local playerY = 150
@@ -27,8 +27,8 @@ function Screen:activate()
 	self:addShapeList(Cuboid,		base.guiWidth-cubeLenX-1, 1, cubeZ,		cubeLenX, cubeLenY, cubeLenZ)
 	
 	--- here to create tips
-	self:addTipsList(lang.tips_pressed_Y_to_shift,		base.guiBorder, 50, -50)
-	self:addTipsList(lang.tips_left_and_right_to_move,	base.guiBorder, 350, 30)
+	self:addTipsList(Lang.tips_pressed_Y_to_shift,		base.guiBorder, 50, -50)
+	self:addTipsList(Lang.tips_left_and_right_to_move,	base.guiBorder, 350, 30)
 end
 
 return Screen

@@ -32,7 +32,7 @@ function Laser:update(dt, mode, shapeList, player)
             self.turnOn = not self.turnOn
             --sfx
             if self.turnOn then
-                love.audio.play(sfx_shoot)
+                love.audio.play(SFX_SHOOT)
             end
         end
     end

@@ -39,7 +39,7 @@ function Player:update(dt, mode, shapeList)
 		for i = 1, 2 do
 			if self.onGround[i] then
 				if not sfxPlayed[i] then
-					love.audio.play(sfx_touchGound)
+					love.audio.play(SFX_TOUCH_GOUND)
 					sfxPlayed[i] = true
 				end
 			else

@@ -81,7 +81,7 @@ function Shift:update(dt, canShift)
 		self.shiftFlag = not self.shiftFlag
 		self.shifting = true
 		-- play sfx
-		love.audio.play(sfx_shift)
+		love.audio.play(SFX_SHIFT)
 	end
 
 	-- bgmManager

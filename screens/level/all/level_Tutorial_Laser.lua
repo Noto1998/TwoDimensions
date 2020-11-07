@@ -13,7 +13,7 @@ function Screen:activate()
 	---
 
 	-- levelName
-	local levelName = lang.level_Tutorial_Laser
+	local levelName = Lang.level_Tutorial_Laser
 	-- player location
 	local playerX = base.guiWidth/4-base.player.len/2
 	local playerY = base.guiHeight/4-base.player.len/2
@@ -35,7 +35,7 @@ function Screen:activate()
     self:addShapeList(Laser,		0, base.guiHeight/2, cubeZ-cubeLenZ3,		1, 0, 0)
 
 	--- here to create tips
-	self:addTipsList(lang.tips_yellow_means_danger,		5, base.guiHeight+10, 20)
+	self:addTipsList(Lang.tips_yellow_means_danger,		5, base.guiHeight+10, 20)
 end
 
 return Screen

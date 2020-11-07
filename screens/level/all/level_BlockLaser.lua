@@ -14,7 +14,7 @@ function Screen:activate()
 	---
 
 	-- levelName
-	local levelName = lang.level_BlockLaser
+	local levelName = Lang.level_BlockLaser
 	-- player location
 	local playerX = base.guiWidth/2-base.player.len/2
 	local playerY = -25

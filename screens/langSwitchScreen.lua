@@ -11,17 +11,17 @@ function Screen:activate()
 end
 
 function Screen:update(dt)
-	-- switch lang
+	-- switch Lang
 	if base.isDown(base.keys.enter) or base.isDown(base.keys.cancel) or base.isDown(base.keys.keyTips) then
 		local langFile
 		if base.isDown(base.keys.enter) then
-			langFile = 'lib.lang.lang_cn'
+			langFile = 'lib.Lang.lang_cn'
 		elseif base.isDown(base.keys.cancel) then
-			langFile = 'lib.lang.lang_en'
+			langFile = 'lib.Lang.lang_en'
 		elseif base.isDown(base.keys.keyTips) then
-			langFile = 'lib.lang.lang_jp'
+			langFile = 'lib.Lang.lang_jp'
 		end
-		lang = require(langFile)
+		Lang = require(langFile)
 		
 		-- goto MainScreen
 		self.screen:view('MainScreen')

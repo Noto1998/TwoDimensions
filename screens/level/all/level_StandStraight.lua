@@ -12,7 +12,7 @@ function Screen:activate()
 
 
 	-- levelName
-	local levelName = lang.level_StandStraight
+	local levelName = Lang.level_StandStraight
 	-- player location
 	local playerX = 5
 	local playerY = 20

@@ -38,7 +38,7 @@ function Screen:activate()
 	---
 
 	-- levelName
-	local levelName = lang.level_SuperLaser
+	local levelName = Lang.level_SuperLaser
 	-- player location
 	local playerX = 30
 	local playerY = 50
