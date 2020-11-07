@@ -28,7 +28,7 @@ require 'lib.shape.moveCuboid'
 require 'lib.shape.conPolygon'
 require 'lib.shape.allForOne'
 -- level
-require 'lib.game.shift' -- frist
+Shift = require 'lib.game.shift' -- frist
 require 'lib.game.level'
 
 require 'lib.game.player'-- player

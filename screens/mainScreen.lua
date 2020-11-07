@@ -22,9 +22,9 @@ local function getLevelName(page)
 end
 
 
-function Screen:activate(shiftModeDe)
+function Screen:activate()
 	-- shift
-	Screen.super.activate(self, shiftModeDe)
+	Screen.super.activate(self)
 
 	-- img
 	page = 1
