@@ -1,4 +1,4 @@
-local keys = require 'lib.game.keys'-- input
+local keys = require 'lib.game.keys'-- for input
 
 local base = {}
 

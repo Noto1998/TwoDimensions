@@ -12,8 +12,9 @@ love.graphics.setFont(font)
 
 
 -- IMPORT CLASSIC
-Object = require 'lib.classic'-- oop
-base = require 'lib.base'-- helpful tool
+Object = require 'lib.base.classic'-- oop
+base = require 'lib.base.base'-- helpful tool
+Position = require 'lib.base.position'
 -- shape
 require 'lib.shape.shape'
 require 'lib.shape.rectangle'
@@ -73,6 +74,7 @@ function love.load()
     sfx_restart     = love.audio.newSource('sound/dead.mp3', 'static')
     sfx_shoot       = love.audio.newSource('sound/shoot.mp3', 'static')
     bgm_main        = love.audio.newSource('sound/bgm_191208.mp3', 'stream')
+    
     bgmManager = BgmManager(bgm_main)
 
     -- canvas
