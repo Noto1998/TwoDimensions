@@ -75,7 +75,7 @@ function Rectangle:getXByDir()
 end
 
 function Rectangle:getZByDir()
-    return Base.getXYbyDir(self.dir, self.lenX)
+    return Base.getXYbyDir(self.dir, self.lenX).y
 end
 
 function Rectangle:getX(num)
