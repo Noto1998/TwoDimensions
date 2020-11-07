@@ -1,6 +1,6 @@
 Tips = Object:extend()
 
-local radius = math.floor(base.guiFontHeight/3)
+local radius = math.floor(Base.guiFontHeight/3)
 
 function Tips:new(string, x, y, z, xMode, yMode)
     self.string = string
@@ -38,16 +38,16 @@ function Tips:draw(mode)
     end
     if self.yMode ~= nil then
         if self.yMode == 'center' then
-            _y = _y - base.guiFontHeight/2
+            _y = _y - Base.guiFontHeight/2
         elseif self.yMode == 'bottom' then
-            _y = _y - base.guiFontHeight
+            _y = _y - Base.guiFontHeight
         end
     end
 
     -- bg
-    love.graphics.setColor(base.cWhite)
-    base.drawRoundedRectangle(_x, _y, reWidth, base.guiFontHeight)
+    love.graphics.setColor(Base.cWhite)
+    Base.drawRoundedRectangle(_x, _y, reWidth, Base.guiFontHeight)
     -- text
-    love.graphics.setColor(base.cBlack)
-    base.print(self.string, _x+reWidth/2, _y, 'center')
+    love.graphics.setColor(Base.cBlack)
+    Base.print(self.string, _x+reWidth/2, _y, 'center')
 end

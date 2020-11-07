@@ -17,10 +17,10 @@ function ConPolygon:draw(mode)
     local _dir = math.pi*2/self.num
     
     for i = 1, self.num do
-        table[(i-1)*4+1] = _x+base.dirGetXY(dir+_dir*(i-1), self.len, 0)
-        table[(i-1)*4+2] = _y+base.dirGetXY(dir+_dir*(i-1), self.len, 1)
-        table[(i-1)*4+3] = _x+base.dirGetXY(dir+_dir*(i-1)+_dir/2, self.border, 0)
-        table[(i-1)*4+4] = _y+base.dirGetXY(dir+_dir*(i-1)+_dir/2, self.border, 1)
+        table[(i-1)*4+1] = _x+Base.dirGetXY(dir+_dir*(i-1), self.len, 0)
+        table[(i-1)*4+2] = _y+Base.dirGetXY(dir+_dir*(i-1), self.len, 1)
+        table[(i-1)*4+3] = _x+Base.dirGetXY(dir+_dir*(i-1)+_dir/2, self.border, 0)
+        table[(i-1)*4+4] = _y+Base.dirGetXY(dir+_dir*(i-1)+_dir/2, self.border, 1)
     end
     -- fill
     love.graphics.setColor(self.cFill)

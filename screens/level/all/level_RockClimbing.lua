@@ -4,7 +4,7 @@ function Screen:activate()
 	--- shape value
 	local cubeZ = 50
 	local cubeLenX = 150
-	local cubeLenY = base.guiHeight-1-1
+	local cubeLenY = Base.guiHeight-1-1
 	local cubeLenZ = 40
 	---
 
@@ -16,7 +16,7 @@ function Screen:activate()
 	local playerZ = cubeZ - 1
 	-- destination location
 	local destinationX = cubeLenX - 50
-	local destinationY = base.guiWidth+50
+	local destinationY = Base.guiWidth+50
 	local destinationZ = cubeZ+cubeLenZ*2
 	-- create player and destination
 	Screen.super.activate(self, playerX, playerY, playerZ, destinationX, destinationY, destinationZ, levelName)

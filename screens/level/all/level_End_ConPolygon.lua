@@ -7,8 +7,8 @@ local waitTimer
 function Screen:activate()
 	--- shape value
 	local cZ = 180
-	local cLenX = base.guiWidth-1*2
-	local cLenY = base.guiHeight-1*2
+	local cLenX = Base.guiWidth-1*2
+	local cLenY = Base.guiHeight-1*2
 	local cLenZ = 50
 	--- create player and destination
 	local tipsTable = Lang.tips_conPolygon 
@@ -20,7 +20,7 @@ function Screen:activate()
 	waitTimer = 0
 
 	--- here to create shape
-	cp1 = ConPolygon(base.guiWidth/2, base.guiHeight/2, base.guiHeight/3+10,		15, 30,  30)
+	cp1 = ConPolygon(Base.guiWidth/2, Base.guiHeight/2, Base.guiHeight/3+10,		15, 30,  30)
 	table.insert(self.shapeList, cp1)
 	table.insert(self.drawList, cp1)
 end

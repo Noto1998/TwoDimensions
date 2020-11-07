@@ -1,4 +1,4 @@
--- base on https://github.com/Skayo/Gameshell-Love2D-Template, change a little bit
+-- Base on https://github.com/Skayo/Gameshell-Love2D-Template, change a little bit
 local ScreenManager = Object:extend()
 
 

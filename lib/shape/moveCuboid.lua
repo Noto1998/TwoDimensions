@@ -3,7 +3,7 @@ MoveCuboid = Cuboid:extend()
 local spd = 30
 
 function MoveCuboid:new(x, y, z, lenX, lenY, lenZ, moveX, moveY, moveZ, moveFlag)
-    MoveCuboid.super.new(self, x, y, z, lenX, lenY, lenZ, nil, base.cDanger, nil)
+    MoveCuboid.super.new(self, x, y, z, lenX, lenY, lenZ, nil, Base.cDanger, nil)
     -- record
     self.oX = self.x
     self.oY = self.y
@@ -34,7 +34,7 @@ function MoveCuboid:update(dt, shiftMode, shapeList)
         if self.x ~= self.oX then
             local dx = self.oX-self.x
             if math.abs(dx) > spd*dt then
-                spdX = spd*base.sign(dx)
+                spdX = spd*Base.sign(dx)
             else
                 spdX = dx/dt
             end
@@ -42,7 +42,7 @@ function MoveCuboid:update(dt, shiftMode, shapeList)
         if self.y ~= self.oY then
             local dy = self.oY-self.y
             if math.abs(dy) > spd*dt then
-                spdY = spd*base.sign(dy)
+                spdY = spd*Base.sign(dy)
             else
                 spdY = dy/dt
             end
@@ -50,7 +50,7 @@ function MoveCuboid:update(dt, shiftMode, shapeList)
         if self.z ~= self.oZ then
             local dz = self.oZ-self.z
             if math.abs(dz) > spd*dt then
-                spdZ = spd*base.sign(dz)
+                spdZ = spd*Base.sign(dz)
             else
                 spdZ = dz/dt
             end

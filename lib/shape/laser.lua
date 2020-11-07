@@ -1,7 +1,7 @@
 Laser = Shape:extend()
 
 local radius = 10
-local len = math.sqrt(base.guiHeight^2 + base.guiWidth^2) + 1
+local len = math.sqrt(Base.guiHeight^2 + Base.guiWidth^2) + 1
 local timeMax = 2-- second
 
 function Laser:new(x, y, z, sx, sy, sz, cFill, cLine, cMesh)
@@ -72,8 +72,8 @@ function Laser:draw(mode)
     
     -- draw shoot line
     if self.turnOn then
-        local cTable1 = base.cloneTable(base.cSafe)
-        local cTable2 = base.cloneTable(base.cDanger)
+        local cTable1 = Base.cloneTable(Base.cSafe)
+        local cTable2 = Base.cloneTable(Base.cDanger)
 
         for i = 1, #cTable1 do
             cTable1[i] = cTable1[i]*mode + cTable2[i]*(1-mode)
@@ -90,7 +90,7 @@ function Laser:draw(mode)
     -- warning
     else
         if self.timer > timeMax * (1-0.3) then
-            love.graphics.setColor(base.cWarning)
+            love.graphics.setColor(Base.cWarning)
             love.graphics.line(_x, _y, _x + _lenX, _y + _lenY)
         end
     end
@@ -156,7 +156,7 @@ function Laser:hitRectangle(x1, y1, x2, y2, selfY, selfSY)
                 local lenX = vX-self.x
                 local lenY = vY-selfY
                 local dir = math.atan2(lenY, lenX)
-                local pSign = base.sign(dirReal-dir)
+                local pSign = Base.sign(dirReal-dir)
                 --
                 if sign == nil then
                     sign = pSign
@@ -288,7 +288,7 @@ function Laser:hitDraw2(obj)
                 local lenX = vX-self.drawX
                 local lenY = vY-self.drawZ
                 local dir = math.atan2(lenY, lenX)
-                local pSign = base.sign(dirReal-dir)
+                local pSign = Base.sign(dirReal-dir)
                 --
                 if sign == nil then
                     sign = pSign
@@ -353,8 +353,8 @@ function Laser:reflex(obj)
 
             local dir = oDir-math.pi-dir2
             
-            self.drawX2 = self.drawX+base.dirGetXY(dir, len, 0)
-            self.drawZ2 = self.drawZ+base.dirGetXY(dir, len, 1)
+            self.drawX2 = self.drawX+Base.dirGetXY(dir, len, 0)
+            self.drawZ2 = self.drawZ+Base.dirGetXY(dir, len, 1)
         end
         -- check rectangle
         if self:hitRectangle(x1, z1, x2, z2, self.z, self.sz) then

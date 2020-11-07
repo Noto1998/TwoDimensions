@@ -17,8 +17,8 @@ end
 
 function Shift:update(dt, canShift)
 	-- pressed setting, only use once, so time only add once
-	for k, keyName in pairs(base.keys) do
-		keyName.isPressed = base.pressedSetting(keyName, dt)
+	for k, keyName in pairs(Base.keys) do
+		keyName.isPressed = Base.pressedSetting(keyName, dt)
 	end
 
 	-- update shiftMode
@@ -77,7 +77,7 @@ function Shift:update(dt, canShift)
 	
 	-- switch shiftMode
 	if (canShift == nil or canShift == true) and
-	base.isPressed(base.keys.shift) and not self.shifting then
+	Base.isPressed(Base.keys.shift) and not self.shifting then
 		self.shiftFlag = not self.shiftFlag
 		self.shifting = true
 		-- play sfx

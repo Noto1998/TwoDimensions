@@ -3,12 +3,12 @@ Player = Rectangle:extend()
 local sfxPlayed
 
 function Player:new(x, y, z)
-	local len = base.player.len
-	local cFill = base.cloneTable(base.cGray)
+	local len = Base.player.len
+	local cFill = Base.cloneTable(Base.cGray)
 	cFill[4] = 0.5
 	local cMesh = {0,0,0,0}
 	--
-	Player.super.new(self, x, y, z, len, len, 0, cFill, base.cLine, cMesh)
+	Player.super.new(self, x, y, z, len, len, 0, cFill, Base.cLine, cMesh)
 
 	self.stuck = false
 	self.onGround = {false, false}
@@ -56,9 +56,9 @@ function Player:draw(mode)
 	if mode == 1 then
 		-- point
 		for i = 1, 2 do
-			local cPoint = base.cDarkGray
+			local cPoint = Base.cDarkGray
 			if self.onGround[i] then
-				cPoint = base.cWhite
+				cPoint = Base.cWhite
 			end
 			--
 			love.graphics.setColor(cPoint)
@@ -66,7 +66,7 @@ function Player:draw(mode)
 		end
 
 		--[[debug
-		love.graphics.setColor(base.cWhite)
+		love.graphics.setColor(Base.cWhite)
 		love.graphics.circle('line', self:getX(1), self:getZ(1), 5)
 		]]
 	end
@@ -75,25 +75,25 @@ end
 
 function Player:moveXY(dt)
 	-- x
-	if base.isDown(base.keys.left) then
-		self.spdX = -base.player.spdXY
-	elseif base.isDown(base.keys.right) then
-		self.spdX = base.player.spdXY
+	if Base.isDown(Base.keys.left) then
+		self.spdX = -Base.player.spdXY
+	elseif Base.isDown(Base.keys.right) then
+		self.spdX = Base.player.spdXY
 	else
 		self.spdX = 0
 	end
 	-- y
-	if base.isDown(base.keys.up) then
-		self.spdY = -base.player.spdXY
-	elseif base.isDown(base.keys.down) then
-		self.spdY = base.player.spdXY
+	if Base.isDown(Base.keys.up) then
+		self.spdY = -Base.player.spdXY
+	elseif Base.isDown(Base.keys.down) then
+		self.spdY = Base.player.spdXY
 	else
 		self.spdY = 0
 	end
 	-- 45
 	if self.spdX ~= 0 and self.spdY ~= 0 then
-		self.spdX = base.player.spdXY / math.sqrt(2) * base.sign(self.spdX)
-		self.spdY = base.player.spdXY / math.sqrt(2) * base.sign(self.spdY)
+		self.spdX = Base.player.spdXY / math.sqrt(2) * Base.sign(self.spdX)
+		self.spdY = Base.player.spdXY / math.sqrt(2) * Base.sign(self.spdY)
 	end
 end
 
@@ -101,10 +101,10 @@ function Player:moveXZ(dt)
 	local spdXZ
 
 	--
-	if base.isDown(base.keys.left) then
-		spdXZ = -base.player.spdXZ
-	elseif base.isDown(base.keys.right) then
-		spdXZ = base.player.spdXZ
+	if Base.isDown(Base.keys.left) then
+		spdXZ = -Base.player.spdXZ
+	elseif Base.isDown(Base.keys.right) then
+		spdXZ = Base.player.spdXZ
 	else
 		spdXZ = 0
 	end
@@ -139,7 +139,7 @@ function Player:collisionXY(dt, shapeList)
 				-- check how far between x and the line
 				for key, xValue in pairs(oXList) do
 					local disX = math.abs(centerX - xValue)
-					local signX = base.sign(centerX - xValue)
+					local signX = Base.sign(centerX - xValue)
 					local disMin = math.abs(self:getLenDX()/2)
 					-- stuck
 					if disX+1 < disMin then
@@ -158,7 +158,7 @@ function Player:collisionXY(dt, shapeList)
 				-- check how far between y and the line
 				for key, yValue in pairs(oYList) do
 					local disY = math.abs(centerY - yValue)
-					local signY = base.sign(centerY - yValue)
+					local signY = Base.sign(centerY - yValue)
 					local disMin = math.abs(self.lenY/2)
 					-- stuck
 					if disY+1 < disMin then
@@ -225,13 +225,13 @@ function Player:collisionXZ(dt)
 	-- both not onGround
 	if not self.onGround[1] and not self.onGround[2] then
 		-- garvity
-		self.z = self.z + base.garvity * dt
+		self.z = self.z + Base.garvity * dt
 	else
 		--both onGround
 		if self.onGround[1] and self.onGround[2] then
 			-- setting main point
-			if (base.isDown(base.keys.left) and self.x ~= self:getX(self:getLeftX()))
-			or (base.isDown(base.keys.right) and self.x ~= self:getX(self:getRightX())) then
+			if (Base.isDown(Base.keys.left) and self.x ~= self:getX(self:getLeftX()))
+			or (Base.isDown(Base.keys.right) and self.x ~= self:getX(self:getRightX())) then
 				self.x = self:getX(2)
 				self.z = self:getZ(2)
 				self.dir = -(math.pi-self.dir)
@@ -245,13 +245,13 @@ function Player:collisionXZ(dt)
 				self.dir = -(math.pi-self.dir)
 			end
 			-- garvity
-			if (not base.isDown(base.keys.left)) and (not base.isDown(base.keys.right)) then
+			if (not Base.isDown(Base.keys.left)) and (not Base.isDown(Base.keys.right)) then
 				local spdG
 				--
 				if self:getLeftX() == 1 then
-					spdG = base.player.spdXZ
+					spdG = Base.player.spdXZ
 				else
-					spdG = -base.player.spdXZ
+					spdG = -Base.player.spdXZ
 				end
 				--
 				self.dir = self.dir + spdG * dt

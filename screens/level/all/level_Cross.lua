@@ -5,10 +5,10 @@ function Screen:activate()
 	-- Side Wall
 	local SWx = -12
 	local SWy = 0
-	local SWz = base.guiHeight/2
+	local SWz = Base.guiHeight/2
 	local SWLx = 20
 	local SWLy = 238
-	local SWLz = base.guiHeight/2-30
+	local SWLz = Base.guiHeight/2-30
 	-- Middle Wall
 	local MWz = -110
 	-- laser
@@ -28,7 +28,7 @@ function Screen:activate()
 	-- levelName
 	local levelName = Lang.level_Cross
 	-- player location
-	local playerX = base.guiWidth-20-base.player.len
+	local playerX = Base.guiWidth-20-Base.player.len
 	local playerY = 20
 	local playerZ = 209
 	-- destination location
@@ -43,7 +43,7 @@ function Screen:activate()
 	self:addShapeList(Cuboid, 2,2,210,	318,238,30)
 	--Side Wall
 	self:addShapeList(Cuboid, SWx,SWy,SWz,						SWLx,SWLy,SWLz)
-	self:addShapeList(Cuboid, base.guiWidth-SWx-SWLx,SWy,SWz,	SWLx,SWLy,SWLz)
+	self:addShapeList(Cuboid, Base.guiWidth-SWx-SWLx,SWy,SWz,	SWLx,SWLy,SWLz)
 	--Laser
 	self:addShapeList(Laser, Lx,	Ly-4, 210-40/2,		LLx,LLy,LLz)--chuizhi
 	self:addShapeList(Laser, Lx-50, Ly-4, 210-40/2,	Sx,Sy,LLz)--right
@@ -59,10 +59,10 @@ function Screen:activate()
 	--Ball
 	self:addShapeList(Ball, 85,115,150,12.5)
 	--Slope
-	self:addShapeList(Rectangle, base.guiWidth/2, 105, 210,		(210/2)/math.cos(dir), 25,		-math.pi+dir)
+	self:addShapeList(Rectangle, Base.guiWidth/2, 105, 210,		(210/2)/math.cos(dir), 25,		-math.pi+dir)
 
 	-- here to create tips
-	self:addTipsList(Lang.tips_mayoiba_yabureru, 20, -80, base.guiBorder*2)
+	self:addTipsList(Lang.tips_mayoiba_yabureru, 20, -80, Base.guiBorder*2)
 end
 
 return Screen

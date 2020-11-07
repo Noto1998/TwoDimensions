@@ -12,13 +12,13 @@ end
 
 function Screen:update(dt)
 	-- switch Lang
-	if base.isDown(base.keys.enter) or base.isDown(base.keys.cancel) or base.isDown(base.keys.keyTips) then
+	if Base.isDown(Base.keys.enter) or Base.isDown(Base.keys.cancel) or Base.isDown(Base.keys.keyTips) then
 		local langFile
-		if base.isDown(base.keys.enter) then
+		if Base.isDown(Base.keys.enter) then
 			langFile = 'lib.Lang.lang_cn'
-		elseif base.isDown(base.keys.cancel) then
+		elseif Base.isDown(Base.keys.cancel) then
 			langFile = 'lib.Lang.lang_en'
-		elseif base.isDown(base.keys.keyTips) then
+		elseif Base.isDown(Base.keys.keyTips) then
 			langFile = 'lib.Lang.lang_jp'
 		end
 		Lang = require(langFile)
@@ -29,8 +29,8 @@ function Screen:update(dt)
 end
 
 function Screen:draw()
-	love.graphics.setColor(base.cWhite)
-	base.print('A - 中文\nB - English\nX - 日本語')
+	love.graphics.setColor(Base.cWhite)
+	Base.print('A - 中文\nB - English\nX - 日本語')
 end
 
 return Screen

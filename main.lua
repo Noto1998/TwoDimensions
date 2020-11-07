@@ -6,15 +6,15 @@ love.graphics.present()
 
 
 -- FONT
--- for lib.base.lua can get font's height
+-- for lib.Base.lua can get font's height
 local font = love.graphics.newFont('font/SourceHanSansCN-Medium.otf', 20)
 love.graphics.setFont(font)
 
 
 -- IMPORT CLASSIC
-Object = require 'lib.base.classic'-- oop
-base = require 'lib.base.base'-- helpful tool
-Position = require 'lib.base.position'
+Object = require 'lib.Base.classic'-- oop
+Base = require 'lib.Base.Base'-- helpful tool
+Position = require 'lib.Base.position'
 -- shape
 require 'lib.shape.shape'
 require 'lib.shape.rectangle'
@@ -83,14 +83,14 @@ function love.load()
     love.graphics.setCanvas(CANVAS_BG)
         love.graphics.clear()
         local lineBorder = 40
-        love.graphics.setColor(base.cDarkGray)
-        for i = 1, base.guiHeight/lineBorder-1 do
+        love.graphics.setColor(Base.cDarkGray)
+        for i = 1, Base.guiHeight/lineBorder-1 do
             local y = i * lineBorder
-            love.graphics.line(0, y, base.guiWidth, y)
+            love.graphics.line(0, y, Base.guiWidth, y)
         end
-        for i = 1, base.guiWidth/lineBorder-1 do
+        for i = 1, Base.guiWidth/lineBorder-1 do
             local x = i * lineBorder
-            love.graphics.line(x, 0, x, base.guiHeight)
+            love.graphics.line(x, 0, x, Base.guiHeight)
         end
     love.graphics.setCanvas()
 

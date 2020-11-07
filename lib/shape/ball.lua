@@ -36,13 +36,13 @@ function Ball:update(dt, mode, shapeList)
         -- gravity
         self.spdZ = 0
         if not self.onGround then
-            self.spdZ = base.garvity
+            self.spdZ = Base.garvity
         end
         -- roll
         if self.spdX ~= 0 then
             local slowSpd = 10*dt
             if math.abs(self.spdX) > slowSpd then
-                self.spdX = self.spdX - base.sign(self.spdX)*slowSpd
+                self.spdX = self.spdX - Base.sign(self.spdX)*slowSpd
             else
                 self.spdX = 0
             end
@@ -71,8 +71,8 @@ end
 function Ball:draw(mode)
     local _y = self.y + (-self.y+self.z)*mode
 
-    local cTable1 = base.cloneTable(base.cDanger)
-    local cTable2 = base.cloneTable(base.cSafe)
+    local cTable1 = Base.cloneTable(Base.cDanger)
+    local cTable2 = Base.cloneTable(Base.cSafe)
     for i = 1, #cTable1 do
         cTable1[i] = cTable1[i]*mode + cTable2[i]*(1-mode)
     end

@@ -7,7 +7,7 @@ end
 
 
 function BgmManager:update()
-    if base.isPressed(base.keys.music) then
+    if Base.isPressed(Base.keys.music) then
         self.turnOn = not self.turnOn
     end
 
@@ -24,11 +24,11 @@ end
 
 
 function BgmManager:draw()
-    love.graphics.setColor(base.cDarkGray)
-    base.print('♫', base.guiWidth-base.guiBorder, 0, 'right')
+    love.graphics.setColor(Base.cDarkGray)
+    Base.print('♫', Base.guiWidth-Base.guiBorder, 0, 'right')
     if not self.turnOn then
-        love.graphics.setColor(base.cRed)
-        base.print('x', base.guiWidth-base.guiBorder, 0, 'right')
+        love.graphics.setColor(Base.cRed)
+        Base.print('x', Base.guiWidth-Base.guiBorder, 0, 'right')
     end
 end
 

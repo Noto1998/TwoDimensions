@@ -25,7 +25,7 @@ function Rectangle:new(x, y, z, lenX, lenY, dir, cFill, cLine, cMesh)
     for i, value in ipairs(xy) do
         vertices[i] = {
             value[1], value[2],                                -- position of the vertex
-            value[1]/base.guiWidth, value[2]/base.guiHeight,   -- texture coordinate at the vertex position(0~1)
+            value[1]/Base.guiWidth, value[2]/Base.guiHeight,   -- texture coordinate at the vertex position(0~1)
             1, 1, 1                                            -- color of the vertex
         }
     end
@@ -122,7 +122,7 @@ function Rectangle:collisionPointXZ(x, z)
     local absX = math.abs(self:getLenDX())
     
     for i = 1, absX do
-        local oX = self:getX(1) + i*base.sign(self:getLenDX())
+        local oX = self:getX(1) + i*Base.sign(self:getLenDX())
         local oZ = self:getZ(1) + i*(self:getLenDZ()/absX)
         if math.abs(x-oX) <= 1 and math.abs(z-oZ) <= checkBorder then
             flag = true

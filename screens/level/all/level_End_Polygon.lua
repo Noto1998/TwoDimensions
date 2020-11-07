@@ -7,8 +7,8 @@ local b1
 function Screen:activate()
 	--- shape value
 	local cZ = 180
-	local cLenX = base.guiWidth-1*2
-	local cLenY = base.guiHeight-1*2
+	local cLenX = Base.guiWidth-1*2
+	local cLenY = Base.guiHeight-1*2
 	local cLenZ = 50
 	-- create player and destination
 	local tipsTable = Lang.tips_polygon 
@@ -22,20 +22,20 @@ function Screen:activate()
 	dirList = {}
 	spdList = {}
 	for i = 1, 150 do
-		local _x = love.math.random(0, base.guiWidth)
-		local _y = love.math.random(0, base.guiHeight)
-		reList[i] = Rectangle(_x, -10, -base.guiHeight*2.7+_y, base.player.len, 0)
+		local _x = love.math.random(0, Base.guiWidth)
+		local _y = love.math.random(0, Base.guiHeight)
+		reList[i] = Rectangle(_x, -10, -Base.guiHeight*2.7+_y, Base.player.len, 0)
 
 		table.insert(self.shapeList, reList[i])
 		table.insert(self.drawList, reList[i])
 
 		dirList[i] = love.math.random(0, math.pi*2)
-		spdList[i] = love.math.random(base.garvity,  base.garvity*2)
+		spdList[i] = love.math.random(Base.garvity,  Base.garvity*2)
 		reList[i].dir = dirList[i]
 	end
 
 	-- ball
-	b1 = Ball(base.guiWidth/2, -10-80, -base.guiHeight*3.8,			80)
+	b1 = Ball(Base.guiWidth/2, -10-80, -Base.guiHeight*3.8,			80)
 	table.insert(self.drawList, b1)
 end
 
@@ -49,7 +49,7 @@ function Screen:update(dt)
 		end
 
 		-- ball
-		b1.z = b1.z + base.garvity*dt;
+		b1.z = b1.z + Base.garvity*dt;
 	end
 end
 

@@ -62,12 +62,12 @@ function Level:update(dt, canShift)
 	-- some key staff
 	if (not finishFlag) and (not keyTips:getShowFlag()) then
 		-- reset
-		if base.isPressed(base.keys.reset) then
+		if Base.isPressed(Base.keys.reset) then
 			self.screen:view(RESET_LEVEL_PATH)
 		end
 		
 		-- goto MainScreens
-		if base.isDown(base.keys.cancel) then
+		if Base.isDown(Base.keys.cancel) then
 			gotoMainScreenTimer = gotoMainScreenTimer + dt
 		else
 			gotoMainScreenTimer = 0
@@ -82,7 +82,7 @@ function Level:update(dt, canShift)
 	
 	-- goto next level
 	if finishFlag then
-		if not showDoc and base.isPressed(base.keys.enter) then
+		if not showDoc and Base.isPressed(Base.keys.enter) then
 			LEVEL_CHOICE = LEVEL_CHOICE + 1
 			local levelName = LEVEL_STRING[LEVEL_CHOICE]
 			self.screen:view(levelName)
@@ -183,8 +183,8 @@ end
 
 function Level:draw()
 	-- draw BG
-	love.graphics.setColor(base.cBlack)
-	love.graphics.rectangle('fill', 0, 0, base.guiWidth, base.guiHeight)
+	love.graphics.setColor(Base.cBlack)
+	love.graphics.rectangle('fill', 0, 0, Base.guiWidth, Base.guiHeight)
 
 	-- draw all obj in drawList
 	if self.drawList ~= nil then
@@ -201,16 +201,16 @@ function Level:draw()
 	end
 
 	-- draw levelName
-	love.graphics.setColor(base.cWhite)
-	base.print(self.levelName, base.guiBorder, base.guiHeight, 'left', 'bottom')
+	love.graphics.setColor(Base.cWhite)
+	Base.print(self.levelName, Base.guiBorder, Base.guiHeight, 'left', 'bottom')
 	
 	-- bgmManager
 	bgmManager:draw()
 
 	-- draw stuck warning
 	if self.shiftMode == 0 and player.stuck then
-		love.graphics.setColor(base.cWhite)
-		base.print(Lang.ui_player_stuck, base.guiWidth/2, base.guiHeight/2, 'center', 'center')
+		love.graphics.setColor(Base.cWhite)
+		Base.print(Lang.ui_player_stuck, Base.guiWidth/2, Base.guiHeight/2, 'center', 'center')
 	end
 
 	-- XYZ
@@ -219,8 +219,8 @@ function Level:draw()
 	-- hide
 	if not _isTutorial then
 		-- draw keyTips text
-		love.graphics.setColor(base.cDarkGray)
-		base.print(Lang.ui_key_keyTips, base.guiWidth-base.guiBorder, base.guiHeight, 'right', 'bottom')
+		love.graphics.setColor(Base.cDarkGray)
+		Base.print(Lang.ui_key_keyTips, Base.guiWidth-Base.guiBorder, Base.guiHeight, 'right', 'bottom')
 		
 		-- draw keyTips
 		keyTips:draw()
@@ -229,11 +229,11 @@ function Level:draw()
 	-- draw finishLevel
 	if finishFlag then
 		love.graphics.setColor(0,0,0, 0.9)
-		love.graphics.rectangle('fill', 0, 0, base.guiWidth, base.guiHeight)
-		love.graphics.setColor(base.cWhite)
-		base.print(Lang.ui_level_finish, base.guiWidth/2, base.guiHeight/3, 'center', 'center')
+		love.graphics.rectangle('fill', 0, 0, Base.guiWidth, Base.guiHeight)
+		love.graphics.setColor(Base.cWhite)
+		Base.print(Lang.ui_level_finish, Base.guiWidth/2, Base.guiHeight/3, 'center', 'center')
 		local string = Lang.ui_key_continue
-		base.print(string, base.guiWidth/2, base.guiHeight/3*2, 'center', 'center')
+		Base.print(string, Base.guiWidth/2, Base.guiHeight/3*2, 'center', 'center')
 	end
 end
 
@@ -259,17 +259,17 @@ end
 
 function Level:drawXYZ()
 	local w = 15
-	local _x = base.guiBorder+w*6
-	local c1 = base.cloneTable(base.cDarkGray)
+	local _x = Base.guiBorder+w*6
+	local c1 = Base.cloneTable(Base.cDarkGray)
 	c1[4] = self.shiftMode
 	love.graphics.setColor(c1)
-	base.print('z', _x-w*1, 0, 'center')
+	Base.print('z', _x-w*1, 0, 'center')
 	c1[4] = (1-self.shiftMode)
 	love.graphics.setColor(c1)
-	base.print('x', _x-w*5, 0, 'center')
-	love.graphics.setColor(base.cDarkGray)
-	base.print('y', _x-w*3, 0, 'center')
-	base.print('[', _x-w*(6-self.shiftMode*2), 0, 'center')
-	base.print(',', _x-w*(4-self.shiftMode*2), 0, 'center')
-	base.print(']', _x-w*(2-self.shiftMode*2), 0, 'center')
+	Base.print('x', _x-w*5, 0, 'center')
+	love.graphics.setColor(Base.cDarkGray)
+	Base.print('y', _x-w*3, 0, 'center')
+	Base.print('[', _x-w*(6-self.shiftMode*2), 0, 'center')
+	Base.print(',', _x-w*(4-self.shiftMode*2), 0, 'center')
+	Base.print(']', _x-w*(2-self.shiftMode*2), 0, 'center')
 end
