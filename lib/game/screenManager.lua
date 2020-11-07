@@ -19,7 +19,7 @@ function ScreenManager:event(event, arguments)
 	end
 
 	if self.activeScreen and self.activeScreen[event] then
-		self.activeScreen[event](--[[self=]] self.activeScreen, unpack(arguments))
+		self.activeScreen[event](--[[self=]] self.activeScreen, table.unpack(arguments))
 	end
 end
 
