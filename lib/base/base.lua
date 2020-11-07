@@ -2,6 +2,9 @@ local keys = require 'lib.game.keys'-- for input
 
 local Base = {}
 
+local joysticks = love.joystick.getJoysticks()
+local joystick = joysticks[1]-- for function Base.isDown()
+
 -- FUNCTION
 function Base.sign(number)
     if number > 0 then
@@ -182,10 +185,6 @@ Base.cfourD2 = {0.02, 0.92, 0.7, 0.25}
 ---
 
 -- KEY
--- gamepad
-local joysticks = love.joystick.getJoysticks()
-local joystick = joysticks[1]
--- all key
 Base.keys = {
     up      = keyCreater(keys.DPad_up,     'dpup'),
     down    = keyCreater(keys.DPad_down,   'dpdown'),
