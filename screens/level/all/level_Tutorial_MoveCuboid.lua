@@ -9,12 +9,12 @@ function Screen:activate()
 	local playerX = 20
 	local playerY = Base.gui.height/2-Base.player.len/2
 	local playerZ = 100
-	-- destination location
-	local destinationX = 200+20
-	local destinationY = Base.gui.height/2-Base.lenDestination/2
-	local destinationZ = 200+20
-	-- create player and destination
-	Screen.super.activate(self, playerX, playerY, playerZ, destinationX, destinationY, destinationZ, levelName)
+	-- endCube location
+	local endCubeX = 200+20
+	local endCubeY = Base.gui.height/2-Base.lenEndCube/2
+	local endCubeZ = 200+20
+	-- create player and endCube
+	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
 	
 	--- here to create shape
 	self:addShapeList(Rectangle,	200, 0, 200,											500, 500, -math.pi+math.pi/8)

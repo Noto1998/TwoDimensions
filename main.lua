@@ -32,7 +32,7 @@ Shift = require 'lib.game.shift' -- frist
 require 'lib.game.level'
 
 require 'lib.game.player'-- player
-require 'lib.game.destination'-- destination
+EndCube = require 'lib.game.endCube'-- endCube
 require 'lib.game.keyTips'-- keyTips
 
 local ScreenManager = require 'lib.game.screenManager'

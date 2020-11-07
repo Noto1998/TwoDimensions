@@ -17,12 +17,12 @@ function Screen:activate()
 	local playerX = 70
 	local playerY = 180+Base.gui.height
 	local playerZ = cubeZ - 1
-	-- destination location
-	local destinationX = Base.gui.width/2-50/2
-	local destinationY = Base.gui.height+cubeLenY
-	local destinationZ = cubeZ - 50
-	-- create player and destination
-	Screen.super.activate(self, playerX, playerY, playerZ, destinationX, destinationY, destinationZ, levelName)
+	-- endCube location
+	local endCubeX = Base.gui.width/2-50/2
+	local endCubeY = Base.gui.height+cubeLenY
+	local endCubeZ = cubeZ - 50
+	-- create player and endCube
+	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
 	
 	--- here to create shape
 	self:addShapeList(Cuboid,		1, 1+Base.gui.height, cubeZ,		cubeLenX, cubeLenY, cubeLenZ)

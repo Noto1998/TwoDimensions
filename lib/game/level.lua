@@ -3,26 +3,26 @@ Level = Shift:extend()
 local finishFlag, finishTimer
 local gotoMainScreenTimerMax = 1-- second
 local keyTips
-local player, destination
+local player, endCube
 local _isTutorial
 
 
-function Level:activate(playerX, playerY, playerZ, destinationX, destinationY, destinationZ, levelName, isTutorial)
+function Level:activate(playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName, isTutorial)
 	-- shift
 	Level.super.activate(self)
 	
-	-- player and destination
+	-- player and endCube
 	player = Player(playerX, playerY, playerZ)
-	destination = Destination(destinationX, destinationY, destinationZ)
+	endCube = EndCube(endCubeX, endCubeY, endCubeZ)
 
 	-- shapeList
 	self.shapeList = {}
-	table.insert(self.shapeList, destination)
+	table.insert(self.shapeList, endCube)
 	
 	-- drawList
 	self.drawList = {}
 	table.insert(self.drawList, player)
-	table.insert(self.drawList, destination)
+	table.insert(self.drawList, endCube)
 
 	-- tipsList
 	self.tipsList = {}
@@ -118,7 +118,7 @@ function Level:update(dt, canShift)
 	end
 	
 	-- finish level
-	if player:touch(destination, self.shiftMode) then
+	if player:touch(endCube, self.shiftMode) then
 		if not finishFlag then
 			finishFlag = true
 			--sfx

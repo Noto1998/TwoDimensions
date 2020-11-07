@@ -10,7 +10,7 @@ function Screen:activate()
 	local cLenX = Base.gui.width-1*2
 	local cLenY = Base.gui.height-1*2
 	local cLenZ = 50
-	--- create player and destination
+	--- create player and endCube
 	local tipsTable = Lang.tips_conPolygon 
 	local levelName = ""
 	local waitTime = 7

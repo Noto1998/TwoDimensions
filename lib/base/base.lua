@@ -219,10 +219,9 @@ Base.color = {
     gray = {0.5, 0.5, 0.5},
     darkGray = {0.25, 0.25, 0.25}
 }
--- shape
 Base.color.fill = Base.color.black-- watch out, same address
 Base.color.line = Base.color.white-- watch out, same address
-Base.color.endCube = {0.5, 1, 0.5}-- destination
+Base.color.endCube = {0.5, 1, 0.5}
 --loaser
 Base.color.loaser = {
     warning = Base.cloneTable(Base.color.red),
@@ -262,6 +261,6 @@ Base.player = {
     spdXY = 100,
     spdXZ = math.pi/2
 }
-Base.lenDestination = 50
+Base.lenEndCube = 50
 
 return Base
