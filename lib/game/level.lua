@@ -229,7 +229,7 @@ end
 
 
 -- FUNCTION
-
+---@param obj Shape
 function Level:addShapeList(obj, ...)
 	table.insert(self.shapeList, obj(...))
 	-- add to drawList

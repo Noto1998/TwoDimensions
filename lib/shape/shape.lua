@@ -1,4 +1,5 @@
-Shape = Object:extend()
+---@class Shape
+local Shape = Object:extend()
 
 function Shape:new(x, y, z, cFill, cLine, cMesh)
     self.x = x
@@ -21,3 +22,5 @@ function Shape:new(x, y, z, cFill, cLine, cMesh)
         self.cMesh = cMesh
     end
 end
+
+return Shape
