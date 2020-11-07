@@ -1,22 +1,31 @@
-local keys = require 'lib.game.keys'-- for input
-
+---base helpful function
 local Base = {}
 
+local keys = require 'lib.game.keys'-- for input
 local joysticks = love.joystick.getJoysticks()
 local joystick = joysticks[1]-- for function Base.isDown()
 
 -- FUNCTION
+
+--- simple sign(), lua dont have sign()
+---@param number number
+---@return number
 function Base.sign(number)
-    if number > 0 then
-        return 1
-    elseif number < 0 then
-        return -1
-    else
+    if number == 0 then
         return 0
+    elseif number > 0 then
+        return 1
+    else
+        return -1
     end
 end
 
--- easy text print, xMode using love.graphics.printf(), yMode get font's pixels height and move x/y
+--- easy text print. xMode using love.graphics.printf(), yMode get font's pixels height and move x/y
+---@param string string
+---@param x number
+---@param y number
+---@param xMode string
+---@param yMode string
 function Base.print(string, x, y, xMode, yMode)
     -- xMode
     if xMode == nil and yMode == nil then
@@ -24,11 +33,23 @@ function Base.print(string, x, y, xMode, yMode)
     else
         local w = love.graphics.getFont():getWidth(string) * 2
         local h = Base.guiFontHeight
-        local y2 = y
-        local xMode2 = xMode -- more usual
+        local x2 = math.floor(x-w/2)
+        local y2
+        local xMode2-- love's default printf()'s rule is reverse
+
+        if xMode == nil or xMode == 'left' then
+            xMode2 = 'right'
+        elseif xMode == 'center' then
+            xMode2 = xMode
+        elseif xMode == 'right' then
+            xMode2 = 'left'
+        else
+            error('Invalid alignment ' .. xMode .. ', expected one of: \"left\",\"center\",\"right\"')
+        end
+
         -- yMode
-        if yMode == 'top' or yMode == nil then
-            --default
+        if yMode == nil or yMode == 'top' then
+            y2 = y
         elseif yMode == 'center' then
             y2 = math.floor(y - h/2)
         elseif yMode == 'bottom' then
@@ -37,71 +58,115 @@ function Base.print(string, x, y, xMode, yMode)
             error('Invalid alignment ' .. yMode .. ', expected one of: \"top\",\"center\",\"bottom\"')
         end
 
-        if xMode ~= nil then
-            if xMode == 'left' then
-                xMode2 = 'right'
-            elseif xMode == 'right' then
-                xMode2 = 'left'
-            end
-        end
-        love.graphics.printf(string, math.floor(x-w/2), y2, w, xMode2)
+        love.graphics.printf(string, x2, y2, w, xMode2)
     end
 end
 
+--- clone a table, return a new table with new address
+---@param table table
+---@return table
 function Base.cloneTable(table)
-    local t1 ={}--new table
+    local t1 = {}--new table
     for i = 1, #table do
         t1[i] = table[i]
     end
-
     return t1
 end
 
+--- create a BaseKeyType
+---@param keyboard string
+---@param gamepad string
+---@return BaseKeyType
+local function keyCreater(keyboard, gamepad)
+    ---@class BaseKeyType
+    local table = {}
+
+    table.keyboard = keyboard
+    table.gamepad = gamepad
+    table.isPressed = false
+    table.released = false
+    table.timer = 0
+
+    return table
+end
+
+--- set keyName.isPressed, keyName is table(pointer)
+---@param keyName BaseKeyType
+function Base.setKeyPressed(keyName)
+    local flag = false
+
+    if not Base.isDown(keyName) then
+        keyName.released = true
+    else
+        -- only one frame
+        if keyName.released then
+            flag = true
+        end
+
+        keyName.released = false
+    end
+
+    keyName.isPressed = flag
+end
+
+--- set keyName.timer, keyName is table(pointer)
+---@param keyName BaseKeyType
+function Base.setKeyTimer(keyName, dt)
+    if Base.isDown(keyName) then
+        keyName.timer = keyName.timer + dt
+    else
+        keyName.timer = 0
+    end
+end
+
+--- set all keys's .isPressed and .timer, keys is a table(pointer)
+function Base.setAllKeys(dt)
+    for k, keyName in pairs(Base.keys) do
+        Base.setKeyPressed(keyName)-- for isPressed
+        Base.setKeyTimer(keyName, dt)-- for isHold
+    end
+end
+
+--- reuturn true if a key is down, support keyboard and joystick
+---@param keyName BaseKeyType
+---@return boolean
 function Base.isDown(keyName)
     return love.keyboard.isDown(keyName.keyboard) or (joystick ~= nil and joystick:isGamepadDown(keyName.gamepad))
 end
 
-function Base.pressedSetting(keyName, dt)
-    local flag = false
-    
-    -- reset
-    if not Base.isDown(keyName) then
-        keyName.released = true
-        keyName.timerMax = 0
-        keyName.timer = 0
-    else
-        keyName.timer = keyName.timer + dt
-        
-        if keyName.timerMax == 0 then   -- only 1 frame
-            keyName.timerMax = dt
-        end
-
-        -- only 1 frame
-        if keyName.timer > keyName.timerMax then
-            keyName.released = false
-        end
-
-        if keyName.released then
-            flag = true
-        end
-    end
-
-    return flag
-end
-
+--- return true if key is pressed
+---@param keyName BaseKeyType
+---@return boolean
 function Base.isPressed(keyName)
     return keyName.isPressed
 end
 
+--- return true if key is hold over than timeMax
+---@param keyName BaseKeyType
+---@param timeMax number
+---@return boolean
+function Base.isHold(keyName, timeMax)
+    return keyName.timer > timeMax
+end
+
+--- return distance between two points
+---@param x1 number
+---@param y1 number
+---@param x2 number
+---@param y2 number
+---@return number
 function Base.getDistance(x1, y1, x2, y2)
     local disX = x1 - x2
     local disY = y1 - y2
-    
     return math.sqrt(disX^2 + disY^2)
 end
 
-function Base.drawRoundedRectangle(x, y, width, height)
-    local segments = 20
+--- draw a rounded rectangle
+function Base.drawRoundedRectangle(x, y, width, height, segments)
+    -- default segments
+    if segments == nil then
+        segments = 20
+    end
     local radius = math.floor(Base.guiFontHeight/3)
     local x1 = x + radius
     local y1 = y + radius
@@ -126,29 +191,12 @@ function Base.drawRoundedRectangle(x, y, width, height)
     love.graphics.rectangle('fill', x1, y, width-radius*2, height)
 end
 
-function Base.dirGetXY(dir, dis, xy)
-    local x = math.cos(dir)*dis
-    local y = math.sin(dir)*dis
-    
-    if xy == 0 then
-        return x
-    elseif xy == 1 then
-        return y
-    else
-        return x, y
-    end
-end
-
-local function keyCreater(keyboard, gamepad)
+--- get {x, y} by a direction and distance
+---@return table
+function Base.getXYbyDir(dir, dis)
     local table = {}
-
-    table.keyboard = keyboard
-    table.gamepad = gamepad
-    table.isPressed = false
-    -- set default released
-    table.released = false
-    table.timer = 0
-    table.timerMax = 0
+    table.x = math.cos(dir)*dis
+    table.y = math.sin(dir)*dis
 
     return table
 end

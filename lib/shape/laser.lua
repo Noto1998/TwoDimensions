@@ -352,9 +352,9 @@ function Laser:reflex(obj)
             local dir2 = dir1-oDir
 
             local dir = oDir-math.pi-dir2
-            
-            self.drawX2 = self.drawX+Base.dirGetXY(dir, len, 0)
-            self.drawZ2 = self.drawZ+Base.dirGetXY(dir, len, 1)
+
+            self.drawX2 = self.drawX + Base.getXYbyDir(dir, len).x
+            self.drawZ2 = self.drawZ + Base.getXYbyDir(dir, len).y
         end
         -- check rectangle
         if self:hitRectangle(x1, z1, x2, z2, self.z, self.sz) then

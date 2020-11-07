@@ -1,7 +1,7 @@
 Level = Shift:extend()
 
 local finishFlag, finishTimer
-local gotoMainScreenTimer
+local gotoMainScreenTimerMax = 1-- second
 local keyTips
 local player, destination
 local _isTutorial
@@ -65,21 +65,16 @@ function Level:update(dt, canShift)
 		if Base.isPressed(Base.keys.reset) then
 			self.screen:view(RESET_LEVEL_PATH)
 		end
-		
+
 		-- goto MainScreens
-		if Base.isDown(Base.keys.cancel) then
-			gotoMainScreenTimer = gotoMainScreenTimer + dt
-		else
-			gotoMainScreenTimer = 0
-		end
-		if gotoMainScreenTimer > 1 then
+		if Base.isHold(Base.keys.cancel, gotoMainScreenTimerMax) then
 			self.screen:view('MainScreen')
 		end
-		
+
 		-- player move
 		player:update(dt, self.shiftMode, self.shapeList)
 	end
-	
+
 	-- goto next level
 	if finishFlag then
 		if not showDoc and Base.isPressed(Base.keys.enter) then

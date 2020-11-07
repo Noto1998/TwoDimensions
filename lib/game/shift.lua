@@ -16,10 +16,8 @@ end
 
 
 function Shift:update(dt, canShift)
-	-- pressed setting, only use once, so time only add once
-	for k, keyName in pairs(Base.keys) do
-		keyName.isPressed = Base.pressedSetting(keyName, dt)
-	end
+	-- pressed setting
+	Base.setAllKeys(dt)
 
 	-- update shiftMode
 	if self.shifting then
