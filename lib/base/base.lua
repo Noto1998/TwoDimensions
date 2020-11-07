@@ -210,28 +210,34 @@ Base.gui = {
 }
 Base.gui.border = Base.gui.width/30-- can't write inside {}, because gui isn't init yet
 
--- color
-Base.cBlack = {0, 0, 0}
-Base.cWhite = {1, 1, 1}
-Base.cYellow = {1, 1, 0}
-Base.cRed = {1, 0, 0}
-Base.cGray = {0.5, 0.5, 0.5}
-Base.cDarkGray = {0.25, 0.25, 0.25}
-
+-- COLOR
+Base.color = {
+    black = {0, 0, 0},
+    white = {1, 1, 1},
+    yellow = {1, 1, 0},
+    red = {1, 0, 0},
+    gray = {0.5, 0.5, 0.5},
+    darkGray = {0.25, 0.25, 0.25}
+}
 -- shape
-Base.cFill = Base.cBlack
-Base.cLine = Base.cWhite
--- destination
-Base.cDestination = {0.5, 1, 0.5}
+Base.color.fill = Base.color.black-- watch out, same address
+Base.color.line = Base.color.white-- watch out, same address
+Base.color.endCube = {0.5, 1, 0.5}-- destination
 --loaser
-Base.cWarning = Base.cloneTable(Base.cRed)
-Base.cWarning[4] = 0.35
-Base.cDanger = Base.cYellow
-Base.cSafe = Base.cGray
+Base.color.loaser = {
+    warning = Base.cloneTable(Base.color.red),
+    danger = Base.color.yellow,-- watch out, same address
+    safe = Base.color.gray-- watch out, same address
+}
+Base.color.loaser.warning[4] = 0.35
+--[[
 -- fourD
-Base.cfourD1 = {0.92, 0.02, 0.76, 0.25}
-Base.cfourD2 = {0.02, 0.92, 0.7, 0.25}
----
+Base.color.fourD = {
+    color1 = {0.92, 0.02, 0.76, 0.25},
+    color2 = {0.02, 0.92, 0.7, 0.25}
+}
+]]
+
 
 -- KEY
 Base.keys = {

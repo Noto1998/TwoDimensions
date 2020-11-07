@@ -71,8 +71,8 @@ end
 function Ball:draw(mode)
     local _y = self.y + (-self.y+self.z)*mode
 
-    local cTable1 = Base.cloneTable(Base.cDanger)
-    local cTable2 = Base.cloneTable(Base.cSafe)
+    local cTable1 = Base.cloneTable(Base.color.loaser.danger)
+    local cTable2 = Base.cloneTable(Base.color.loaser.safe)
     for i = 1, #cTable1 do
         cTable1[i] = cTable1[i]*mode + cTable2[i]*(1-mode)
     end

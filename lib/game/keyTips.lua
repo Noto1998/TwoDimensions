@@ -21,7 +21,7 @@ end
 function KeyTips:draw()
     if showFlag then
         -- bg
-        local c = Base.cloneTable(Base.cBlack)
+        local c = Base.cloneTable(Base.color.black)
         c[4] = 0.75
         love.graphics.setColor(c)
         love.graphics.rectangle('fill', 0, 0, Base.gui.width, Base.gui.height)

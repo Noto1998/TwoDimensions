@@ -29,7 +29,7 @@ function Screen:update(dt)
 end
 
 function Screen:draw()
-	love.graphics.setColor(Base.cWhite)
+	love.graphics.setColor(Base.color.white)
 	Base.print('A - 中文\nB - English\nX - 日本語')
 end
 

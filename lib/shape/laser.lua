@@ -72,8 +72,8 @@ function Laser:draw(mode)
     
     -- draw shoot line
     if self.turnOn then
-        local cTable1 = Base.cloneTable(Base.cSafe)
-        local cTable2 = Base.cloneTable(Base.cDanger)
+        local cTable1 = Base.cloneTable(Base.color.loaser.safe)
+        local cTable2 = Base.cloneTable(Base.color.loaser.danger)
 
         for i = 1, #cTable1 do
             cTable1[i] = cTable1[i]*mode + cTable2[i]*(1-mode)
@@ -90,7 +90,7 @@ function Laser:draw(mode)
     -- warning
     else
         if self.timer > timeMax * (1-0.3) then
-            love.graphics.setColor(Base.cWarning)
+            love.graphics.setColor(Base.color.loaser.warning)
             love.graphics.line(_x, _y, _x + _lenX, _y + _lenY)
         end
     end

@@ -49,12 +49,12 @@ function FourD:draw(mode)
     --
     local modeMin = 0.01
     --
-    love.graphics.setColor(Base.cfourD1)
+    love.graphics.setColor(Base.color.fourD.color1)
     love.graphics.polygon('fill', tableT1)
-    love.graphics.setColor(Base.cfourD2)
+    love.graphics.setColor(Base.color.fourD.color2)
     love.graphics.polygon('fill', tableT2)
     --
-    love.graphics.setColor(Base.cWhite)
+    love.graphics.setColor(Base.color.white)
     if mode > modeMin and mode < (1-modeMin) then
         love.graphics.polygon('line', tableT1)
         love.graphics.polygon('line', tableT2)
@@ -68,6 +68,6 @@ function FourD:draw(mode)
         _x,             _y + self.lenY,
         _x - self.lenX, _y,
     }
-    love.graphics.setColor(Base.cWhite)
+    love.graphics.setColor(Base.color.white)
     love.graphics.polygon('line', tableT)
 end

@@ -96,15 +96,15 @@ end
 
 function Screen:draw()
 	-- draw BG
-	love.graphics.setColor(Base.cBlack)
+	love.graphics.setColor(Base.color.black)
 	love.graphics.rectangle('fill', 0, 0, Base.gui.width, Base.gui.height)
 
 	-- bgmManager
 	bgmManager:draw()
 	
 	-- logo
-	local c1 = Base.cloneTable(Base.cWhite)
-	local c2 = Base.cloneTable(Base.cWhite)
+	local c1 = Base.cloneTable(Base.color.white)
+	local c2 = Base.cloneTable(Base.color.white)
 	local scale1 = 0.9
 	local scale2 = 0.3
 	c1[4] = 1 - self.shiftMode
@@ -120,8 +120,8 @@ function Screen:draw()
 	end
 
 	-- credits
-	local c1 = Base.cloneTable(Base.cDarkGray)
-	local c2 = Base.cloneTable(Base.cDarkGray)
+	local c1 = Base.cloneTable(Base.color.darkGray)
+	local c2 = Base.cloneTable(Base.color.darkGray)
 	c2[4] = self.shiftMode
 	love.graphics.setColor(c2)
 	Base.print(Lang.ui_key_credits, Base.gui.width-Base.gui.border-Base.gui.fontHeight, 0, 'right')

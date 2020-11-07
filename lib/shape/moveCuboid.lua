@@ -3,7 +3,7 @@ MoveCuboid = Cuboid:extend()
 local spd = 30
 
 function MoveCuboid:new(x, y, z, lenX, lenY, lenZ, moveX, moveY, moveZ, moveFlag)
-    MoveCuboid.super.new(self, x, y, z, lenX, lenY, lenZ, nil, Base.cDanger, nil)
+    MoveCuboid.super.new(self, x, y, z, lenX, lenY, lenZ, nil, Base.color.loaser.danger, nil)
     -- record
     self.oX = self.x
     self.oY = self.y

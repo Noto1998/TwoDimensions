@@ -178,7 +178,7 @@ end
 
 function Level:draw()
 	-- draw BG
-	love.graphics.setColor(Base.cBlack)
+	love.graphics.setColor(Base.color.black)
 	love.graphics.rectangle('fill', 0, 0, Base.gui.width, Base.gui.height)
 
 	-- draw all obj in drawList
@@ -196,7 +196,7 @@ function Level:draw()
 	end
 
 	-- draw levelName
-	love.graphics.setColor(Base.cWhite)
+	love.graphics.setColor(Base.color.white)
 	Base.print(self.levelName, Base.gui.border, Base.gui.height, 'left', 'bottom')
 	
 	-- bgmManager
@@ -204,7 +204,7 @@ function Level:draw()
 
 	-- draw stuck warning
 	if self.shiftMode == 0 and player.stuck then
-		love.graphics.setColor(Base.cWhite)
+		love.graphics.setColor(Base.color.white)
 		Base.print(Lang.ui_player_stuck, Base.gui.width/2, Base.gui.height/2, 'center', 'center')
 	end
 
@@ -214,7 +214,7 @@ function Level:draw()
 	-- hide
 	if not _isTutorial then
 		-- draw keyTips text
-		love.graphics.setColor(Base.cDarkGray)
+		love.graphics.setColor(Base.color.darkGray)
 		Base.print(Lang.ui_key_keyTips, Base.gui.width-Base.gui.border, Base.gui.height, 'right', 'bottom')
 		
 		-- draw keyTips
@@ -225,7 +225,7 @@ function Level:draw()
 	if finishFlag then
 		love.graphics.setColor(0,0,0, 0.9)
 		love.graphics.rectangle('fill', 0, 0, Base.gui.width, Base.gui.height)
-		love.graphics.setColor(Base.cWhite)
+		love.graphics.setColor(Base.color.white)
 		Base.print(Lang.ui_level_finish, Base.gui.width/2, Base.gui.height/3, 'center', 'center')
 		local string = Lang.ui_key_continue
 		Base.print(string, Base.gui.width/2, Base.gui.height/3*2, 'center', 'center')
@@ -255,14 +255,14 @@ end
 function Level:drawXYZ()
 	local w = 15
 	local _x = Base.gui.border+w*6
-	local c1 = Base.cloneTable(Base.cDarkGray)
+	local c1 = Base.cloneTable(Base.color.darkGray)
 	c1[4] = self.shiftMode
 	love.graphics.setColor(c1)
 	Base.print('z', _x-w*1, 0, 'center')
 	c1[4] = (1-self.shiftMode)
 	love.graphics.setColor(c1)
 	Base.print('x', _x-w*5, 0, 'center')
-	love.graphics.setColor(Base.cDarkGray)
+	love.graphics.setColor(Base.color.darkGray)
 	Base.print('y', _x-w*3, 0, 'center')
 	Base.print('[', _x-w*(6-self.shiftMode*2), 0, 'center')
 	Base.print(',', _x-w*(4-self.shiftMode*2), 0, 'center')

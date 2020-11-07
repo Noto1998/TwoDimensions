@@ -45,9 +45,9 @@ function Tips:draw(mode)
     end
 
     -- bg
-    love.graphics.setColor(Base.cWhite)
+    love.graphics.setColor(Base.color.white)
     Base.drawRoundedRectangle(_x, _y, reWidth, Base.gui.fontHeight)
     -- text
-    love.graphics.setColor(Base.cBlack)
+    love.graphics.setColor(Base.color.black)
     Base.print(self.string, _x+reWidth/2, _y, 'center')
 end

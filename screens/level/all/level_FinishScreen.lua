@@ -83,9 +83,9 @@ function Screen:draw()
 	if finishFlag then
 		love.graphics.setColor(0,0,0, 0.75)
 		love.graphics.rectangle("fill", 0, 0, Base.gui.width, Base.gui.height)
-		love.graphics.setColor(Base.cWhite)
+		love.graphics.setColor(Base.color.white)
 		Base.drawRoundedRectangle(Base.gui.border, Base.gui.border, Base.gui.width-Base.gui.border*2, Base.gui.height-Base.gui.border*2)
-		love.graphics.setColor(Base.cBlack)
+		love.graphics.setColor(Base.color.black)
 		Base.print(Lang.docFake, Base.gui.border*2, Base.gui.border*2)
 		Base.print("A 寻找圆", Base.gui.width-Base.gui.border*2, Base.gui.height-Base.gui.border*2, "right", "bottom")
 	end

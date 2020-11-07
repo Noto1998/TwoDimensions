@@ -4,11 +4,11 @@ local sfxPlayed
 
 function Player:new(x, y, z)
 	local len = Base.player.len
-	local cFill = Base.cloneTable(Base.cGray)
+	local cFill = Base.cloneTable(Base.color.gray)
 	cFill[4] = 0.5
 	local cMesh = {0,0,0,0}
 	--
-	Player.super.new(self, x, y, z, len, len, 0, cFill, Base.cLine, cMesh)
+	Player.super.new(self, x, y, z, len, len, 0, cFill, Base.color.line, cMesh)
 
 	self.stuck = false
 	self.onGround = {false, false}
@@ -56,9 +56,9 @@ function Player:draw(mode)
 	if mode == 1 then
 		-- point
 		for i = 1, 2 do
-			local cPoint = Base.cDarkGray
+			local cPoint = Base.color.darkGray
 			if self.onGround[i] then
-				cPoint = Base.cWhite
+				cPoint = Base.color.white
 			end
 			--
 			love.graphics.setColor(cPoint)
@@ -66,7 +66,7 @@ function Player:draw(mode)
 		end
 
 		--[[debug
-		love.graphics.setColor(Base.cWhite)
+		love.graphics.setColor(Base.color.white)
 		love.graphics.circle('line', self:getX(1), self:getZ(1), 5)
 		]]
 	end
