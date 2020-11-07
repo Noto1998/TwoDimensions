@@ -4,9 +4,9 @@ local finishFlag--fake
 
 function Screen:activate()
 	--- shape value
-	local cubeZ = Base.guiHeight
-	local cubeLenX = Base.guiWidth-1*2
-	local cubeLenY = Base.guiHeight-1*2
+	local cubeZ = Base.gui.height
+	local cubeLenX = Base.gui.width-1*2
+	local cubeLenY = Base.gui.height-1*2
 	local cubeLenZ = 50
 	---
 	finishFlag = false
@@ -15,36 +15,36 @@ function Screen:activate()
 	local levelName = ""
 	-- player location
 	local playerX = 70
-	local playerY = 180+Base.guiHeight
+	local playerY = 180+Base.gui.height
 	local playerZ = cubeZ - 1
 	-- destination location
-	local destinationX = Base.guiWidth/2-50/2
-	local destinationY = Base.guiHeight+cubeLenY
+	local destinationX = Base.gui.width/2-50/2
+	local destinationY = Base.gui.height+cubeLenY
 	local destinationZ = cubeZ - 50
 	-- create player and destination
 	Screen.super.activate(self, playerX, playerY, playerZ, destinationX, destinationY, destinationZ, levelName)
 	
 	--- here to create shape
-	self:addShapeList(Cuboid,		1, 1+Base.guiHeight, cubeZ,		cubeLenX, cubeLenY, cubeLenZ)
+	self:addShapeList(Cuboid,		1, 1+Base.gui.height, cubeZ,		cubeLenX, cubeLenY, cubeLenZ)
 	
 	--- here to create tips
-	self:addTipsList(Lang.tips_save_us, 			Base.guiWidth/2, Base.guiHeight/3,		-50*4,	"center", "center")
-	self:addTipsList(Lang.tips_congratulations,		Base.guiWidth/2, Base.guiHeight/3,		-100,	"center", "center")
-	self:addTipsList(Lang.tips_save_us,				Base.guiWidth/2, Base.guiHeight/3 *2,	-50*3,	"center", "center")
-	self:addTipsList(Lang.ui_key_continue,			Base.guiWidth/2, Base.guiHeight/3 *2,	-100,	"center", "center")
+	self:addTipsList(Lang.tips_save_us, 			Base.gui.width/2, Base.gui.height/3,		-50*4,	"center", "center")
+	self:addTipsList(Lang.tips_congratulations,		Base.gui.width/2, Base.gui.height/3,		-100,	"center", "center")
+	self:addTipsList(Lang.tips_save_us,				Base.gui.width/2, Base.gui.height/3 *2,	-50*3,	"center", "center")
+	self:addTipsList(Lang.ui_key_continue,			Base.gui.width/2, Base.gui.height/3 *2,	-100,	"center", "center")
 	--
-	local _x = Base.guiWidth/2
-	self:addTipsList(Lang.tips_save_us, _x, Base.guiHeight,		 -50*2, "center")
-	self:addTipsList(Lang.tips_save_us, _x, Base.guiHeight+100,  -50*1,	"center")
-	self:addTipsList(Lang.tips_save_us, _x, Base.guiHeight+100*2, 50*0,	"center")
-	self:addTipsList(Lang.tips_save_us, _x, Base.guiHeight+100*3, 50*1,	"center")
-	self:addTipsList(Lang.tips_save_us, _x, Base.guiHeight+100*4, 50*2,	"center")
+	local _x = Base.gui.width/2
+	self:addTipsList(Lang.tips_save_us, _x, Base.gui.height,		 -50*2, "center")
+	self:addTipsList(Lang.tips_save_us, _x, Base.gui.height+100,  -50*1,	"center")
+	self:addTipsList(Lang.tips_save_us, _x, Base.gui.height+100*2, 50*0,	"center")
+	self:addTipsList(Lang.tips_save_us, _x, Base.gui.height+100*3, 50*1,	"center")
+	self:addTipsList(Lang.tips_save_us, _x, Base.gui.height+100*4, 50*2,	"center")
 	-- random location
 	for i = 0, 10 do
-		local _x = love.math.random(0, Base.guiWidth)
-		local _y = love.math.random(0, Base.guiHeight)
-		local _z = love.math.random(0, Base.guiHeight-80)
-		self:addTipsList(Lang.tips_save_us, _x, Base.guiHeight+_y, _z, "center")
+		local _x = love.math.random(0, Base.gui.width)
+		local _y = love.math.random(0, Base.gui.height)
+		local _z = love.math.random(0, Base.gui.height-80)
+		self:addTipsList(Lang.tips_save_us, _x, Base.gui.height+_y, _z, "center")
 	end
 end
 
@@ -82,12 +82,12 @@ function Screen:draw()
 	-- draw finishLevel
 	if finishFlag then
 		love.graphics.setColor(0,0,0, 0.75)
-		love.graphics.rectangle("fill", 0, 0, Base.guiWidth, Base.guiHeight)
+		love.graphics.rectangle("fill", 0, 0, Base.gui.width, Base.gui.height)
 		love.graphics.setColor(Base.cWhite)
-		Base.drawRoundedRectangle(Base.guiBorder, Base.guiBorder, Base.guiWidth-Base.guiBorder*2, Base.guiHeight-Base.guiBorder*2)
+		Base.drawRoundedRectangle(Base.gui.border, Base.gui.border, Base.gui.width-Base.gui.border*2, Base.gui.height-Base.gui.border*2)
 		love.graphics.setColor(Base.cBlack)
-		Base.print(Lang.docFake, Base.guiBorder*2, Base.guiBorder*2)
-		Base.print("A 寻找圆", Base.guiWidth-Base.guiBorder*2, Base.guiHeight-Base.guiBorder*2, "right", "bottom")
+		Base.print(Lang.docFake, Base.gui.border*2, Base.gui.border*2)
+		Base.print("A 寻找圆", Base.gui.width-Base.gui.border*2, Base.gui.height-Base.gui.border*2, "right", "bottom")
 	end
 end
 ]]

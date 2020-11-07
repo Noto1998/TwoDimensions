@@ -179,7 +179,7 @@ end
 function Level:draw()
 	-- draw BG
 	love.graphics.setColor(Base.cBlack)
-	love.graphics.rectangle('fill', 0, 0, Base.guiWidth, Base.guiHeight)
+	love.graphics.rectangle('fill', 0, 0, Base.gui.width, Base.gui.height)
 
 	-- draw all obj in drawList
 	if self.drawList ~= nil then
@@ -197,7 +197,7 @@ function Level:draw()
 
 	-- draw levelName
 	love.graphics.setColor(Base.cWhite)
-	Base.print(self.levelName, Base.guiBorder, Base.guiHeight, 'left', 'bottom')
+	Base.print(self.levelName, Base.gui.border, Base.gui.height, 'left', 'bottom')
 	
 	-- bgmManager
 	bgmManager:draw()
@@ -205,7 +205,7 @@ function Level:draw()
 	-- draw stuck warning
 	if self.shiftMode == 0 and player.stuck then
 		love.graphics.setColor(Base.cWhite)
-		Base.print(Lang.ui_player_stuck, Base.guiWidth/2, Base.guiHeight/2, 'center', 'center')
+		Base.print(Lang.ui_player_stuck, Base.gui.width/2, Base.gui.height/2, 'center', 'center')
 	end
 
 	-- XYZ
@@ -215,7 +215,7 @@ function Level:draw()
 	if not _isTutorial then
 		-- draw keyTips text
 		love.graphics.setColor(Base.cDarkGray)
-		Base.print(Lang.ui_key_keyTips, Base.guiWidth-Base.guiBorder, Base.guiHeight, 'right', 'bottom')
+		Base.print(Lang.ui_key_keyTips, Base.gui.width-Base.gui.border, Base.gui.height, 'right', 'bottom')
 		
 		-- draw keyTips
 		keyTips:draw()
@@ -224,11 +224,11 @@ function Level:draw()
 	-- draw finishLevel
 	if finishFlag then
 		love.graphics.setColor(0,0,0, 0.9)
-		love.graphics.rectangle('fill', 0, 0, Base.guiWidth, Base.guiHeight)
+		love.graphics.rectangle('fill', 0, 0, Base.gui.width, Base.gui.height)
 		love.graphics.setColor(Base.cWhite)
-		Base.print(Lang.ui_level_finish, Base.guiWidth/2, Base.guiHeight/3, 'center', 'center')
+		Base.print(Lang.ui_level_finish, Base.gui.width/2, Base.gui.height/3, 'center', 'center')
 		local string = Lang.ui_key_continue
-		Base.print(string, Base.guiWidth/2, Base.guiHeight/3*2, 'center', 'center')
+		Base.print(string, Base.gui.width/2, Base.gui.height/3*2, 'center', 'center')
 	end
 end
 
@@ -254,7 +254,7 @@ end
 
 function Level:drawXYZ()
 	local w = 15
-	local _x = Base.guiBorder+w*6
+	local _x = Base.gui.border+w*6
 	local c1 = Base.cloneTable(Base.cDarkGray)
 	c1[4] = self.shiftMode
 	love.graphics.setColor(c1)

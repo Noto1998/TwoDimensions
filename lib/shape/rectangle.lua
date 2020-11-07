@@ -25,7 +25,7 @@ function Rectangle:new(x, y, z, lenX, lenY, dir, cFill, cLine, cMesh)
     for i, value in ipairs(xy) do
         vertices[i] = {
             value[1], value[2],                                -- position of the vertex
-            value[1]/Base.guiWidth, value[2]/Base.guiHeight,   -- texture coordinate at the vertex position(0~1)
+            value[1]/Base.gui.width, value[2]/Base.gui.height,   -- texture coordinate at the vertex position(0~1)
             1, 1, 1                                            -- color of the vertex
         }
     end

@@ -84,13 +84,13 @@ function love.load()
         love.graphics.clear()
         local lineBorder = 40
         love.graphics.setColor(Base.cDarkGray)
-        for i = 1, Base.guiHeight/lineBorder-1 do
+        for i = 1, Base.gui.height/lineBorder-1 do
             local y = i * lineBorder
-            love.graphics.line(0, y, Base.guiWidth, y)
+            love.graphics.line(0, y, Base.gui.width, y)
         end
-        for i = 1, Base.guiWidth/lineBorder-1 do
+        for i = 1, Base.gui.width/lineBorder-1 do
             local x = i * lineBorder
-            love.graphics.line(x, 0, x, Base.guiHeight)
+            love.graphics.line(x, 0, x, Base.gui.height)
         end
     love.graphics.setCanvas()
 

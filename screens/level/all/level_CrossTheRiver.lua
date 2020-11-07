@@ -3,8 +3,8 @@ local Screen = Level:extend()
 function Screen:activate()
 	--- shape value
 	local cubeZ = 130
-	local cubeLenX = Base.guiWidth/2-15
-	local cubeLenY = Base.guiHeight-1*2
+	local cubeLenX = Base.gui.width/2-15
+	local cubeLenY = Base.gui.height-1*2
 	local cubeLenZ = 50
 	local cubeLenZ3 = 50 + 2*2
 	---
@@ -24,11 +24,11 @@ function Screen:activate()
 	
 	--- here to create shape
 	self:addShapeList(Cuboid,		1, 1, cubeZ,							cubeLenX, cubeLenY, cubeLenZ)
-	self:addShapeList(Cuboid,		Base.guiWidth-cubeLenX-1, 1, cubeZ,		cubeLenX, cubeLenY, cubeLenZ)
+	self:addShapeList(Cuboid,		Base.gui.width-cubeLenX-1, 1, cubeZ,		cubeLenX, cubeLenY, cubeLenZ)
 	
 	--- here to create tips
-	self:addTipsList(Lang.tips_pressed_Y_to_shift,		Base.guiBorder, 50, -50)
-	self:addTipsList(Lang.tips_left_and_right_to_move,	Base.guiBorder, 350, 30)
+	self:addTipsList(Lang.tips_pressed_Y_to_shift,		Base.gui.border, 50, -50)
+	self:addTipsList(Lang.tips_left_and_right_to_move,	Base.gui.border, 350, 30)
 end
 
 return Screen

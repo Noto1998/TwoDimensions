@@ -14,18 +14,18 @@ function Screen:activate(tipstable, levelName, waitTime)
 	self.timeToEnd = false
 	--- shape value
 	local cZ = 170
-	local cLenX = Base.guiWidth-1*2
-	local cLenY = Base.guiHeight-1*2
+	local cLenX = Base.gui.width-1*2
+	local cLenY = Base.gui.height-1*2
 	local cLenZ = 50
 	
 	-- player location
-	local playerX = Base.guiWidth/4-Base.player.len/2
-	local playerY = Base.guiHeight/2-Base.player.len/2
+	local playerX = Base.gui.width/4-Base.player.len/2
+	local playerY = Base.gui.height/2-Base.player.len/2
 	local playerZ = cZ - 1
 	-- destination location
-	local destinationX = Base.guiWidth+1
-	local destinationY = Base.guiHeight+1
-	local destinationZ = Base.guiHeight+1
+	local destinationX = Base.gui.width+1
+	local destinationY = Base.gui.height+1
+	local destinationZ = Base.gui.height+1
 	-- create player and destination
 	Screen.super.activate(self, playerX, playerY, playerZ, destinationX, destinationY, destinationZ, levelName)
 	
@@ -35,8 +35,8 @@ function Screen:activate(tipstable, levelName, waitTime)
 	table.insert(self.drawList, c1)
 
 	--- here to create tips
-	t1 = Tips(tipsTable[tipsNum], Base.guiBorder, -50, Base.guiBorder*2)
-	t2 = Tips(tipsTable[tipsNum], Base.guiBorder, Base.guiBorder*2, -50)
+	t1 = Tips(tipsTable[tipsNum], Base.gui.border, -50, Base.gui.border*2)
+	t2 = Tips(tipsTable[tipsNum], Base.gui.border, Base.gui.border*2, -50)
 	table.insert(self.tipsList, t1)
 	table.insert(self.tipsList, t2)
 end
@@ -60,7 +60,7 @@ function Screen:update(dt)
 			--hide tips and floor
 			t1.z = -50
 			t2.z = -50
-			c1.z = Base.guiHeight+50
+			c1.z = Base.gui.height+50
 			self.timeToEnd = true
 		end
 	end

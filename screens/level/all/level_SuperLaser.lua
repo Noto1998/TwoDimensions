@@ -3,7 +3,7 @@ local Screen = Level:extend()
 function Screen:activate()
 	--- shape value
 	-- floor
-	local floorZ = Base.guiHeight-20
+	local floorZ = Base.gui.height-20
 	-- player wall
 	local c1Z = 80
 	local c1LenX = 2.5*40
@@ -45,14 +45,14 @@ function Screen:activate()
 	local playerZ = c1Z-1
 	-- destination location
 	local destinationX = playerX-Base.lenDestination/2
-	local destinationY = Base.guiHeight+10
+	local destinationY = Base.gui.height+10
 	local destinationZ = floorZ-Base.lenDestination/2
 	-- create player and destination
 	Screen.super.activate(self, playerX, playerY, playerZ, destinationX, destinationY, destinationZ, levelName)
     
 	--- here to create shape
 	-- floor
-    self:addShapeList(Cuboid, 1, 1, floorZ,			Base.guiWidth, Base.guiHeight, 1)
+    self:addShapeList(Cuboid, 1, 1, floorZ,			Base.gui.width, Base.gui.height, 1)
 	-- player wall
 	self:addShapeList(Cuboid, 1, 1, c1Z,						c1LenX, c1LenY, c1LenZ)
 	-- laser wall

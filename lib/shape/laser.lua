@@ -1,7 +1,7 @@
 Laser = Shape:extend()
 
 local radius = 10
-local len = math.sqrt(Base.guiHeight^2 + Base.guiWidth^2) + 1
+local len = math.sqrt(Base.gui.height^2 + Base.gui.width^2) + 1
 local timeMax = 2-- second
 
 function Laser:new(x, y, z, sx, sy, sz, cFill, cLine, cMesh)

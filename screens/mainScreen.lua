@@ -32,22 +32,22 @@ function Screen:activate()
 	imgMofishLogo = love.graphics.newImage('img/mofishLogo.png')
 
 	--- tips
-	local y1 = Base.guiHeight-Base.guiFontHeight
-	local y2 = y1-(Base.guiFontHeight+Base.guiBorder)
-	local creditsY = Base.guiFontHeight
+	local y1 = Base.gui.height-Base.gui.fontHeight
+	local y2 = y1-(Base.gui.fontHeight+Base.gui.border)
+	local creditsY = Base.gui.fontHeight
 
 	tipsList = {
-		Tips(Lang.ui_level_choice(page, getLevelName(page)), Base.guiWidth/2, y2, -50, 'center', 'bottom'),
-		Tips(Lang.ui_key_start_and_move,	Base.guiWidth/2, y1, -50, 'center', 'bottom')
+		Tips(Lang.ui_level_choice(page, getLevelName(page)), Base.gui.width/2, y2, -50, 'center', 'bottom'),
+		Tips(Lang.ui_key_start_and_move,	Base.gui.width/2, y1, -50, 'center', 'bottom')
 	}
 	table.insert(
 		tipsList,
-		Tips(Lang.ui_thank_you_for_playing,		Base.guiWidth/2, Base.guiHeight+50, creditsY, 'center')
+		Tips(Lang.ui_thank_you_for_playing,		Base.gui.width/2, Base.gui.height+50, creditsY, 'center')
 	)
 	for i, tipsString in ipairs(Lang.ui_credits) do
 		table.insert(
 			tipsList,
-			Tips(Lang.ui_credits[i],		Base.guiWidth/2, Base.guiHeight+50, creditsY + (Base.guiFontHeight+Base.guiBorder/2)*i,	'center')
+			Tips(Lang.ui_credits[i],		Base.gui.width/2, Base.gui.height+50, creditsY + (Base.gui.fontHeight+Base.gui.border/2)*i,	'center')
 		)
 	end
 	
@@ -97,7 +97,7 @@ end
 function Screen:draw()
 	-- draw BG
 	love.graphics.setColor(Base.cBlack)
-	love.graphics.rectangle('fill', 0, 0, Base.guiWidth, Base.guiHeight)
+	love.graphics.rectangle('fill', 0, 0, Base.gui.width, Base.gui.height)
 
 	-- bgmManager
 	bgmManager:draw()
@@ -110,9 +110,9 @@ function Screen:draw()
 	c1[4] = 1 - self.shiftMode
 	c2[4] = self.shiftMode
 	love.graphics.setColor(c1)
-	love.graphics.draw(imgGameLogo, Base.guiWidth*(1-scale1)/2, 10, 0, scale1, scale1)
+	love.graphics.draw(imgGameLogo, Base.gui.width*(1-scale1)/2, 10, 0, scale1, scale1)
 	love.graphics.setColor(c2)
-	love.graphics.draw(imgMofishLogo, Base.guiWidth*(1-scale2)/2, Base.guiHeight-imgMofishLogo:getHeight()*scale2, 0, scale2, scale2)
+	love.graphics.draw(imgMofishLogo, Base.gui.width*(1-scale2)/2, Base.gui.height-imgMofishLogo:getHeight()*scale2, 0, scale2, scale2)
 
 	-- tips
 	for key, obj in pairs(tipsList) do
@@ -124,7 +124,7 @@ function Screen:draw()
 	local c2 = Base.cloneTable(Base.cDarkGray)
 	c2[4] = self.shiftMode
 	love.graphics.setColor(c2)
-	Base.print(Lang.ui_key_credits, Base.guiWidth-Base.guiBorder-Base.guiFontHeight, 0, 'right')
+	Base.print(Lang.ui_key_credits, Base.gui.width-Base.gui.border-Base.gui.fontHeight, 0, 'right')
 end
 
 

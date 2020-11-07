@@ -25,10 +25,10 @@ end
 
 function BgmManager:draw()
     love.graphics.setColor(Base.cDarkGray)
-    Base.print('♫', Base.guiWidth-Base.guiBorder, 0, 'right')
+    Base.print('♫', Base.gui.width-Base.gui.border, 0, 'right')
     if not self.turnOn then
         love.graphics.setColor(Base.cRed)
-        Base.print('x', Base.guiWidth-Base.guiBorder, 0, 'right')
+        Base.print('x', Base.gui.width-Base.gui.border, 0, 'right')
     end
 end
 

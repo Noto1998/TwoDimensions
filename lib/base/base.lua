@@ -32,7 +32,7 @@ function Base.print(string, x, y, xMode, yMode)
         love.graphics.print(string, x, y)
     else
         local w = love.graphics.getFont():getWidth(string) * 2
-        local h = Base.guiFontHeight
+        local h = Base.gui.fontHeight
         local x2 = math.floor(x-w/2)
         local y2
         local xMode2-- love's default printf()'s rule is reverse
@@ -167,7 +167,7 @@ function Base.drawRoundedRectangle(x, y, width, height, segments)
     if segments == nil then
         segments = 20
     end
-    local radius = math.floor(Base.guiFontHeight/3)
+    local radius = math.floor(Base.gui.fontHeight/3)
     local x1 = x + radius
     local y1 = y + radius
     local x2 = x + width - radius
@@ -203,11 +203,12 @@ end
 
 
 -- GUI
-Base.guiWidth = love.graphics.getWidth()
-Base.guiHeight = love.graphics.getHeight()
-Base.guiBorder = Base.guiWidth/30
-Base.guiFontHeight = love.graphics.getFont():getHeight()
-
+Base.gui = {
+    width = love.graphics.getWidth(),
+    height = love.graphics.getHeight(),
+    fontHeight = love.graphics.getFont():getHeight(),
+}
+Base.gui.border = Base.gui.width/30-- can't write inside {}, because gui isn't init yet
 
 -- color
 Base.cBlack = {0, 0, 0}
