@@ -23,7 +23,7 @@ function Screen:activate()
 	local tSY1 = Base.gui.height/Base.gui.width
 	local tX2 = Base.gui.width/3
 	local tSY2 = Base.gui.height/(Base.gui.width/3)
-	
+
 	-- levelName
 	local levelName = Lang.level_OneShot
 	-- player location
@@ -36,7 +36,7 @@ function Screen:activate()
 	local endCubeZ = -Base.lenEndCube
 	-- create player and endCube
 	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
-	
+
 	--- here to create shape
 	-- floor
 	self:addShapeList(Cuboid,		0, 0, cZ,				Base.gui.width+2, Base.gui.height+2, cLenZ)

@@ -1,6 +1,6 @@
 Level = Shift:extend()
 
-local finishFlag, finishTimer
+local finishFlag
 local gotoMainScreenTimerMax = 1-- second
 local keyTips
 local player, endCube
@@ -10,7 +10,7 @@ local _isTutorial
 function Level:activate(playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName, isTutorial)
 	-- shift
 	Level.super.activate(self)
-	
+
 	-- player and endCube
 	player = Player(playerX, playerY, playerZ)
 	endCube = EndCube(endCubeX, endCubeY, endCubeZ)
@@ -18,7 +18,7 @@ function Level:activate(playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ,
 	-- shapeList
 	self.shapeList = {}
 	table.insert(self.shapeList, endCube)
-	
+
 	-- drawList
 	self.drawList = {}
 	table.insert(self.drawList, player)
@@ -26,7 +26,7 @@ function Level:activate(playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ,
 
 	-- tipsList
 	self.tipsList = {}
-	
+
 	-- levelName
 	self.levelName = 'levelName missing!'
 	if levelName ~= nil then
@@ -41,9 +41,7 @@ function Level:activate(playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ,
 
 	-- finishLevelTimer
 	finishFlag = false
-	finishTimer = 0
-	gotoMainScreenTimer = 0
-	
+
 	-- keyTips
 	keyTips = KeyTips()
 end
@@ -51,9 +49,9 @@ end
 
 function Level:update(dt, canShift)
 	-- shift/bgmManager/pressedSetting
-	canShift = (self.shiftMode~=1 or player:isOnGround()) and (not finishFlag) and (not keyTips:getShowFlag()) and (canShift == nil or canShift==true)
+	canShift = (self.shiftMode ~= 1 or player:isOnGround()) and (not finishFlag) and (not keyTips:getShowFlag()) and (canShift == nil or canShift == true)
 	Level.super.update(self, dt, canShift)
-	
+
 	-- keyTips
 	if not _isTutorial then
 		keyTips:update()
@@ -76,12 +74,10 @@ function Level:update(dt, canShift)
 	end
 
 	-- goto next level
-	if finishFlag then
-		if not showDoc and Base.isPressed(Base.keys.enter) then
-			LEVEL_CHOICE = LEVEL_CHOICE + 1
-			local levelName = LEVEL_STRING[LEVEL_CHOICE]
-			self.screen:view(levelName)
-		end
+	if finishFlag and Base.isPressed(Base.keys.enter) then
+		LEVEL_CHOICE = LEVEL_CHOICE + 1
+		local levelName = LEVEL_STRING[LEVEL_CHOICE]
+		self.screen:view(levelName)
 	end
 
 	-- shape update
@@ -90,23 +86,23 @@ function Level:update(dt, canShift)
 		if self.shapeList[i]:is(Laser) then
 			-- turn on/ballBlock/reflex
 			self.shapeList[i]:update(dt, self.shiftMode, self.shapeList, player)
-			
 			-- hit player
 			if self.shiftMode == 0 and self.shapeList[i]:hitPlayer(player) and not finishFlag then
 				self:playerDead()
 			end
-			
+
 		-- Ball
 		elseif self.shapeList[i]:is(Ball) then
 			self.shapeList[i]:update(dt, self.shiftMode, self.shapeList)
-
 			-- hit player
 			if self.shapeList[i]:hit(player, self.shiftMode) and not finishFlag then
 				self:playerDead()
 			end
+
 		-- FourD
 		elseif self.shapeList[i]:is(FourD) then
 			self.shapeList[i]:update(self.shiftMode)
+
 		-- MoveCuboid
 		elseif self.shapeList[i]:is(MoveCuboid) then
 			self.shapeList[i]:update(dt, self.shiftMode, self.shapeList)
@@ -116,22 +112,21 @@ function Level:update(dt, canShift)
 			end
 		end
 	end
-	
+
 	-- finish level
-	if player:touch(endCube, self.shiftMode) then
-		if not finishFlag then
-			finishFlag = true
-			--sfx
-			love.audio.play(SFX_FINISH)
-		end
+	if player:touch(endCube, self.shiftMode) and (not finishFlag) then
+		finishFlag = true
+		-- play sfx
+		love.audio.play(SFX_FINISH)
 	end
 
+	-- todo:rewrite
 	--- sort drawList
 	if self.shiftMode == 0 then
 		-- sort by z
 		for i=1, #self.drawList do
 			local j = i
-			for k=i+1, #self.drawList do
+			for k = i + 1, #self.drawList do
 				if self.drawList[k].z > self.drawList[j].z then
 					j, k = k, j
 				end
@@ -142,7 +137,7 @@ function Level:update(dt, canShift)
 		-- sort by y
 		for i=1, #self.drawList do
 			local j = i
-			for k=i+1, #self.drawList do
+			for k= i + 1, #self.drawList do
 				if self.drawList[k].y < self.drawList[j].y then
 					j, k = k, j
 				end
@@ -183,22 +178,22 @@ function Level:draw()
 
 	-- draw all obj in drawList
 	if self.drawList ~= nil then
-		for key, value in pairs(self.drawList) do
-			value:draw(self.shiftMode)
+		for key, obj in pairs(self.drawList) do
+			obj:draw(self.shiftMode)
 		end
 	end
 
 	-- draw tips
 	if self.tipsList ~= nil then
-		for i = 1, #self.tipsList do
-			self.tipsList[i]:draw(self.shiftMode)
+		for key, tip in pairs(self.tipsList) do
+			tip:draw(self.shiftMode)
 		end
 	end
 
 	-- draw levelName
 	love.graphics.setColor(Base.color.white)
 	Base.print(self.levelName, Base.gui.border, Base.gui.height, 'left', 'bottom')
-	
+
 	-- bgmManager
 	bgmManager:draw()
 
@@ -208,7 +203,7 @@ function Level:draw()
 		Base.print(Lang.ui_player_stuck, Base.gui.width/2, Base.gui.height/2, 'center', 'center')
 	end
 
-	-- XYZ
+	-- draw XYZ
 	self:drawXYZ()
 
 	-- hide
@@ -216,7 +211,7 @@ function Level:draw()
 		-- draw keyTips text
 		love.graphics.setColor(Base.color.darkGray)
 		Base.print(Lang.ui_key_keyTips, Base.gui.width-Base.gui.border, Base.gui.height, 'right', 'bottom')
-		
+
 		-- draw keyTips
 		keyTips:draw()
 	end
@@ -233,16 +228,19 @@ function Level:draw()
 end
 
 
--- function
+-- FUNCTION
+
 function Level:addShapeList(obj, ...)
 	table.insert(self.shapeList, obj(...))
 	-- add to drawList
 	table.insert(self.drawList, self.shapeList[#self.shapeList])
 end
 
+
 function Level:addTipsList(...)
 	table.insert(self.tipsList, Tips(...))
 end
+
 
 function Level:playerDead()
 	-- sfx
@@ -251,6 +249,7 @@ function Level:playerDead()
 	-- reset
 	self.screen:view(RESET_LEVEL_PATH)
 end
+
 
 function Level:drawXYZ()
 	local w = 15

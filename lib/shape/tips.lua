@@ -27,7 +27,7 @@ function Tips:draw(mode)
     local reWidth = fWidth + radius*2
     local _y = self.y + (-self.y +self.z)*mode
     local _x = self.x
-    
+
     -- center
     if self.xMode ~= nil then
         if self.xMode == 'center' then

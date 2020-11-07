@@ -1,21 +1,21 @@
--- dir (0~ -math.pi), so the z alway be bottom
 Rectangle = Shape:extend()
-
 
 function Rectangle:new(x, y, z, lenX, lenY, dir, cFill, cLine, cMesh)
     Rectangle.super.new(self, x, y, z, cFill, cLine, cMesh)
     self.lenX = lenX
     self.lenY = lenY
+    -- dir between 0 ~ -math.pi, so the z alway be bottom
     self.dir = 0
-    if dir~=nil then
+    if dir ~= nil then
         if dir > 0 or dir < -math.pi then
             error('dir, expected 0 to -pi, got ' .. dir)
         end
+
         self.dir = dir
     end
 
     -- mesh
-    local vertices ={}
+    local vertices = {}
     local xy = {
         {self:getX(1), self.y},
         {self:getX(2), self.y},
@@ -24,9 +24,9 @@ function Rectangle:new(x, y, z, lenX, lenY, dir, cFill, cLine, cMesh)
     }
     for i, value in ipairs(xy) do
         vertices[i] = {
-            value[1], value[2],                                -- position of the vertex
+            value[1], value[2],                                  -- position of the vertex
             value[1]/Base.gui.width, value[2]/Base.gui.height,   -- texture coordinate at the vertex position(0~1)
-            1, 1, 1                                            -- color of the vertex
+            1, 1, 1                                              -- color of the vertex
         }
     end
     self.mesh = love.graphics.newMesh(vertices, 'fan')
@@ -52,7 +52,7 @@ function Rectangle:draw(mode)
         }
         love.graphics.setColor(self.cFill)
         love.graphics.polygon('fill', _table)
-        
+
         -- mesh
         if mode ~= 0 then
             -- update point location
@@ -70,36 +70,34 @@ function Rectangle:draw(mode)
 end
 
 
-function Rectangle:getLenDX()
-    local DX = math.cos(self.dir) * self.lenX
-
-    return DX
+function Rectangle:getXByDir()
+    return Base.getXYbyDir(self.dir, self.lenX).x
 end
-function Rectangle:getLenDZ()
-    local DZ = math.sin(self.dir) * self.lenX
 
-    return DZ
+function Rectangle:getZByDir()
+    return Base.getXYbyDir(self.dir, self.lenX)
 end
+
 function Rectangle:getX(num)
     if num == 1 then
         return self.x
     elseif num == 2 then
-        return self.x + self:getLenDX()
+        return self.x + self:getXByDir()
     else
         error('expected 1~2, got ' .. num)
     end
-    
 end
+
 function Rectangle:getZ(num)
     if num == 1 then
         return self.z
     elseif num == 2 then
-        return self.z + self:getLenDZ()
+        return self.z + self:getZByDir()
     else
         error('expected 1~2, got ' .. num)
     end
-    
 end
+
 function Rectangle:getRightX()
 	local pointRight = 1
 	if self:getX(2) > self:getX(pointRight) then
@@ -108,6 +106,7 @@ function Rectangle:getRightX()
 
 	return pointRight
 end
+
 function Rectangle:getLeftX()
 	local pointLeft = 1
 	if self:getX(pointLeft) > self:getX(2) then
@@ -116,15 +115,16 @@ function Rectangle:getLeftX()
 
 	return pointLeft
 end
+
 function Rectangle:collisionPointXZ(x, z)
     local checkBorder = 2
     local flag = false
-    local absX = math.abs(self:getLenDX())
-    
+    local absX = math.abs(self:getXByDir())
+
     for i = 1, absX do
-        local oX = self:getX(1) + i*Base.sign(self:getLenDX())
-        local oZ = self:getZ(1) + i*(self:getLenDZ()/absX)
-        if math.abs(x-oX) <= 1 and math.abs(z-oZ) <= checkBorder then
+        local oX = self:getX(1) + i * Base.sign(self:getXByDir())
+        local oZ = self:getZ(1) + i * (self:getZByDir()/absX)
+        if math.abs(x-oX) <= 1 and math.abs(z - oZ) <= checkBorder then
             flag = true
         end
     end

@@ -1,24 +1,26 @@
 local Screen = Shift:extend()
 
-local page
+local index
 local pageHide = 4	--hide
 local imgGameLogo, imgMofishLogo
 local tipsList
 
-local function getLevelName(page)
-	local levelName = LEVEL_STRING[page]
-	local string = Lang[levelName]
-	
-	if string==nil then
-		error('level name do not exist')
-	end
+local function getLevelName(index)
+	local levelName, levelNameLang
 
 	-- hiden level
-	if page > (#LEVEL_STRING - pageHide) then
-		string = '???'
+	if index > (#LEVEL_STRING - pageHide) then
+		levelNameLang = '???'
+	else
+		levelName = LEVEL_STRING[index]
+		levelNameLang = Lang[levelName]
 	end
 
-	return string
+	if levelNameLang == nil then
+		error('level \"'..levelName..'\" do not exist')
+	end
+
+	return levelNameLang
 end
 
 
@@ -27,7 +29,7 @@ function Screen:activate()
 	Screen.super.activate(self)
 
 	-- img
-	page = 1
+	index = 1
 	imgGameLogo = love.graphics.newImage('img/gameLogo.png')
 	imgMofishLogo = love.graphics.newImage('img/mofishLogo.png')
 
@@ -37,7 +39,7 @@ function Screen:activate()
 	local creditsY = Base.gui.fontHeight
 
 	tipsList = {
-		Tips(Lang.ui_level_choice(page, getLevelName(page)), Base.gui.width/2, y2, -50, 'center', 'bottom'),
+		Tips(Lang.ui_level_choice(index, getLevelName(index)), Base.gui.width/2, y2, -50, 'center', 'bottom'),
 		Tips(Lang.ui_key_start_and_move,	Base.gui.width/2, y1, -50, 'center', 'bottom')
 	}
 	table.insert(
@@ -47,47 +49,46 @@ function Screen:activate()
 	for i, tipsString in ipairs(Lang.ui_credits) do
 		table.insert(
 			tipsList,
-			Tips(Lang.ui_credits[i],		Base.gui.width/2, Base.gui.height+50, creditsY + (Base.gui.fontHeight+Base.gui.border/2)*i,	'center')
+			Tips(tipsString,		Base.gui.width/2, Base.gui.height+50, creditsY + (Base.gui.fontHeight+Base.gui.border/2)*i,	'center')
 		)
 	end
-	
 end
 
 
 function Screen:update(dt)
 	-- shift/bgmManager/pressedSetting
 	Screen.super.update(self, dt)
-	
+
 	-- switch level
 	if self.shiftMode == 0 then
 		if Base.isPressed(Base.keys.right) or Base.isPressed(Base.keys.left) then
-			local levelMax = #LEVEL_STRING - pageHide + 1--show the laser
-			
-			-- change page
+			local levelMax = #LEVEL_STRING - pageHide + 1-- show the laser
+
+			-- change index
 			if Base.isPressed(Base.keys.right) then
-				if page < levelMax then
-					page = page + 1
+				if index < levelMax then
+					index = index + 1
 				else
-					page = 1
+					index = 1
 				end
 			elseif Base.isPressed(Base.keys.left) then
-				if page > 1 then
-					page = page - 1
+				if index > 1 then
+					index = index - 1
 				else
-					page = levelMax
+					index = levelMax
 				end
 			end
-			
-			-- update levelName string
-			tipsList[1].string = Lang.ui_level_choice(page, getLevelName(page))
 
-			-- sfx
+			-- update levelName string
+			tipsList[1].string = Lang.ui_level_choice(index, getLevelName(index))
+
+			-- play sfx
 			love.audio.play(SFX_MENU)
 		end
 
 		-- start level
-		if Base.isPressed(Base.keys.enter) and page <= (#LEVEL_STRING - pageHide) then 
-			LEVEL_CHOICE = page
+		if Base.isPressed(Base.keys.enter) and index <= (#LEVEL_STRING - pageHide) then
+			LEVEL_CHOICE = index
 			self.screen:view(LEVEL_STRING[LEVEL_CHOICE])
 		end
 	end
@@ -101,7 +102,7 @@ function Screen:draw()
 
 	-- bgmManager
 	bgmManager:draw()
-	
+
 	-- logo
 	local c1 = Base.cloneTable(Base.color.white)
 	local c2 = Base.cloneTable(Base.color.white)
@@ -120,10 +121,9 @@ function Screen:draw()
 	end
 
 	-- credits
-	local c1 = Base.cloneTable(Base.color.darkGray)
-	local c2 = Base.cloneTable(Base.color.darkGray)
-	c2[4] = self.shiftMode
-	love.graphics.setColor(c2)
+	local c3 = Base.cloneTable(Base.color.darkGray)
+	c3[4] = self.shiftMode
+	love.graphics.setColor(c3)
 	Base.print(Lang.ui_key_credits, Base.gui.width-Base.gui.border-Base.gui.fontHeight, 0, 'right')
 end
 

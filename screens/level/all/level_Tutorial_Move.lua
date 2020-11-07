@@ -8,7 +8,7 @@ function Screen:activate()
 	local cubeLenY = Base.gui.height-border*2
 	local cubeLenZ = 50
 	---
-	
+
 	-- levelName
 	local levelName = Lang.level_Tutorial_Move
 	-- player location
@@ -21,7 +21,7 @@ function Screen:activate()
 	local endCubeZ = -Base.lenEndCube-10
 	-- create player and endCube
 	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName, true)--Tutorial
-	
+
 	--- here to create shape
 	self:addShapeList(Cuboid,		border, border, cubeZ,		cubeLenX, cubeLenY, cubeLenZ)
 

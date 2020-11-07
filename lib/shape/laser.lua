@@ -30,7 +30,7 @@ function Laser:update(dt, mode, shapeList, player)
         if self.timer > timeMax then
             self.timer = 0
             self.turnOn = not self.turnOn
-            --sfx
+            -- play sfx
             if self.turnOn then
                 love.audio.play(SFX_SHOOT)
             end
@@ -62,14 +62,14 @@ function Laser:draw(mode)
     local _y = self.y*(1-mode) + self.z*mode
     local _lenX = self.sx*self.len
     local _lenY = (self.sy*(1-mode)+self.sz*mode)*self.len
-    
+
     -- draw self
     love.graphics.setColor(self.cFill)
     love.graphics.circle('fill', self.x, _y, radius*2)
     love.graphics.setColor(self.cLine)
     love.graphics.circle('line', self.x, _y, radius)
     love.graphics.circle('line', self.x, _y, radius*2)
-    
+
     -- draw shoot line
     if self.turnOn then
         local cTable1 = Base.cloneTable(Base.color.loaser.safe)
@@ -79,7 +79,6 @@ function Laser:draw(mode)
             cTable1[i] = cTable1[i]*mode + cTable2[i]*(1-mode)
         end
 
-        --
         love.graphics.setColor(cTable1)
         if mode == 1 then
             love.graphics.line(_x, _y, self.drawX, self.drawZ)
@@ -342,15 +341,10 @@ function Laser:reflex(obj)
         end
 
         local function setDir(self)
-            local centerX = (x1+x2)/2
-            local centerZ = (z1+z2)/2
 
             local oDir = math.atan2(self.drawZ-obj:getZ(obj:getLeftX()), self.drawX-obj:getX(obj:getLeftX()))
-
             local dir1 = math.atan2(-self.sz, -self.sx)
-
             local dir2 = dir1-oDir
-
             local dir = oDir-math.pi-dir2
 
             self.drawX2 = self.drawX + Base.getXYbyDir(dir, len).x
@@ -358,15 +352,17 @@ function Laser:reflex(obj)
         end
         -- check rectangle
         if self:hitRectangle(x1, z1, x2, z2, self.z, self.sz) then
-            local absX = math.abs(obj:getLenDX())
-            local absZ = math.abs(obj:getLenDZ())
+            local absX = math.abs(obj:getXByDir())
+            local absZ = math.abs(obj:getZByDir())
             local absMax = absX
+
             if absZ > absMax then
                 absMax = absZ
             end
+
             for i = 1, absMax do
-                local oX = obj:getX(1) + obj:getLenDX()/absMax*i
-                local oZ = obj:getZ(1) + obj:getLenDZ()/absMax*i
+                local oX = obj:getX(1) + obj:getXByDir()/absMax*i
+                local oZ = obj:getZ(1) + obj:getZByDir()/absMax*i
 
                 if self.sx == 0 and self.sz == 0 then
                     -- nothing
@@ -395,7 +391,7 @@ function Laser:reflex(obj)
 
                         setDir(self)
                         break
-                    end 
+                    end
                 end
             end
         end

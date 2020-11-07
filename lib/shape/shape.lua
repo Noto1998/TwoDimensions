@@ -4,7 +4,7 @@ function Shape:new(x, y, z, cFill, cLine, cMesh)
     self.x = x
     self.y = y
     self.z = z
-    
+
     -- fill
     self.cFill = Base.color.fill
 	if cFill ~= nil then

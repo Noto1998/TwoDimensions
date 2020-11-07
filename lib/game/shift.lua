@@ -29,7 +29,7 @@ function Shift:update(dt, canShift)
 		if self.shiftMode == 0 or self.shiftMode == 1 then
 			self.shiftSpd = 0
 		end
-		
+
 		-- add spd
 		if self.shiftFlag then
 			if self.shiftMode < SHIFT_ADD_TIME then
@@ -44,9 +44,9 @@ function Shift:update(dt, canShift)
 				self.shiftSpd = self.shiftSpd + SHIFT_ADD_SPD
 			end
 		end
-		
+
 		local _dt = math.abs(self.shiftSpd) / SHIFT_TIMER_MAX * dt
-		
+
 		-- change shiftMode
 		if self.shiftMode < 1 and self.shiftFlag then
 			local _border =  1 - self.shiftMode
@@ -57,7 +57,7 @@ function Shift:update(dt, canShift)
 				self.shiftMode = self.shiftMode + _dt
 			end
 		end
-		
+
 		if self.shiftMode > 0 and not self.shiftFlag then
 			if self.shiftMode < _dt then
 				self.shiftMode = 0
@@ -66,13 +66,13 @@ function Shift:update(dt, canShift)
 				self.shiftMode = self.shiftMode - _dt
 			end
 		end
-		
+
 		-- close
 		if self.shiftMode == 0 or self.shiftMode == 1 then
 			self.shiftSpd = 0
 		end
 	end
-	
+
 	-- switch shiftMode
 	if (canShift == nil or canShift == true) and
 	Base.isPressed(Base.keys.shift) and not self.shifting then

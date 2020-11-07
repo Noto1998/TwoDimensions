@@ -11,12 +11,12 @@ local function isOnGround(self, shapeList)
         if obj:is(Cuboid) or obj:is(Rectangle) then
             flag = obj:collisionPointXZ(self.x, _z)
         end
-        --
+
         if flag then
             break
         end
     end
-    
+
     return flag
 end
 
@@ -55,13 +55,13 @@ function Ball:update(dt, mode, shapeList)
                     elseif obj.dir > -math.pi/2 then
                         self.spdX = -spd
                     end
-                    self.spdZ = math.abs(obj:getLenDZ())*spd/math.abs(obj:getLenDX())
+                    self.spdZ = math.abs(obj:getZByDir())*spd/math.abs(obj:getXByDir())
                     break
                 end
             end
         end
 
-        --
+        -- update position
         self.x = self.x + self.spdX*dt
         self.z = self.z + self.spdZ*dt
     end
@@ -88,12 +88,10 @@ end
 
 function Ball:collisionPointXZ(x, z)
     local flag = false
-    -- local checkBorder = 2
-
     local lenX = math.abs(x - self.x)
     local lenZ = math.abs(z - self.z)
     local c = math.sqrt(lenX^2 + lenZ^2)
-    
+
     if c < self.radius then
         flag = true
     end
@@ -108,13 +106,13 @@ function Ball:hit(player, shiftMode)
         for i = 1, 2 do
             local x = player:getX(i)
             local z = player:getZ(i)
-            
+
             if self:collisionPointXZ(x, z) then
                 flag = true
                 break
             end
         end
     end
-    
+
     return flag
 end

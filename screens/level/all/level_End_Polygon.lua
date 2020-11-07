@@ -6,16 +6,12 @@ local b1
 
 function Screen:activate()
 	--- shape value
-	local cZ = 180
-	local cLenX = Base.gui.width-1*2
-	local cLenY = Base.gui.height-1*2
-	local cLenZ = 50
 	-- create player and endCube
 	local tipsTable = Lang.tips_polygon 
 	local levelName = ""
 	local waitTime = 10.3
 	Screen.super.activate(self, tipsTable, levelName, waitTime)
-	
+
 	--- here to create shape
 	-- reList
 	reList = {}

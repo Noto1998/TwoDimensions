@@ -19,12 +19,12 @@ function Screen:activate()
 	local LLy = 1
 	local LLz = 1
 	-- Laser
-	local Sx=1
+	local Sx = 1
 	local Sy = 240/(320-2*(Lx-50))
 	-- Slope
-	local dir= math.pi/8
+	local dir = math.pi/8
 	---
-	
+
 	-- levelName
 	local levelName = Lang.level_Cross
 	-- player location
@@ -37,7 +37,7 @@ function Screen:activate()
 	local endCubeZ = -160
 	-- create player and endCube
 	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
-	
+
 	--here to create the shape
 	--Floor
 	self:addShapeList(Cuboid, 2,2,210,	318,238,30)

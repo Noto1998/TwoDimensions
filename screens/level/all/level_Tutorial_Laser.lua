@@ -24,7 +24,7 @@ function Screen:activate()
 	local endCubeZ = -200
 	-- create player and endCube
 	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
-	
+
 	--- here to create shape
 	-- floor
 	self:addShapeList(Cuboid,		1, 1, cubeZ,		cubeLenX, cubeLenY, cubeLenZ)

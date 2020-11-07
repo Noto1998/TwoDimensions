@@ -11,7 +11,7 @@ function Screen:activate()
 	-- Ball
 	local bR = 20
 	---
-	
+
 	-- levelName
 	local levelName = Lang.level_Tutorial_Ball
 	-- player location
@@ -24,7 +24,7 @@ function Screen:activate()
 	local endCubeZ = reZ-50
 	-- create player and endCube
 	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
-	
+
 	--- here to create shape
 	self:addShapeList(Rectangle,	reX, reY, reZ,		reLenX, reLenY,		-math.pi+math.pi/10)
 	self:addShapeList(Cuboid,		Base.gui.width/2-25/2, reY, 1,		25, reLenY, 25)

@@ -24,10 +24,9 @@ function Screen:activate()
 	local endCubeZ = Base.gui.height+10
 	-- create player and endCube
 	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
-	
+
 	--- here to create shape
 	self:addShapeList(Ball,		Base.gui.width-reBorder, Base.gui.height/4, 0,			bR)
-
 	self:addShapeList(Rectangle, reBorder, 0, reZ,								reLenX, reLenY,			-reDir)
 	self:addShapeList(Rectangle, Base.gui.width-reBorder, reLenY, reZ+50,		reLenX, reLenY, 		-math.pi+reDir)
 end

@@ -1,7 +1,6 @@
 local Screen = Level:extend()
 
 function Screen:activate()
-	--- shape vnlue
 	-- Cuboid
 	local cLenX = 40*2
 	local cLenY = Base.gui.height*1.5
@@ -11,7 +10,6 @@ function Screen:activate()
 	local cZ = Base.gui.height-cLenZ
 	-- Ball
 	local bR = 20
-	---
 
 	-- levelName
 	local levelName = Lang.level_BlockLaser
@@ -25,14 +23,12 @@ function Screen:activate()
 	local endCubeZ = -Base.lenEndCube
 	-- create player and endCube
 	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
-	
+
 	--- here to create shape
 	-- floor
 	self:addShapeList(Cuboid,		cX, cY, cZ,		cLenX, cLenY, cLenZ)
-	
 	self:addShapeList(Rectangle,	Base.gui.width, Base.gui.height+10, 150,		Base.gui.width+40, Base.gui.height/2, 		 -math.pi+math.pi/10)
 	self:addShapeList(Ball,			bR, 80, 0,		bR)
-	
 	self:addShapeList(Laser,		Base.gui.width/2, 1, 1,		0, 1, 1)
 end
 

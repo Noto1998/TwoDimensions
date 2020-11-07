@@ -6,7 +6,7 @@ function ScreenManager:new()
 	self.routes = {}
 	self.currentScreen = nil
 	self.currentPath = ''
-	
+
 	self:registerEvents()
 end
 
@@ -17,7 +17,7 @@ function ScreenManager:event(event, arguments)
 	elseif type(arguments) ~= 'table' then
 		arguments = {arguments}
 	end
-	
+
 	if self.activeScreen and self.activeScreen[event] then
 		self.activeScreen[event](--[[self=]] self.activeScreen, unpack(arguments))
 	end
@@ -29,13 +29,13 @@ function ScreenManager:register(path, screenClass)
 		path = path,
 		instance = screenClass(self)
 	}
-	
+
 	if path == '/' then -- if screen is the root path then register it by default
 		newRoute.instance:activate()
 		self.activeScreen = newRoute.instance
 		self.currentPath = '/'
 	end
-	
+
 	return table.insert(self.routes, newRoute)
 end
 
@@ -57,10 +57,10 @@ end
 -- Register Löve2D events
 function ScreenManager:registerEvents()
 	local _self = self
-	
+
 	-- Only the ones that could be used on a gameshell are not commented out!
 	-- The events that are commented out with four '-', cause trouble when not being used
-	
+
 	--function love.directorydropped(...) _self:event('directorydropped', ...) end
 	function love.draw(...)	_self:event('draw', ...) end
 	--function love.errhand(...) _self:event('errhand', ...) end
@@ -71,7 +71,7 @@ function ScreenManager:registerEvents()
 		if select(1, ...) == 'escape' then
 			love.event.quit()
 		end
-		
+
 		-- [debug] f1, run the file in screens/debug
 		if DEBUG_MODE and select(1, ...) == 'f1' then
 			local fileTable = love.filesystem.getDirectoryItems('screens/debug')
@@ -81,7 +81,7 @@ function ScreenManager:registerEvents()
 			end
 			if fileName ~= nil then
 				Lang = require('lib.Lang.lang_cn')
-				
+
 				local levelName = string.sub(fileName, 1, string.len(fileName)-string.len('.lua'))
 				self:register(levelName, require('screens.debug.' .. levelName))
 				self:view(levelName)
@@ -90,7 +90,6 @@ function ScreenManager:registerEvents()
 				print('debug: file don\'t exist.')
 			end
 		end
-		
 
 		_self:event('keypressed', ...)
 	end
@@ -110,9 +109,9 @@ function ScreenManager:registerEvents()
 	--function love.touchpressed(...) _self:event('touchpressed', ...) end
 	--function love.touchreleased(...) _self:event('touchreleased', ...) end
 	function love.update(...)
+		-- limit frame
 		local t = {...}
 		local dt = t[1]
-		--set FPS
 		local maxFPS = 60
 		if dt < 1/maxFPS then
 			love.timer.sleep(1/maxFPS - dt)

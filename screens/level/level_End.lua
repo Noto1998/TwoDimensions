@@ -1,13 +1,12 @@
 local Screen = Level:extend()
 
-local tipsNum, tipsFlag, tipsTable
+local tipsNum, tipsTable
 local t1, t2, c1
 local waitTimer, waitTimerMax
 
 function Screen:activate(tipstable, levelName, waitTime)
 	---
 	tipsNum = 1
-	tipsFlag = false
 	tipsTable = tipstable
 	waitTimer = 0
 	waitTimerMax = waitTime
@@ -17,7 +16,7 @@ function Screen:activate(tipstable, levelName, waitTime)
 	local cLenX = Base.gui.width-1*2
 	local cLenY = Base.gui.height-1*2
 	local cLenZ = 50
-	
+
 	-- player location
 	local playerX = Base.gui.width/4-Base.player.len/2
 	local playerY = Base.gui.height/2-Base.player.len/2
@@ -28,7 +27,7 @@ function Screen:activate(tipstable, levelName, waitTime)
 	local endCubeZ = Base.gui.height+1
 	-- create player and endCube
 	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
-	
+
 	--- here to create shape
 	c1 = Cuboid(1, 1, cZ,	cLenX, cLenY, cLenZ)
 	table.insert(self.shapeList, c1)
@@ -45,7 +44,7 @@ end
 function Screen:update(dt)
 	local canShift = not self.timeToEnd
 	Screen.super.update(self, dt, canShift)
-	
+
 	-- update tips
 	if Base.isPressed(Base.keys.shift) and (self.shiftMode == 0 or self.shiftMode == 1) then
 		tipsNum = tipsNum + 1
@@ -69,7 +68,9 @@ function Screen:update(dt)
 		waitTimer = waitTimer + 1*dt
 	end
 	if waitTimer > waitTimerMax then
-		self.screen:view('MainScreen', 1)-- set shiftMode=1
+		--self.screen:view('MainScreen', 1)-- set shiftMode to 1
+		self.screen:view('MainScreen')
+		-- todo:fix
 	end
 end
 

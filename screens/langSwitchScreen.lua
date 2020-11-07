@@ -1,7 +1,5 @@
 local Screen = Object:extend()
 
-local langFile
-
 function Screen:new(ScreenManager)
 	self.screen = ScreenManager
 end
@@ -22,7 +20,7 @@ function Screen:update(dt)
 			langFile = 'lib.Lang.lang_jp'
 		end
 		Lang = require(langFile)
-		
+
 		-- goto MainScreen
 		self.screen:view('MainScreen')
 	end

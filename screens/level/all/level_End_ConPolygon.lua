@@ -6,12 +6,8 @@ local waitTimer
 
 function Screen:activate()
 	--- shape value
-	local cZ = 180
-	local cLenX = Base.gui.width-1*2
-	local cLenY = Base.gui.height-1*2
-	local cLenZ = 50
 	--- create player and endCube
-	local tipsTable = Lang.tips_conPolygon 
+	local tipsTable = Lang.tips_conPolygon
 	local levelName = ""
 	local waitTime = 7
 	Screen.super.activate(self, tipsTable, levelName, waitTime)
@@ -28,9 +24,9 @@ end
 function Screen:update(dt)
 	Screen.super.update(self, dt)
 
-	if self.timeToEnd and self.shiftMode==1 then
+	if self.timeToEnd and self.shiftMode == 1 then
 		waitTimer = waitTimer + 1*dt;
-		
+
 		if waitTimer > 1.5 then
 			cp1.len = cp1.len + cpSpd*dt
 			cpSpd = cpSpd + 0.5*dt

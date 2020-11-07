@@ -1,6 +1,5 @@
 FourD = Shape:extend()
 
-
 local modeMin = 0.1
 local mode1 = 0.33
 

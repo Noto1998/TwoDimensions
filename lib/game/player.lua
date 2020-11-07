@@ -6,16 +6,15 @@ function Player:new(x, y, z)
 	local len = Base.player.len
 	local cFill = Base.cloneTable(Base.color.gray)
 	cFill[4] = 0.5
-	local cMesh = {0,0,0,0}
-	--
+	local cMesh = {0, 0, 0, 0}
 	Player.super.new(self, x, y, z, len, len, 0, cFill, Base.color.line, cMesh)
 
 	self.stuck = false
-	self.onGround = {false, false}
+	self.onGround = {false, false}-- two point
 	self.spdX = 0
 	self.spdY = 0
 
-	sfxPlayed = {true, true}
+	sfxPlayed = {true, true}-- two point
 end
 
 
@@ -24,7 +23,7 @@ function Player:update(dt, mode, shapeList)
 		-- move
 		self:moveXY(dt)
 		self:collisionXY(dt, shapeList)
-		--
+		-- update position
 		self.x = self.x + self.spdX * dt
 		self.y = self.y + self.spdY * dt
 	elseif mode == 1 then
@@ -35,7 +34,7 @@ function Player:update(dt, mode, shapeList)
 		-- move
 		self:collisionXZ(dt)
 
-		--sfx
+		-- play sfx
 		for i = 1, 2 do
 			if self.onGround[i] then
 				if not sfxPlayed[i] then
@@ -52,7 +51,7 @@ end
 
 function Player:draw(mode)
 	Player.super.draw(self, mode)
-	
+
 	if mode == 1 then
 		-- point
 		for i = 1, 2 do
@@ -60,7 +59,7 @@ function Player:draw(mode)
 			if self.onGround[i] then
 				cPoint = Base.color.white
 			end
-			--
+
 			love.graphics.setColor(cPoint)
 			love.graphics.circle('fill', self:getX(i), self:getZ(i), 3)
 		end
@@ -100,7 +99,6 @@ end
 function Player:moveXZ(dt)
 	local spdXZ
 
-	--
 	if Base.isDown(Base.keys.left) then
 		spdXZ = -Base.player.spdXZ
 	elseif Base.isDown(Base.keys.right) then
@@ -108,14 +106,13 @@ function Player:moveXZ(dt)
 	else
 		spdXZ = 0
 	end
-	--
+
 	self.dir = self.dir + spdXZ * dt
 end
 
 function Player:collisionXY(dt, shapeList)
 	self.stuck = false
 
-	--
 	for key, obj in pairs(shapeList) do
 		if obj:is(Rectangle) or obj:is(Cuboid) then
 			local x1 = self:getX(self:getLeftX())
@@ -124,10 +121,9 @@ function Player:collisionXY(dt, shapeList)
 			local y2 = self.y + self.lenY
 			local centerX = (x1 + x2)/2
 			local centerY = (y1 + y2)/2
-
 			local oXList
 			local oYList = {obj.y, obj.y+obj.lenY}
-			--
+
 			if obj:is(Rectangle) then
 				oXList = {obj:getX(obj:getLeftX()), obj:getX(obj:getRightX())}
 			elseif obj:is(Cuboid) then
@@ -140,15 +136,15 @@ function Player:collisionXY(dt, shapeList)
 				for key, xValue in pairs(oXList) do
 					local disX = math.abs(centerX - xValue)
 					local signX = Base.sign(centerX - xValue)
-					local disMin = math.abs(self:getLenDX()/2)
+					local disMin = math.abs(self:getXByDir()/2)
 					-- stuck
-					if disX+1 < disMin then
+					if disX + 1 < disMin then
 						self.stuck = true
 						self.spdY = 0
 						self.spdX = 0
 					-- push
-					elseif math.abs(disX*signX + self.spdX*dt) < disMin then
-						self.x = xValue + disMin*signX - self:getLenDX()/2
+					elseif math.abs(disX * signX + self.spdX * dt) < disMin then
+						self.x = xValue + disMin * signX - self:getXByDir()/2
 						self.spdX = 0
 					end
 				end
@@ -173,8 +169,6 @@ function Player:collisionXY(dt, shapeList)
 				end
 			end
 		end
-
-		
 	end
 end
 function Player:isCollisionXY(obj)
@@ -185,17 +179,13 @@ function Player:isCollisionXY(obj)
 	local y2 = self.y + self.lenY
 
 	if obj:is(Rectangle) then
-		if 	y1 <= obj.y + obj.lenY
-		and y2 >= obj.y
-		and x1 <= obj:getX(2)
-		and x2 >= obj:getX(1) then
+		if y1 <= obj.y + obj.lenY and y2 >= obj.y and
+		x1 <= obj:getX(2) and x2 >= obj:getX(1) then
 			flag = true
 		end
 	elseif obj:is(Cuboid) then
-		if 	y1 <= obj.y + obj.lenY
-		and y2 >= obj.y
-		and x1 <= obj.x + obj.lenX
-		and x2 >= obj.x then
+		if y1 <= obj.y + obj.lenY and y2 >= obj.y and
+		x1 <= obj.x + obj.lenX and x2 >= obj.x then
 			flag = true
 		end
 	end
@@ -212,12 +202,12 @@ function Player:PointOnGround(num, shapeList)
 		if obj:is(Rectangle) or obj:is(Cuboid) or obj:is(Ball) then
 			flag = obj:collisionPointXZ(x, z)
 		end
-		--
+
 		if flag then
 			break
 		end
 	end
-	
+
 	return flag
 end
 
@@ -247,19 +237,19 @@ function Player:collisionXZ(dt)
 			-- garvity
 			if (not Base.isDown(Base.keys.left)) and (not Base.isDown(Base.keys.right)) then
 				local spdG
-				--
+
 				if self:getLeftX() == 1 then
 					spdG = Base.player.spdXZ
 				else
 					spdG = -Base.player.spdXZ
 				end
-				--
+
 				self.dir = self.dir + spdG * dt
 			end
 		end
 		-- control dir
 		self:moveXZ(dt)
-		
+
 		-- fix dir
 		if self.dir <= -math.pi*2 then
 			self.dir = self.dir + math.pi*2

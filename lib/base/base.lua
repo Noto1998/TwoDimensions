@@ -161,6 +161,16 @@ function Base.getDistance(x1, y1, x2, y2)
     return math.sqrt(disX^2 + disY^2)
 end
 
+--- get {x, y} by a direction and distance
+---@return table
+function Base.getXYbyDir(dir, dis)
+    local table = {}
+    table.x = math.cos(dir)*dis
+    table.y = math.sin(dir)*dis
+
+    return table
+end
+
 --- draw a rounded rectangle
 function Base.drawRoundedRectangle(x, y, width, height, segments)
     -- default segments
@@ -189,16 +199,6 @@ function Base.drawRoundedRectangle(x, y, width, height, segments)
     end
     love.graphics.rectangle('fill', x, y1, width,          height-radius*2)
     love.graphics.rectangle('fill', x1, y, width-radius*2, height)
-end
-
---- get {x, y} by a direction and distance
----@return table
-function Base.getXYbyDir(dir, dis)
-    local table = {}
-    table.x = math.cos(dir)*dis
-    table.y = math.sin(dir)*dis
-
-    return table
 end
 
 

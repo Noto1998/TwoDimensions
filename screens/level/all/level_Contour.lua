@@ -7,7 +7,7 @@ function Screen:activate()
 	local cLenZ1 = 25
 	local cX1 = Base.gui.width/4-cLenX1/2
 	local cY1 = Base.gui.height/4-cLenY1/2
-	
+
 	local cLenX2 = Base.gui.width/2 - (Base.gui.width/2 - cLenX1)/2
 	local cLenY2 = Base.gui.height/2 - (Base.gui.height/2 - cLenY1)/2
 	local cX2 = Base.gui.width/4-cLenX2/2
@@ -29,7 +29,7 @@ function Screen:activate()
 	local endCubeZ = 200-Base.lenEndCube
 	-- create player and endCube
 	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
-	
+
 	--- here to create shape
 	-- left-top
 	self:addShapeList(Cuboid,		cX2, cY2, 50,							cLenX2, cLenY2, cLenZ1)
