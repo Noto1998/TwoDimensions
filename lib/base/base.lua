@@ -202,6 +202,17 @@ function Base.drawRoundedRectangle(x, y, width, height, segments)
 end
 
 
+
+--- ternary operator, return result1 if isTrue is true, else return result2
+function Base.ternary(isTrue, result1, result2)
+    if isTrue then
+        return result1
+    else
+        return result2
+    end
+end
+
+
 -- GUI
 Base.gui = {
     width = love.graphics.getWidth(),
