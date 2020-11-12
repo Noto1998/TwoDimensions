@@ -1,5 +1,7 @@
 local Shift = Object:extend()
 
+local timer
+local TIMER_MAX = 1.25
 
 function Shift:new(ScreenManager)
 	self.screen = ScreenManager
@@ -8,82 +10,46 @@ end
 
 function Shift:activate()
 
-	self.shiftMode = 0-- 0=xy, 1=xz
-	self.shiftFlag = false
-	self.shifting = false
-	self.shiftSpd = 0
+	self.shiftMode = 0-- 0 ~ 1, 0 = xy, 1 = xz.
+	self.shiftFlag = 0-- 0 or 1.
+	self.isShifting = false
+
+	timer = 0
 end
 
 
 function Shift:update(dt, canShift)
-	-- pressed setting
+
 	Base.setAllKeys(dt)
-
-	-- update shiftMode
-	if self.shifting then
-		local SHIFT_ADD_SPD = 2 * dt
-		local SHIFT_ADD_TIME = 0.3
-		local SHIFT_TIMER_MAX = 1.25
-
-		-- start spd
-		if self.shiftMode == 0 or self.shiftMode == 1 then
-			self.shiftSpd = 0
-		end
-
-		-- add spd
-		if self.shiftFlag then
-			if self.shiftMode < SHIFT_ADD_TIME then
-					self.shiftSpd = self.shiftSpd + SHIFT_ADD_SPD
-			elseif self.shiftMode > 1-SHIFT_ADD_TIME then
-				self.shiftSpd = self.shiftSpd - SHIFT_ADD_SPD
-			end
-		else
-			if self.shiftMode < SHIFT_ADD_TIME then
-				self.shiftSpd = self.shiftSpd - SHIFT_ADD_SPD
-			elseif self.shiftMode > 1-SHIFT_ADD_TIME then
-				self.shiftSpd = self.shiftSpd + SHIFT_ADD_SPD
-			end
-		end
-
-		local _dt = math.abs(self.shiftSpd) / SHIFT_TIMER_MAX * dt
-
-		-- change shiftMode
-		if self.shiftMode < 1 and self.shiftFlag then
-			local _border =  1 - self.shiftMode
-			if _border < _dt then
-				self.shiftMode = 1
-				self.shifting = false -- close
-			else
-				self.shiftMode = self.shiftMode + _dt
-			end
-		end
-
-		if self.shiftMode > 0 and not self.shiftFlag then
-			if self.shiftMode < _dt then
-				self.shiftMode = 0
-				self.shifting = false -- close
-			else
-				self.shiftMode = self.shiftMode - _dt
-			end
-		end
-
-		-- close
-		if self.shiftMode == 0 or self.shiftMode == 1 then
-			self.shiftSpd = 0
-		end
-	end
-
-	-- switch shiftMode
-	if (canShift == nil or canShift == true) and
-	Base.isPressed(Base.keys.shift) and not self.shifting then
-		self.shiftFlag = not self.shiftFlag
-		self.shifting = true
-		-- play sfx
-		love.audio.play(SFX_SHIFT)
-	end
-
-	-- bgmManager
 	bgmManager:update()
+
+	-- update shiftMode.
+	if self.isShifting then
+		local t = timer / TIMER_MAX-- 0 to 1
+		if t > 1 then
+			t = 1
+		end
+
+		timer = timer + dt
+
+		-- using non-linear function to update shiftMode, (shiftFlag is 1) means shiftMode need to up to 1, vice versa
+		self.shiftMode = Base.ternary(self.shiftFlag == 1, Base.mix(t), 1 - Base.mix(t))
+
+		-- finish
+		if self.shiftMode == self.shiftFlag then
+				self.isShifting = false
+		end
+	end
+
+	-- switch shiftMode. (xx ~= false) is the same as (xx==nil or xx==true)
+	if Base.isPressed(Base.keys.shift) and (canShift ~= false) and (not self.isShifting) then
+
+		self.shiftFlag = Base.ternary(self.shiftFlag == 0, 1, 0)
+		self.isShifting = true
+		timer = 0
+
+		love.audio.play(SFX_SHIFT)-- play sfx
+	end
 end
 
 return Shift

@@ -1,13 +1,26 @@
----base helpful function
+--- base helpful lib
 local Base = {}
 
-local keys = require 'lib.game.keys'-- for input
+local keys = require 'lib.game.keys'-- for Base.keys
 local joysticks = love.joystick.getJoysticks()
-local joystick = joysticks[1]-- for function Base.isDown()
+local joystick = joysticks[1]-- default joystick, for function Base.isDown()
 
 -- FUNCTION
 
---- simple sign(), lua dont have sign()
+--- ternary operator ( bool ? a : b ). lua don't have ternary operator.
+---@param isTrue boolean
+---@param result1 any
+---@param result2 any
+---@return any
+function Base.ternary(isTrue, result1, result2)
+    if isTrue then
+        return result1
+    else
+        return result2
+    end
+end
+
+--- simple sign fn, lua don't have sign fn.
 ---@param number number
 ---@return number
 function Base.sign(number)
@@ -20,22 +33,22 @@ function Base.sign(number)
     end
 end
 
---- easy text print. xMode using love.graphics.printf(), yMode get font's pixels height and move x/y
+--- easy text print fn. xMode accept 'left', 'center' or 'right', yMode accept 'top', 'center' or 'bottom'.
 ---@param string string
 ---@param x number
 ---@param y number
 ---@param xMode string
 ---@param yMode string
 function Base.print(string, x, y, xMode, yMode)
-    -- xMode
+
     if xMode == nil and yMode == nil then
         love.graphics.print(string, x, y)
     else
         local w = love.graphics.getFont():getWidth(string) * 2
         local h = Base.gui.fontHeight
-        local x2 = math.floor(x-w/2)
+        local x2 = math.floor(x - w / 2)
         local y2
-        local xMode2-- love's default printf()'s rule is reverse
+        local xMode2-- love.graphics.printf()'s rule is reverse
 
         if xMode == nil or xMode == 'left' then
             xMode2 = 'right'
@@ -47,11 +60,10 @@ function Base.print(string, x, y, xMode, yMode)
             error('Invalid alignment ' .. xMode .. ', expected one of: \"left\",\"center\",\"right\"')
         end
 
-        -- yMode
         if yMode == nil or yMode == 'top' then
             y2 = y
         elseif yMode == 'center' then
-            y2 = math.floor(y - h/2)
+            y2 = math.floor(y - h / 2)
         elseif yMode == 'bottom' then
             y2 = y - h
         else
@@ -62,18 +74,18 @@ function Base.print(string, x, y, xMode, yMode)
     end
 end
 
---- clone a table, return a new table with new address
+--- clone table, return a new table with new address.
 ---@param table table
 ---@return table
 function Base.cloneTable(table)
-    local t1 = {}--new table
+    local newTable = {}
     for i = 1, #table do
-        t1[i] = table[i]
+        newTable[i] = table[i]
     end
-    return t1
+    return newTable
 end
 
---- create a BaseKeyType
+--- create a BaseKeyType table.
 ---@param keyboard string
 ---@param gamepad string
 ---@return BaseKeyType
@@ -81,35 +93,37 @@ local function keyCreater(keyboard, gamepad)
     ---@class BaseKeyType
     local table = {}
 
+    ---@type string
     table.keyboard = keyboard
+    ---@type string
     table.gamepad = gamepad
     table.isPressed = false
-    table.released = false
+    table.isReleased = false
     table.timer = 0
 
     return table
 end
 
---- set keyName.isPressed, keyName is table(pointer)
+--- set keyName.isPressed. for isPressed().
 ---@param keyName BaseKeyType
 function Base.setKeyPressed(keyName)
     local flag = false
 
     if not Base.isDown(keyName) then
-        keyName.released = true
+        keyName.isReleased = true
     else
         -- only one frame
-        if keyName.released then
+        if keyName.isReleased then
             flag = true
         end
 
-        keyName.released = false
+        keyName.isReleased = false
     end
 
     keyName.isPressed = flag
 end
 
---- set keyName.timer, keyName is table(pointer)
+--- set keyName.timer. for isHold().
 ---@param keyName BaseKeyType
 function Base.setKeyTimer(keyName, dt)
     if Base.isDown(keyName) then
@@ -119,29 +133,30 @@ function Base.setKeyTimer(keyName, dt)
     end
 end
 
---- set all keys's .isPressed and .timer, keys is a table(pointer)
+--- set all keys to make sure isPressed() and isHold() can work. keys is BaseKeyType table.
+---@param dt number
 function Base.setAllKeys(dt)
     for k, keyName in pairs(Base.keys) do
-        Base.setKeyPressed(keyName)-- for isPressed
-        Base.setKeyTimer(keyName, dt)-- for isHold
+        Base.setKeyPressed(keyName)
+        Base.setKeyTimer(keyName, dt)
     end
 end
 
---- reuturn true if a key is down, support keyboard and joystick
+--- reuturn true if a key is down, support keyboard and joystick.
 ---@param keyName BaseKeyType
 ---@return boolean
 function Base.isDown(keyName)
     return love.keyboard.isDown(keyName.keyboard) or (joystick ~= nil and joystick:isGamepadDown(keyName.gamepad))
 end
 
---- return true if key is pressed
+--- return true if key is pressed, support keyboard and joystick.
 ---@param keyName BaseKeyType
 ---@return boolean
 function Base.isPressed(keyName)
     return keyName.isPressed
 end
 
---- return true if key is hold over than timeMax
+--- return true if key is hold over than timeMax, support keyboard and joystick.
 ---@param keyName BaseKeyType
 ---@param timeMax number
 ---@return boolean
@@ -149,7 +164,7 @@ function Base.isHold(keyName, timeMax)
     return keyName.timer > timeMax
 end
 
---- return distance between two points
+--- return distance between two points.
 ---@param x1 number
 ---@param y1 number
 ---@param x2 number
@@ -158,26 +173,34 @@ end
 function Base.getDistance(x1, y1, x2, y2)
     local disX = x1 - x2
     local disY = y1 - y2
-    return math.sqrt(disX^2 + disY^2)
+    return math.sqrt(disX ^ 2 + disY ^ 2)
 end
 
---- get {x, y} by a direction and distance
+--- get { x = x, y = y } by direction and distance.
+---@param dir number
+---@param dis number
 ---@return table
 function Base.getXYbyDir(dir, dis)
-    local table = {}
-    table.x = math.cos(dir)*dis
-    table.y = math.sin(dir)*dis
+    local tx = math.cos(dir) * dis
+    local ty = math.sin(dir) * dis
 
-    return table
+    return { x = tx, y = ty }
 end
 
---- draw a rounded rectangle
+--- draw a rounded rectangle.
+---@param x number
+---@param y number
+---@param width number
+---@param height number
+---@param segments number
 function Base.drawRoundedRectangle(x, y, width, height, segments)
+
     -- default segments
     if segments == nil then
         segments = 20
     end
-    local radius = math.floor(Base.gui.fontHeight/3)
+
+    local radius = math.floor(Base.gui.fontHeight / 3)
     local x1 = x + radius
     local y1 = y + radius
     local x2 = x + width - radius
@@ -194,6 +217,7 @@ function Base.drawRoundedRectangle(x, y, width, height, segments)
         {0,             math.pi/2},
         {math.pi/2,     math.pi},
     }
+
     for i = 1, 4 do
         love.graphics.arc('fill', xyTable[i][1], xyTable[i][2], radius, dirTable[i][1], dirTable[i][2], segments)
     end
@@ -201,15 +225,23 @@ function Base.drawRoundedRectangle(x, y, width, height, segments)
     love.graphics.rectangle('fill', x1, y, width-radius*2, height)
 end
 
-
-
---- ternary operator, return result1 if isTrue is true, else return result2
-function Base.ternary(isTrue, result1, result2)
-    if isTrue then
-        return result1
-    else
-        return result2
+local function smoothStart(t)
+    return t*t*t
+end
+local function smoothStop(t)
+    return 1-(1-t)*(1-t)*(1-t)
+end
+--- return 0 to 1 with non-linear. base on "Fast and Funky 1D Nonlinear Tramsformations" GDC talk.
+---@param t number
+---@return number
+function Base.mix(t)
+    if t > 1 then
+        t = 1
     end
+
+    local weight = t
+
+    return smoothStart(t) * (1-weight) + smoothStop(t) * weight
 end
 
 
@@ -219,7 +251,7 @@ Base.gui = {
     height = love.graphics.getHeight(),
     fontHeight = love.graphics.getFont():getHeight(),
 }
-Base.gui.border = Base.gui.width/30-- can't write inside {}, because gui isn't init yet
+Base.gui.border = Base.gui.width / 30-- can't write inside {}, because Base.gui.width isn't init yet
 
 -- COLOR
 Base.color = {
@@ -266,12 +298,12 @@ Base.keys = {
 
 -- ELSE
 Base.garvity = 100
--- player
 Base.player = {
     len = 50,
     spdXY = 100,
-    spdXZ = math.pi/2
+    spdXZ = math.pi / 2
 }
 Base.lenEndCube = 50
+
 
 return Base
