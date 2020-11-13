@@ -16,7 +16,7 @@ Object = require 'lib.Base.classic'-- oop
 Base = require 'lib.Base.Base'-- helpful tool
 -- shape
 Shape = require 'lib.shape.shape'
-require 'lib.shape.rectangle'
+Rectangle = require 'lib.shape.rectangle'
 require 'lib.shape.circle'
 require 'lib.shape.cuboid'
 require 'lib.shape.laser'
