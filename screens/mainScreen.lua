@@ -80,7 +80,8 @@ function Screen:update(dt)
 			end
 
 			-- update levelName string
-			tipsList[1].string = Lang.ui_level_choice(index, getLevelName(index))
+			local levelName = Lang.ui_level_choice(index, getLevelName(index))
+			tipsList[1]:changeText(levelName)
 
 			-- play sfx
 			love.audio.play(SFX_MENU)
