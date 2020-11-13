@@ -188,12 +188,12 @@ end
 
 --- get { x = , y = } by direction and distance.
 ---@param radian number
----@param dis number
+---@param len number
 ---@return table
-function Base.getXYbyDir(radian, dis)
+function Base.getXYbyRadianAndLen(radian, len)
     local table
-    local x = math.cos(radian) * dis
-    local y = math.sin(radian) * dis
+    local x = math.cos(radian) * len
+    local y = math.sin(radian) * len
 
     table.x = x
     table.y = y
