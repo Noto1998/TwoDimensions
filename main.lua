@@ -14,6 +14,7 @@ love.graphics.setFont(font)
 -- IMPORT CLASSIC
 Object = require 'lib.Base.classic'-- oop
 Base = require 'lib.Base.Base'-- helpful tool
+Tips = require 'lib.shape.tips'
 -- shape
 Shape = require 'lib.shape.shape'
 Rectangle = require 'lib.shape.rectangle'
@@ -21,7 +22,6 @@ Rectangle = require 'lib.shape.rectangle'
 Cuboid = require 'lib.shape.cuboid'
 require 'lib.shape.laser'
 require 'lib.shape.ball'
-require 'lib.shape.tips'
 require 'lib.shape.fourD'
 require 'lib.shape.moveCuboid'
 require 'lib.shape.conPolygon'

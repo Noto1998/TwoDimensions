@@ -1,53 +1,66 @@
-Tips = Object:extend()
+local Tips = Object:extend()
 
-local radius = math.floor(Base.gui.fontHeight/3)
+local RADIUS = math.floor(Base.gui.fontHeight / 3)
+local tipsWidth
+local drawX, drawY
 
-function Tips:new(string, x, y, z, xMode, yMode)
+local function initDrawXY(self)
+    local x, y
+
+    if self.xMode == nil or self.xMode == 'left' then
+        x = self.position.x
+    elseif self.xMode == 'center' then
+        x = self.position.x - tipsWidth/2
+    elseif self.xMode == 'right' then
+        x = self.position.x - tipsWidth
+    end
+
+    if self.yMode == nil or self.yMode == 'top' then
+        y = self.position.y
+    elseif self.yMode == 'center' then
+        y = self.position.y - Base.gui.fontHeight/2
+    elseif self.yMode == 'bottom' then
+        y = self.position.y - Base.gui.fontHeight
+    end
+
+    return x, y
+end
+local function initTipsWidth(self)
+    local font = love.graphics.getFont()
+    local stringWidth = font:getWidth(self.string)
+
+    return stringWidth + RADIUS * 2
+end
+
+function Tips:new(string, x, y, z, xMode, yMode, colorBg, colorText)
+
     self.string = string
-    self.x = 0
-    if x ~= nil then
-        self.x = x
-    end
-    self.y = 0
-    if y ~= nil then
-        self.y = y
-    end
-    self.z = 0
-    if z ~= nil then
-        self.z = z
-    end
+
+    local x2 = Base.ternary(x ~= nil, x, 0)
+    local y2 = Base.ternary(y ~= nil, x, 0)
+    local z2 = Base.ternary(z ~= nil, x, 0)
+    self.position = Base.createPosition(x2, y2, z2)
+
     self.xMode = xMode
     self.yMode = yMode
+
+    self.colorBg = Base.ternary(colorBg ~= nil, colorBg, Base.color.white)
+    self.colorText = Base.ternary(colorText ~= nil, colorText, Base.color.black)
+
+    tipsWidth = initTipsWidth(self)
+    drawX, drawY = initDrawXY(self)
 end
 
 
 function Tips:draw(mode)
-    local font = love.graphics.getFont()
-    local fWidth = font:getWidth(self.string)
-    local reWidth = fWidth + radius*2
-    local _y = self.y + (-self.y +self.z)*mode
-    local _x = self.x
-
-    -- center
-    if self.xMode ~= nil then
-        if self.xMode == 'center' then
-            _x = _x - reWidth/2
-        elseif self.xMode == 'right' then
-            _x = _x - reWidth
-        end
-    end
-    if self.yMode ~= nil then
-        if self.yMode == 'center' then
-            _y = _y - Base.gui.fontHeight/2
-        elseif self.yMode == 'bottom' then
-            _y = _y - Base.gui.fontHeight
-        end
-    end
+    drawY = drawY + (-self.position.y +self.position.z) * mode
 
     -- bg
-    love.graphics.setColor(Base.color.white)
-    Base.drawRoundedRectangle(_x, _y, reWidth, Base.gui.fontHeight)
+    love.graphics.setColor(self.colorBg)
+    Base.drawRoundedRectangle(drawX, drawY, tipsWidth, Base.gui.fontHeight)
     -- text
-    love.graphics.setColor(Base.color.black)
-    Base.print(self.string, _x+reWidth/2, _y, 'center')
+    love.graphics.setColor(self.colorText)
+    Base.print(self.string, drawX + tipsWidth / 2, drawY, 'center')
 end
+
+return Tips
