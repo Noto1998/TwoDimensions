@@ -89,24 +89,34 @@ end
 ---@param keyboard string
 ---@param gamepad string
 ---@return BaseKeyType
-local function keyCreater(keyboard, gamepad)
+local function createKey(keyboard, gamepad)
     ---@class BaseKeyType
-    local table = {}
+    local baseKey = {}
 
     ---@type string
-    table.keyboard = keyboard
+    baseKey.keyboard = keyboard
     ---@type string
-    table.gamepad = gamepad
-    table.isPressed = false
-    table.isReleased = false
-    table.timer = 0
+    baseKey.gamepad = gamepad
+    ---@type boolean
+    baseKey.isPressed = false
+    ---@type boolean
+    baseKey.isReleased = false
+    ---@type number
+    baseKey.holdTimer = 0
 
-    return table
+    local toStringTable = {
+        __tostring = function(table)
+            return 'BaseKeyType ( keyboard:' .. table.keyboard .. ' gamepad:' .. table.gamepad .. ' )'
+        end
+    }
+    setmetatable(baseKey, toStringTable)
+
+    return baseKey
 end
 
 --- set keyName.isPressed. for isPressed().
 ---@param keyName BaseKeyType
-function Base.setKeyPressed(keyName)
+local function setKeyPressed(keyName)
     local flag = false
 
     if not Base.isDown(keyName) then
@@ -123,13 +133,13 @@ function Base.setKeyPressed(keyName)
     keyName.isPressed = flag
 end
 
---- set keyName.timer. for isHold().
+--- set keyName.holdTimer. for isHold().
 ---@param keyName BaseKeyType
-function Base.setKeyTimer(keyName, dt)
+local function setKeyTimer(keyName, dt)
     if Base.isDown(keyName) then
-        keyName.timer = keyName.timer + dt
+        keyName.holdTimer = keyName.holdTimer + dt
     else
-        keyName.timer = 0
+        keyName.holdTimer = 0
     end
 end
 
@@ -137,8 +147,8 @@ end
 ---@param dt number
 function Base.setAllKeys(dt)
     for k, keyName in pairs(Base.keys) do
-        Base.setKeyPressed(keyName)
-        Base.setKeyTimer(keyName, dt)
+        setKeyPressed(keyName)
+        setKeyTimer(keyName, dt)
     end
 end
 
@@ -161,7 +171,7 @@ end
 ---@param timeMax number
 ---@return boolean
 function Base.isHold(keyName, timeMax)
-    return keyName.timer > timeMax
+    return keyName.holdTimer > timeMax
 end
 
 --- return distance between two points.
@@ -176,15 +186,19 @@ function Base.getDistance(x1, y1, x2, y2)
     return math.sqrt(disX ^ 2 + disY ^ 2)
 end
 
---- get { x = x, y = y } by direction and distance.
+--- get { x = , y = } by direction and distance.
 ---@param dir number
 ---@param dis number
 ---@return table
 function Base.getXYbyDir(dir, dis)
-    local tx = math.cos(dir) * dis
-    local ty = math.sin(dir) * dis
+    local table
+    local x = math.cos(dir) * dis
+    local y = math.sin(dir) * dis
 
-    return { x = tx, y = ty }
+    table.x = x
+    table.y = y
+
+    return table
 end
 
 --- draw a rounded rectangle.
@@ -221,8 +235,8 @@ function Base.drawRoundedRectangle(x, y, width, height, segments)
     for i = 1, 4 do
         love.graphics.arc('fill', xyTable[i][1], xyTable[i][2], radius, dirTable[i][1], dirTable[i][2], segments)
     end
-    love.graphics.rectangle('fill', x, y1, width,          height-radius*2)
-    love.graphics.rectangle('fill', x1, y, width-radius*2, height)
+    love.graphics.rectangle('fill', x,  y1, width,              height - radius * 2)
+    love.graphics.rectangle('fill', x1, y,  width - radius * 2, height)
 end
 
 local function smoothStart(t)
@@ -244,6 +258,33 @@ function Base.mix(t)
     return smoothStart(t) * (1-weight) + smoothStop(t) * weight
 end
 
+--- create PositionType table.
+---@param x number
+---@param y number
+---@param z number
+---@return PositionType
+function Base.createPosition(x, y, z)
+    ---@class PositionType
+    local position = {}
+
+    ---@type number
+    position.x = x
+    ---@type number
+    position.y = y
+    ---@type number
+    position.z = z
+
+    -- set toString fn in position.metatable.
+    local toStringTable = {
+        __tostring = function(table)
+            return '{ ' .. table.x .. ', ' .. table.y .. ', ' .. table.z .. ' }'
+        end
+    }
+    setmetatable(position, toStringTable)
+
+    return position
+end
+
 
 -- GUI
 Base.gui = {
@@ -252,6 +293,7 @@ Base.gui = {
     fontHeight = love.graphics.getFont():getHeight(),
 }
 Base.gui.border = Base.gui.width / 30-- can't write inside {}, because Base.gui.width isn't init yet
+
 
 -- COLOR
 Base.color = {
@@ -283,16 +325,16 @@ Base.color.fourD = {
 
 -- KEY
 Base.keys = {
-    up      = keyCreater(keys.DPad_up,     'dpup'),
-    down    = keyCreater(keys.DPad_down,   'dpdown'),
-    left    = keyCreater(keys.DPad_left,   'dpleft'),
-    right   = keyCreater(keys.DPad_right,  'dpright'),
-    shift   = keyCreater(keys.Y,           'y'),
-    enter   = keyCreater(keys.A,           'a'),
-    cancel  = keyCreater(keys.B,           'b'),
-    keyTips = keyCreater(keys.X,           'x'),
-    music   = keyCreater(keys.Select,      'back'),
-    reset   = keyCreater(keys.Start,       'start')
+    up      = createKey(keys.DPad_up,     'dpup'),
+    down    = createKey(keys.DPad_down,   'dpdown'),
+    left    = createKey(keys.DPad_left,   'dpleft'),
+    right   = createKey(keys.DPad_right,  'dpright'),
+    shift   = createKey(keys.Y,           'y'),
+    enter   = createKey(keys.A,           'a'),
+    cancel  = createKey(keys.B,           'b'),
+    keyTips = createKey(keys.X,           'x'),
+    music   = createKey(keys.Select,      'back'),
+    reset   = createKey(keys.Start,       'start')
 }
 
 

@@ -14,7 +14,6 @@ love.graphics.setFont(font)
 -- IMPORT CLASSIC
 Object = require 'lib.Base.classic'-- oop
 Base = require 'lib.Base.Base'-- helpful tool
-Position = require 'lib.Base.position'
 -- shape
 Shape = require 'lib.shape.shape'
 require 'lib.shape.rectangle'
