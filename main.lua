@@ -18,7 +18,7 @@ Base = require 'lib.Base.Base'-- helpful tool
 Shape = require 'lib.shape.shape'
 Rectangle = require 'lib.shape.rectangle'
 --require 'lib.shape.circle'
-require 'lib.shape.cuboid'
+Cuboid = require 'lib.shape.cuboid'
 require 'lib.shape.laser'
 require 'lib.shape.ball'
 require 'lib.shape.tips'
