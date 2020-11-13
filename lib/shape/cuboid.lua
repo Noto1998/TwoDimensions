@@ -9,16 +9,16 @@ local function initRectangles(self)
     local y1 = self.position.y
     local z1 = self.position.z
     local lenY1 = self.lenY
-    rectangle1 = Rectangle(x, y1, z1, self.lenX, lenY1, radian, self.cFill, self.cLine, self.cMesh)
+    rectangle1 = Rectangle(x, y1, z1, self.lenX, lenY1, radian, self.colorFill, self.colorLine, self.colorMesh)
 
     local y2 = self.position.z
     local z2 = self.position.y + self.lenY
     local lenY2 = self.lenZ
-    rectangle2 = Rectangle(x, y2, z2, self.lenX, lenY2, radian, self.cFill, self.cLine, self.cMesh)
+    rectangle2 = Rectangle(x, y2, z2, self.lenX, lenY2, radian, self.colorFill, self.colorLine, self.colorMesh)
 end
 
-function Cuboid:new(x, y, z, lenX, lenY, lenZ, cFill, cLine, cMesh)
-    Cuboid.super.new(self, x, y, z, cFill, cLine, cMesh)
+function Cuboid:new(x, y, z, lenX, lenY, lenZ, colorFill, colorLine, colorMesh)
+    Cuboid.super.new(self, x, y, z, colorFill, colorLine, colorMesh)
 
     self.lenX = lenX
     self.lenY = lenY

@@ -26,8 +26,8 @@ local function initMesh(self)
 end
 
 
-function Rectangle:new(x, y, z, lenX, lenY, radian, cFill, cLine, cMesh)
-    Rectangle.super.new(self, x, y, z, cFill, cLine, cMesh)
+function Rectangle:new(x, y, z, lenX, lenY, radian, colorFill, colorLine, colorMesh)
+    Rectangle.super.new(self, x, y, z, colorFill, colorLine, colorMesh)
 
     self.lenX = lenX
     self.lenY = lenY
@@ -43,7 +43,7 @@ end
 function Rectangle:draw(mode)
 
     if mode == 1 then
-        love.graphics.setColor(self.cLine)
+        love.graphics.setColor(self.colorLine)
         love.graphics.line(self:getPointX(1), self:getPointZ(1), self:getPointX(2), self:getPointZ(2))
     else
         -- draw fill
@@ -57,7 +57,7 @@ function Rectangle:draw(mode)
             x2, y2 + self:getPointZ(2) * mode,
             x1, y2 + self:getPointZ(1) * mode,
         }
-        love.graphics.setColor(self.cFill)
+        love.graphics.setColor(self.colorFill)
         love.graphics.polygon('fill', xyTable)
 
         -- draw mesh
@@ -66,11 +66,11 @@ function Rectangle:draw(mode)
                 self.mesh:setVertexAttribute(i, 1, xyTable[i * 2 - 1], xyTable[i * 2])
             end
         end
-        love.graphics.setColor(self.cMesh)
+        love.graphics.setColor(self.colorMesh)
         love.graphics.draw(self.mesh)
 
         -- draw line
-        love.graphics.setColor(self.cLine)
+        love.graphics.setColor(self.colorLine)
         love.graphics.polygon('line', xyTable)
     end
 end

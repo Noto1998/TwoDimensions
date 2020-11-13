@@ -18,21 +18,22 @@ Tips = require 'lib.shape.tips'
 -- shape
 Shape = require 'lib.shape.shape'
 Rectangle = require 'lib.shape.rectangle'
---require 'lib.shape.circle'
 Cuboid = require 'lib.shape.cuboid'
 require 'lib.shape.laser'
 require 'lib.shape.ball'
-require 'lib.shape.fourD'
 require 'lib.shape.moveCuboid'
 require 'lib.shape.conPolygon'
 require 'lib.shape.allForOne'
--- level
-Shift = require 'lib.game.shift' -- frist
-require 'lib.game.level'
+--require 'lib.shape.circle'
+--require 'lib.shape.fourD'
 
 require 'lib.game.player'-- player
 EndCube = require 'lib.game.endCube'-- endCube
 require 'lib.game.keyTips'-- keyTips
+
+-- level
+Shift = require 'lib.game.shift' -- frist
+require 'lib.game.level'
 
 local ScreenManager = require 'lib.game.screenManager'
 local BgmManager = require 'lib.game.bgmManager'
