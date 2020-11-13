@@ -2,14 +2,14 @@ AllForOne = Shape:extend()
 
 local dirR
 
-function AllForOne:new(x, y, z, num, len, dir, cFill, cLine, cMesh)
+function AllForOne:new(x, y, z, num, len, radian, cFill, cLine, cMesh)
     AllForOne.super.new(self, x, y, z, cFill, cLine, cMesh)
 
     self.num = num
     self.len = len
-    self.dir = 0
-    if dir ~= nil then
-        self.dir = dir
+    self.radian = 0
+    if radian ~= nil then
+        self.radian = radian
     end
     dirR = 0
 end
@@ -21,24 +21,24 @@ function AllForOne:update(dt)
     end
 
     --
-    self.dir = self.dir + (math.pi/6)*dt
-    if self.dir > math.pi*2 then
-        self.dir = self.dir - math.pi*2
+    self.radian = self.radian + (math.pi/6)*dt
+    if self.radian > math.pi*2 then
+        self.radian = self.radian - math.pi*2
     end
 end
 
 function AllForOne:draw()
     love.graphics.setColor(self.cLine)
     for i = 1, self.num do
-        local dir = math.pi*2*(i/self.num)
-        local _x = self.x + Base.getXYbyDir(self.dir+dir, self.len).x
-        local _y = self.z + Base.getXYbyDir(self.dir+dir, self.len).y
+        local radian = math.pi*2*(i/self.num)
+        local _x = self.x + Base.getXYbyDir(self.radian+radian, self.len).x
+        local _y = self.z + Base.getXYbyDir(self.radian+radian, self.len).y
 
         local minDir = math.pi*2*(1/self.num)
         local len2 = self.len*math.sin(minDir/2)*2
         local dir2 = math.pi-(math.pi/2-minDir/2)
-        local _x2 = _x + Base.getXYbyDir(self.dir+dir+dir2+dirR, len2).x
-        local _y2 = _y + Base.getXYbyDir(self.dir+dir+dir2+dirR, len2).y
+        local _x2 = _x + Base.getXYbyDir(self.radian+radian+dir2+dirR, len2).x
+        local _y2 = _y + Base.getXYbyDir(self.radian+radian+dir2+dirR, len2).y
 
         love.graphics.line(_x, _y, _x2, _y2)
     end

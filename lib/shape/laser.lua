@@ -154,13 +154,13 @@ function Laser:hitRectangle(x1, y1, x2, y2, selfY, selfSY)
                 -- laser to 4 point
                 local lenX = vX-self.x
                 local lenY = vY-selfY
-                local dir = math.atan2(lenY, lenX)
-                local pSign = Base.sign(dirReal-dir)
+                local radian = math.atan2(lenY, lenX)
+                local pSign = Base.sign(dirReal-radian)
                 --
                 if sign == nil then
                     sign = pSign
                 else
-                    -- check dir(show point in which side)
+                    -- check radian(show point in which side)
                     if sign ~= pSign then
                         flag = true
                         break
@@ -286,13 +286,13 @@ function Laser:hitDraw2(obj)
                 -- laser to 4 point
                 local lenX = vX-self.drawX
                 local lenY = vY-self.drawZ
-                local dir = math.atan2(lenY, lenX)
-                local pSign = Base.sign(dirReal-dir)
+                local radian = math.atan2(lenY, lenX)
+                local pSign = Base.sign(dirReal-radian)
                 --
                 if sign == nil then
                     sign = pSign
                 else
-                    -- check dir(show point in which side)
+                    -- check radian(show point in which side)
                     if sign ~= pSign then
                         flag = true
                         break
@@ -345,10 +345,10 @@ function Laser:reflex(obj)
             local oDir = math.atan2(self.drawZ-obj:getZ(obj:getLeftX()), self.drawX-obj:getX(obj:getLeftX()))
             local dir1 = math.atan2(-self.sz, -self.sx)
             local dir2 = dir1-oDir
-            local dir = oDir-math.pi-dir2
+            local radian = oDir-math.pi-dir2
 
-            self.drawX2 = self.drawX + Base.getXYbyDir(dir, len).x
-            self.drawZ2 = self.drawZ + Base.getXYbyDir(dir, len).y
+            self.drawX2 = self.drawX + Base.getXYbyDir(radian, len).x
+            self.drawZ2 = self.drawZ + Base.getXYbyDir(radian, len).y
         end
         -- check rectangle
         if self:hitRectangle(x1, z1, x2, z2, self.z, self.sz) then

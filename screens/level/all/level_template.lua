@@ -21,7 +21,7 @@ function Screen:activate()
 	-- use [ self:addShapeList(...) ] to create shape.
 	-- e.g. self:addShapeList(Cuboid, 0, 0, 0, 50, 50, 50)
 
-	-- Rectangle,	x, y, z, lenX, lenY, dir(0 ~ -math.pi)
+	-- Rectangle,	x, y, z, lenX, lenY, radian(0 ~ -math.pi)
 	-- Cuboid,		x, y, z, lenX, lenY, lenZ
 	-- Laser,		x, y, z, sx(0 ~ 1), sy(0 ~ 1), sz(0 ~ 1)
 	-- FourD,		x, y, z, lenX, lenY

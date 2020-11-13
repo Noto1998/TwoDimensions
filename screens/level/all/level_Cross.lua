@@ -22,7 +22,7 @@ function Screen:activate()
 	local Sx = 1
 	local Sy = 240/(320-2*(Lx-50))
 	-- Slope
-	local dir = math.pi/8
+	local radian = math.pi/8
 	---
 
 	-- levelName
@@ -59,7 +59,7 @@ function Screen:activate()
 	--Ball
 	self:addShapeList(Ball, 85,115,150,12.5)
 	--Slope
-	self:addShapeList(Rectangle, Base.gui.width/2, 105, 210,		(210/2)/math.cos(dir), 25,		-math.pi+dir)
+	self:addShapeList(Rectangle, Base.gui.width/2, 105, 210,		(210/2)/math.cos(radian), 25,		-math.pi+radian)
 
 	-- here to create tips
 	self:addTipsList(Lang.tips_mayoiba_yabureru, 20, -80, Base.gui.border*2)

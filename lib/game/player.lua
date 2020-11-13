@@ -107,7 +107,7 @@ function Player:moveXZ(dt)
 		spdXZ = 0
 	end
 
-	self.dir = self.dir + spdXZ * dt
+	self.radian = self.radian + spdXZ * dt
 end
 
 function Player:collisionXY(dt, shapeList)
@@ -224,7 +224,7 @@ function Player:collisionXZ(dt)
 			or (Base.isDown(Base.keys.right) and self.x ~= self:getX(self:getRightX())) then
 				self.x = self:getX(2)
 				self.z = self:getZ(2)
-				self.dir = -(math.pi-self.dir)
+				self.radian = -(math.pi-self.radian)
 			end
 		-- one side onGround
 		else
@@ -232,7 +232,7 @@ function Player:collisionXZ(dt)
 			if not self.onGround[1] then
 				self.x = self:getX(2)
 				self.z = self:getZ(2)
-				self.dir = -(math.pi-self.dir)
+				self.radian = -(math.pi-self.radian)
 			end
 			-- garvity
 			if (not Base.isDown(Base.keys.left)) and (not Base.isDown(Base.keys.right)) then
@@ -244,17 +244,17 @@ function Player:collisionXZ(dt)
 					spdG = -Base.player.spdXZ
 				end
 
-				self.dir = self.dir + spdG * dt
+				self.radian = self.radian + spdG * dt
 			end
 		end
-		-- control dir
+		-- control radian
 		self:moveXZ(dt)
 
-		-- fix dir
-		if self.dir <= -math.pi*2 then
-			self.dir = self.dir + math.pi*2
-		elseif self.dir >= math.pi*2 then
-			self.dir = self.dir - math.pi*2
+		-- fix radian
+		if self.radian <= -math.pi*2 then
+			self.radian = self.radian + math.pi*2
+		elseif self.radian >= math.pi*2 then
+			self.radian = self.radian - math.pi*2
 		end
 	end
 end

@@ -85,12 +85,12 @@ function Base.cloneTable(table)
     return newTable
 end
 
---- create a BaseKeyType table.
+--- create a KeyType table.
 ---@param keyboard string
 ---@param gamepad string
----@return BaseKeyType
+---@return KeyType
 local function createKey(keyboard, gamepad)
-    ---@class BaseKeyType
+    ---@class KeyType
     local baseKey = {}
 
     ---@type string
@@ -106,7 +106,7 @@ local function createKey(keyboard, gamepad)
 
     local toStringTable = {
         __tostring = function(table)
-            return 'BaseKeyType ( keyboard:' .. table.keyboard .. ' gamepad:' .. table.gamepad .. ' )'
+            return 'KeyType ( keyboard:' .. table.keyboard .. ' gamepad:' .. table.gamepad .. ' )'
         end
     }
     setmetatable(baseKey, toStringTable)
@@ -115,7 +115,7 @@ local function createKey(keyboard, gamepad)
 end
 
 --- set keyName.isPressed. for isPressed().
----@param keyName BaseKeyType
+---@param keyName KeyType
 local function setKeyPressed(keyName)
     local flag = false
 
@@ -134,7 +134,7 @@ local function setKeyPressed(keyName)
 end
 
 --- set keyName.holdTimer. for isHold().
----@param keyName BaseKeyType
+---@param keyName KeyType
 local function setKeyTimer(keyName, dt)
     if Base.isDown(keyName) then
         keyName.holdTimer = keyName.holdTimer + dt
@@ -143,7 +143,7 @@ local function setKeyTimer(keyName, dt)
     end
 end
 
---- set all keys to make sure isPressed() and isHold() can work. keys is BaseKeyType table.
+--- set all keys to make sure isPressed() and isHold() can work. keys is KeyType table.
 ---@param dt number
 function Base.setAllKeys(dt)
     for k, keyName in pairs(Base.keys) do
@@ -153,21 +153,21 @@ function Base.setAllKeys(dt)
 end
 
 --- reuturn true if a key is down, support keyboard and joystick.
----@param keyName BaseKeyType
+---@param keyName KeyType
 ---@return boolean
 function Base.isDown(keyName)
     return love.keyboard.isDown(keyName.keyboard) or (joystick ~= nil and joystick:isGamepadDown(keyName.gamepad))
 end
 
 --- return true if key is pressed, support keyboard and joystick.
----@param keyName BaseKeyType
+---@param keyName KeyType
 ---@return boolean
 function Base.isPressed(keyName)
     return keyName.isPressed
 end
 
 --- return true if key is hold over than timeMax, support keyboard and joystick.
----@param keyName BaseKeyType
+---@param keyName KeyType
 ---@param timeMax number
 ---@return boolean
 function Base.isHold(keyName, timeMax)
@@ -187,13 +187,13 @@ function Base.getDistance(x1, y1, x2, y2)
 end
 
 --- get { x = , y = } by direction and distance.
----@param dir number
+---@param radian number
 ---@param dis number
 ---@return table
-function Base.getXYbyDir(dir, dis)
+function Base.getXYbyDir(radian, dis)
     local table
-    local x = math.cos(dir) * dis
-    local y = math.sin(dir) * dis
+    local x = math.cos(radian) * dis
+    local y = math.sin(radian) * dis
 
     table.x = x
     table.y = y
@@ -296,6 +296,7 @@ Base.gui.border = Base.gui.width / 30-- can't write inside {}, because Base.gui.
 
 
 -- COLOR
+---@class ColorType
 Base.color = {
     black = {0, 0, 0},
     white = {1, 1, 1},

@@ -1,17 +1,17 @@
 Rectangle = Shape:extend()
 
-function Rectangle:new(x, y, z, lenX, lenY, dir, cFill, cLine, cMesh)
+function Rectangle:new(x, y, z, lenX, lenY, radian, cFill, cLine, cMesh)
     Rectangle.super.new(self, x, y, z, cFill, cLine, cMesh)
+
     self.lenX = lenX
     self.lenY = lenY
-    -- dir between 0 ~ -math.pi, so the z alway be bottom
-    self.dir = 0
-    if dir ~= nil then
-        if dir > 0 or dir < -math.pi then
-            error('dir, expected 0 to -pi, got ' .. dir)
+    self.radian = 0-- radian between 0 ~ -math.pi, so the z alway be bottom
+    if radian ~= nil then
+        if radian > 0 or radian < -math.pi then
+            error('radian, expected 0 to -pi, got ' .. radian)
         end
 
-        self.dir = dir
+        self.radian = radian
     end
 
     -- mesh
@@ -71,11 +71,11 @@ end
 
 
 function Rectangle:getXByDir()
-    return Base.getXYbyDir(self.dir, self.lenX).x
+    return Base.getXYbyDir(self.radian, self.lenX).x
 end
 
 function Rectangle:getZByDir()
-    return Base.getXYbyDir(self.dir, self.lenX).y
+    return Base.getXYbyDir(self.radian, self.lenX).y
 end
 
 function Rectangle:getX(num)

@@ -27,7 +27,7 @@ function Screen:activate()
 
 		dirList[i] = love.math.random(0, math.pi*2)
 		spdList[i] = love.math.random(Base.garvity,  Base.garvity*2)
-		reList[i].dir = dirList[i]
+		reList[i].radian = dirList[i]
 	end
 
 	-- ball
