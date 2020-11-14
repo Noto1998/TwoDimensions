@@ -1,34 +1,37 @@
 local BgmManager = Object:extend()
 
+
 function BgmManager:new(bgm)
     self.bgm = bgm
-    self.turnOn = true
+    self.isTurnOn = true
 end
 
 
 function BgmManager:update()
     if Base.isPressed(Base.keys.music) then
-        self.turnOn = not self.turnOn
-    end
+        self.isTurnOn = not self.isTurnOn
 
-    if self.turnOn then
-        if not self.bgm:isPlaying() then
-            self.bgm:play()
-        end
-    else
-        if self.bgm:isPlaying() then
-            self.bgm:pause()
+        if self.isTurnOn then
+            if not self.bgm:isPlaying() then
+                self.bgm:play()
+            end
+        else
+            if self.bgm:isPlaying() then
+                self.bgm:pause()
+            end
         end
     end
 end
 
 
 function BgmManager:draw()
+
     love.graphics.setColor(Base.color.darkGray)
-    Base.print('♫', Base.gui.width-Base.gui.border, 0, 'right')
-    if not self.turnOn then
+    Base.print('♫', Base.gui.width - Base.gui.border, 0, 'right')
+
+    if not self.isTurnOn then
         love.graphics.setColor(Base.color.red)
-        Base.print('x', Base.gui.width-Base.gui.border, 0, 'right')
+        Base.print('x', Base.gui.width - Base.gui.border, 0, 'right')
     end
 end
 
