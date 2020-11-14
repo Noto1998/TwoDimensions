@@ -82,11 +82,13 @@ function Rectangle:getVectorX()
     return Base.getVector(self.radian, self.lenX).x
 end
 
+
 --- get LenZ between Points
 ---@return number z
 function Rectangle:getVectorZ()
     return Base.getVector(self.radian, self.lenX).y
 end
+
 
 ---@param index number
 ---@return number pointX
@@ -100,6 +102,7 @@ function Rectangle:getPointX(index)
     end
 end
 
+
 ---@param index number
 ---@return number pointZ
 function Rectangle:getPointZ(index)
@@ -112,6 +115,7 @@ function Rectangle:getPointZ(index)
         error('index expected 1 or 2, got ' .. index .. ' in ' .. self)
     end
 end
+
 
 ---@param string string
 ---@return number index
@@ -129,6 +133,8 @@ function Rectangle:getPointIndex(string)
     end
 end
 
+
+---@return number
 function Rectangle:getDistance()
 
     local x1 = self:getPointX(1)
@@ -139,18 +145,27 @@ function Rectangle:getDistance()
     return Base.getDistance(x1, z1, x2, z2)
 end
 
+
+---@param x number
+---@param z number
+---@return boolean
 function Rectangle:isCollisionInXZ(x, z)
 
-    local checkBorder = 2--todo:test
+    local checkBorder = 2-- todo:why?
     local flag = false
     local checkTimes = self:getDistance()
 
+    print(checkTimes)
+
+    local lenPartX = ( self:getVectorX() / checkTimes)
+    local lenPartZ = ( self:getVectorZ() / checkTimes)
+
     -- check from point1 to point 2
     for i = 0, checkTimes do
-        local checkX = self:getPointX(1) + i * ( self:getVectorX() / checkTimes)
-        local checkZ = self:getPointZ(1) + i * ( self:getVectorZ() / checkTimes)
+        local checkX = self:getPointX(1) + i * lenPartX
+        local checkZ = self:getPointZ(1) + i * lenPartZ
 
-        if math.abs(x - checkX) <= 1 and math.abs(z - checkZ) <= 1 then
+        if math.abs(x - checkX) <= 1 and math.abs(z - checkZ) <= checkBorder then
             flag = true
             break
         end
@@ -158,5 +173,6 @@ function Rectangle:isCollisionInXZ(x, z)
 
     return flag
 end
+
 
 return Rectangle
