@@ -190,7 +190,7 @@ end
 ---@param radian number
 ---@param len number
 ---@return table
-function Base.getXYbyRadianAndLen(radian, len)
+function Base.getVector(radian, len)
     local table = {}
     local x = math.cos(radian) * len
     local y = math.sin(radian) * len

@@ -78,14 +78,14 @@ end
 
 --- get LenX between Points
 ---@return number x
-function Rectangle:getPointsLenX()
-    return Base.getXYbyRadianAndLen(self.radian, self.lenX).x
+function Rectangle:getVectorX()
+    return Base.getVector(self.radian, self.lenX).x
 end
 
 --- get LenZ between Points
 ---@return number z
-function Rectangle:getPointsLenZ()
-    return Base.getXYbyRadianAndLen(self.radian, self.lenX).y
+function Rectangle:getVectorZ()
+    return Base.getVector(self.radian, self.lenX).y
 end
 
 ---@param index number
@@ -94,7 +94,7 @@ function Rectangle:getPointX(index)
     if index == 1 then
         return self.position.x
     elseif index == 2 then
-        return self.position.x + self:getPointsLenX()
+        return self.position.x + self:getVectorX()
     else
         error('index expected 1 or 2, got ' .. index .. ' in ' .. self)
     end
@@ -107,7 +107,7 @@ function Rectangle:getPointZ(index)
     if index == 1 then
         return self.position.z
     elseif index == 2 then
-        return self.position.z + self:getPointsLenZ()
+        return self.position.z + self:getVectorZ()
     else
         error('index expected 1 or 2, got ' .. index .. ' in ' .. self)
     end
@@ -147,8 +147,8 @@ function Rectangle:isCollisionInXZ(x, z)
 
     -- check from point1 to point 2
     for i = 0, checkTimes do
-        local checkX = self:getPointX(1) + i * ( self:getPointsLenX() / checkTimes)
-        local checkZ = self:getPointZ(1) + i * ( self:getPointsLenZ() / checkTimes)
+        local checkX = self:getPointX(1) + i * ( self:getVectorX() / checkTimes)
+        local checkZ = self:getPointZ(1) + i * ( self:getVectorZ() / checkTimes)
 
         if math.abs(x - checkX) <= 1 and math.abs(z - checkZ) <= 1 then
             flag = true
