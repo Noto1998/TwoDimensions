@@ -39,21 +39,21 @@ function Screen:activate()
 
 	--- here to create shape
 	-- floor
-	self:addShapeList(Cuboid,		0, 0, cZ,				Base.gui.width+2, Base.gui.height+2, cLenZ)
+	self:addShape(Cuboid,		0, 0, cZ,				Base.gui.width+2, Base.gui.height+2, cLenZ)
 	-- rectangle
-	self:addShapeList(Rectangle,	Base.gui.width-reX, Base.gui.height+2, reZ,			reLenX, reLenY, 		 -math.pi+reDir)
-	self:addShapeList(Rectangle,	reX, reY-2, reZ+reZBorder,							reLenX, reLenY, 		 -reDir)
+	self:addShape(Rectangle,	Base.gui.width-reX, Base.gui.height+2, reZ,			reLenX, reLenY, 		 -math.pi+reDir)
+	self:addShape(Rectangle,	reX, reY-2, reZ+reZBorder,							reLenX, reLenY, 		 -reDir)
 	-- ball
-	self:addShapeList(Ball,		bX, bY, bZ,												bR)
-	self:addShapeList(Ball,		Base.gui.width-bX, Base.gui.height-bY, bZ+reZBorder,		bR)
+	self:addShape(Ball,		bX, bY, bZ,												bR)
+	self:addShape(Ball,		Base.gui.width-bX, Base.gui.height-bY, bZ+reZBorder,		bR)
 	--ball to be wall
-	self:addShapeList(Ball,		tX2, Base.gui.height/2, cZ-bR,							bR)
-	self:addShapeList(Ball,		Base.gui.width-tX2, Base.gui.height/2, cZ-bR,				bR)
+	self:addShape(Ball,		tX2, Base.gui.height/2, cZ-bR,							bR)
+	self:addShape(Ball,		Base.gui.width-tX2, Base.gui.height/2, cZ-bR,				bR)
 	-- laser
-	self:addShapeList(Laser,		tX1, 0, 0,					1, tSY1, 1)
-	self:addShapeList(Laser,		tX2, 0, 0,					1, tSY2, 1)
-	self:addShapeList(Laser,		tX1, Base.gui.height, 0,		1, -tSY1, 1)
-	self:addShapeList(Laser,		tX2, Base.gui.height, 0,		1, -tSY2, 1)
+	self:addShape(Laser,		tX1, 0, 0,					1, tSY1, 1)
+	self:addShape(Laser,		tX2, 0, 0,					1, tSY2, 1)
+	self:addShape(Laser,		tX1, Base.gui.height, 0,		1, -tSY1, 1)
+	self:addShape(Laser,		tX2, Base.gui.height, 0,		1, -tSY2, 1)
 end
 
 return Screen

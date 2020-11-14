@@ -23,7 +23,7 @@ function Screen:activate()
 	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName, true)--Tutorial
 
 	--- here to create shape
-	self:addShapeList(Cuboid,		border, border, cubeZ,		cubeLenX, cubeLenY, cubeLenZ)
+	self:addShape(Cuboid,		border, border, cubeZ,		cubeLenX, cubeLenY, cubeLenZ)
 
 	--- here to create tips
 	self:addTipsList(Lang.tips_use_arrows_to_move,		Base.gui.border, Base.gui.height/2+40, playerZ-50)

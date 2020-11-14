@@ -27,12 +27,12 @@ function Screen:activate()
 
 	--- here to create shape
 	-- floor
-	self:addShapeList(Cuboid,		1, 1, cubeZ,		cubeLenX, cubeLenY, cubeLenZ)
+	self:addShape(Cuboid,		1, 1, cubeZ,		cubeLenX, cubeLenY, cubeLenZ)
     -- wall
-    self:addShapeList(Cuboid,		Base.gui.width/2-cubeLenX2/2, Base.gui.height/2-cubeLenY2/2, cubeZ-cubeLenZ*2,		cubeLenX2, cubeLenY2, cubeLenZ*2)
+    self:addShape(Cuboid,		Base.gui.width/2-cubeLenX2/2, Base.gui.height/2-cubeLenY2/2, cubeZ-cubeLenZ*2,		cubeLenX2, cubeLenY2, cubeLenZ*2)
 	-- laser
-    self:addShapeList(Laser,		Base.gui.width/2, 0, cubeZ-cubeLenZ3,		0, 1, 0)
-    self:addShapeList(Laser,		0, Base.gui.height/2, cubeZ-cubeLenZ3,		1, 0, 0)
+    self:addShape(Laser,		Base.gui.width/2, 0, cubeZ-cubeLenZ3,		0, 1, 0)
+    self:addShape(Laser,		0, Base.gui.height/2, cubeZ-cubeLenZ3,		1, 0, 0)
 
 	--- here to create tips
 	self:addTipsList(Lang.tips_yellow_means_danger,		5, Base.gui.height+10, 20)

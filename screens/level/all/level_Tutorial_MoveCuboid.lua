@@ -17,9 +17,9 @@ function Screen:activate()
 	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
 
 	--- here to create shape
-	self:addShapeList(Rectangle,	200, 0, 200,											500, 500, -math.pi+math.pi/8)
-	self:addShapeList(MoveCuboid,	120, Base.gui.height/2-50/2, 100,						50, 50, 50)
-	self:addShapeList(Laser,		100, Base.gui.height/2, 20,								-0.5, -1, 1)
+	self:addShape(Rectangle,	200, 0, 200,											500, 500, -math.pi+math.pi/8)
+	self:addShape(MoveCuboid,	120, Base.gui.height/2-50/2, 100,						50, 50, 50)
+	self:addShape(Laser,		100, Base.gui.height/2, 20,								-0.5, -1, 1)
 end
 
 

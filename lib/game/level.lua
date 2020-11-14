@@ -146,7 +146,7 @@ end
 
 
 ---@param obj Shape
-function Level:addShapeList(obj, ...)
+function Level:addShape(obj, ...)
 	table.insert(self.shapeList, obj(...))
 	table.insert(self.drawList, self.shapeList[#self.shapeList])
 end

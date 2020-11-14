@@ -32,19 +32,19 @@ function Screen:activate()
 
 	--- here to create shape
 	-- left-top
-	self:addShapeList(Cuboid,		cX2, cY2, 50,							cLenX2, cLenY2, cLenZ1)
-	self:addShapeList(Cuboid,		0-10, -cLenY3, Base.gui.height-10,		cLenX3+10, cLenY3*2, cLenZ1)
+	self:addShape(Cuboid,		cX2, cY2, 50,							cLenX2, cLenY2, cLenZ1)
+	self:addShape(Cuboid,		0-10, -cLenY3, Base.gui.height-10,		cLenX3+10, cLenY3*2, cLenZ1)
 	-- right-top
-	self:addShapeList(Cuboid,		cX1+Base.gui.width/2, cY1, -1-94,		cLenX1, cLenY1, cLenZ1)
-	self:addShapeList(Cuboid,		cX2+Base.gui.width/2, cY2, -1,			cLenX2, cLenY2, cLenZ1)
-	self:addShapeList(Cuboid,		0+Base.gui.width/2, 0, 94,				cLenX3, cLenY3, cLenZ1)
+	self:addShape(Cuboid,		cX1+Base.gui.width/2, cY1, -1-94,		cLenX1, cLenY1, cLenZ1)
+	self:addShape(Cuboid,		cX2+Base.gui.width/2, cY2, -1,			cLenX2, cLenY2, cLenZ1)
+	self:addShape(Cuboid,		0+Base.gui.width/2, 0, 94,				cLenX3, cLenY3, cLenZ1)
 	-- right-bottom
-	self:addShapeList(Cuboid,		cX2+Base.gui.width/2, cY2+Base.gui.height/2, 200,					cLenX2, cLenY2, cLenZ1)
-	self:addShapeList(Cuboid,		0+Base.gui.width/2, 0+Base.gui.height/2, Base.gui.height+40,		cLenX3, cLenY3, cLenZ1)
+	self:addShape(Cuboid,		cX2+Base.gui.width/2, cY2+Base.gui.height/2, 200,					cLenX2, cLenY2, cLenZ1)
+	self:addShape(Cuboid,		0+Base.gui.width/2, 0+Base.gui.height/2, Base.gui.height+40,		cLenX3, cLenY3, cLenZ1)
 	-- left-bottom
-	self:addShapeList(Cuboid,		cX1, cY1+Base.gui.height/2, 94,					cLenX1, cLenY1, cLenZ1)
-	self:addShapeList(Cuboid,		cX2+1, cY2+Base.gui.height/2, 94+(94-50),		cLenX2, cLenY2, cLenZ1)
-	self:addShapeList(Cuboid,		0, 0+Base.gui.height/2, Base.gui.height+80,		cLenX3, cLenY3, cLenZ1)
+	self:addShape(Cuboid,		cX1, cY1+Base.gui.height/2, 94,					cLenX1, cLenY1, cLenZ1)
+	self:addShape(Cuboid,		cX2+1, cY2+Base.gui.height/2, 94+(94-50),		cLenX2, cLenY2, cLenZ1)
+	self:addShape(Cuboid,		0, 0+Base.gui.height/2, Base.gui.height+80,		cLenX3, cLenY3, cLenZ1)
 end
 
 return Screen

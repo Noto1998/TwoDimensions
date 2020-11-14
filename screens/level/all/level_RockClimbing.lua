@@ -22,8 +22,8 @@ function Screen:activate()
 	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
 
 	--- here to create shape
-	self:addShapeList(Cuboid,		1, 1, cubeZ,								cubeLenX, cubeLenY, cubeLenZ)
-	self:addShapeList(Cuboid,		1 + cubeLenX + 45, 1, cubeZ+cubeLenZ,		cubeLenX, cubeLenY, cubeLenZ)
+	self:addShape(Cuboid,		1, 1, cubeZ,								cubeLenX, cubeLenY, cubeLenZ)
+	self:addShape(Cuboid,		1 + cubeLenX + 45, 1, cubeZ+cubeLenZ,		cubeLenX, cubeLenY, cubeLenZ)
 end
 
 return Screen

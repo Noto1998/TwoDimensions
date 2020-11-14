@@ -18,8 +18,8 @@ function Screen:activate()
 	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
 
 	--- here to create shape
-	-- use [ self:addShapeList(...) ] to create shape.
-	-- e.g. self:addShapeList(Cuboid, 0, 0, 0, 50, 50, 50)
+	-- use [ self:addShape(...) ] to create shape.
+	-- e.g. self:addShape(Cuboid, 0, 0, 0, 50, 50, 50)
 
 	-- Rectangle,	x, y, z, lenX, lenY, radian(0 ~ -math.pi)
 	-- Cuboid,		x, y, z, lenX, lenY, lenZ

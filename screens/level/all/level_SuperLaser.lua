@@ -52,22 +52,22 @@ function Screen:activate()
 
 	--- here to create shape
 	-- floor
-    self:addShapeList(Cuboid, 1, 1, floorZ,			Base.gui.width, Base.gui.height, 1)
+    self:addShape(Cuboid, 1, 1, floorZ,			Base.gui.width, Base.gui.height, 1)
 	-- player wall
-	self:addShapeList(Cuboid, 1, 1, c1Z,						c1LenX, c1LenY, c1LenZ)
+	self:addShape(Cuboid, 1, 1, c1Z,						c1LenX, c1LenY, c1LenZ)
 	-- laser wall
-	self:addShapeList(Cuboid, 1+c1LenX, 1, c1Z+c1LenZ,			c2LenX, c2LenY, c2LenZ)
+	self:addShape(Cuboid, 1+c1LenX, 1, c1Z+c1LenZ,			c2LenX, c2LenY, c2LenZ)
 	--left wall
-	self:addShapeList(Cuboid, leftX, leftY, leftZ,				10, leftLenY, leftLenZ)
+	self:addShape(Cuboid, leftX, leftY, leftZ,				10, leftLenY, leftLenZ)
 	-- hole1
-	self:addShapeList(Cuboid, hX1, leftY, hZ,					hLenX, leftLenY, hLenZ)
-	self:addShapeList(Ball,	  hX1+ballR, leftY-10, hZ-ballR,	ballR)
+	self:addShape(Cuboid, hX1, leftY, hZ,					hLenX, leftLenY, hLenZ)
+	self:addShape(Ball,	  hX1+ballR, leftY-10, hZ-ballR,	ballR)
 	-- hole2
-	self:addShapeList(Cuboid, hX2, leftY, hZ,					hLenX, leftLenY, hLenZ)
-	self:addShapeList(Ball,	  hX2+ballR, leftY-10, hZ-ballR,	ballR)
+	self:addShape(Cuboid, hX2, leftY, hZ,					hLenX, leftLenY, hLenZ)
+	self:addShape(Ball,	  hX2+ballR, leftY-10, hZ-ballR,	ballR)
 	-- Laser
 	for i = 0, 4 do
-		self:addShapeList(Laser, tX+tBorderX*i, tY, tZ,			tSX, tSY, tSZ)
+		self:addShape(Laser, tX+tBorderX*i, tY, tZ,			tSX, tSY, tSZ)
 	end
 end
 

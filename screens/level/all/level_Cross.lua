@@ -40,26 +40,26 @@ function Screen:activate()
 
 	--here to create the shape
 	--Floor
-	self:addShapeList(Cuboid, 2,2,210,	318,238,30)
+	self:addShape(Cuboid, 2,2,210,	318,238,30)
 	--Side Wall
-	self:addShapeList(Cuboid, SWx,SWy,SWz,						SWLx,SWLy,SWLz)
-	self:addShapeList(Cuboid, Base.gui.width-SWx-SWLx,SWy,SWz,	SWLx,SWLy,SWLz)
+	self:addShape(Cuboid, SWx,SWy,SWz,						SWLx,SWLy,SWLz)
+	self:addShape(Cuboid, Base.gui.width-SWx-SWLx,SWy,SWz,	SWLx,SWLy,SWLz)
 	--Laser
-	self:addShapeList(Laser, Lx,	Ly-4, 210-40/2,		LLx,LLy,LLz)--chuizhi
-	self:addShapeList(Laser, Lx-50, Ly-4, 210-40/2,	Sx,Sy,LLz)--right
-	self:addShapeList(Laser, Lx+50, Ly-4, 210-40/2,	-Sx,Sy,LLz)--left
-	self:addShapeList(Laser, 0, Ly+210, Lz, 			1,0,0)
+	self:addShape(Laser, Lx,	Ly-4, 210-40/2,		LLx,LLy,LLz)--chuizhi
+	self:addShape(Laser, Lx-50, Ly-4, 210-40/2,	Sx,Sy,LLz)--right
+	self:addShape(Laser, Lx+50, Ly-4, 210-40/2,	-Sx,Sy,LLz)--left
+	self:addShape(Laser, 0, Ly+210, Lz, 			1,0,0)
 	--Middle Wall
-	self:addShapeList(Cuboid, 150, 50, 190,		20,55,20)
-	self:addShapeList(Cuboid, 150, 130, 190,		20,55,20)
+	self:addShape(Cuboid, 150, 50, 190,		20,55,20)
+	self:addShape(Cuboid, 150, 130, 190,		20,55,20)
 	-- Cross
-	self:addShapeList(Cuboid, 55, 100, MWz,		210,30,30)
-	self:addShapeList(Cuboid, 290,100, MWz,		22,30,30)
-	self:addShapeList(Cuboid, 10, 100, MWz,		22,30,30)
+	self:addShape(Cuboid, 55, 100, MWz,		210,30,30)
+	self:addShape(Cuboid, 290,100, MWz,		22,30,30)
+	self:addShape(Cuboid, 10, 100, MWz,		22,30,30)
 	--Ball
-	self:addShapeList(Ball, 85,115,150,12.5)
+	self:addShape(Ball, 85,115,150,12.5)
 	--Slope
-	self:addShapeList(Rectangle, Base.gui.width/2, 105, 210,		(210/2)/math.cos(radian), 25,		-math.pi+radian)
+	self:addShape(Rectangle, Base.gui.width/2, 105, 210,		(210/2)/math.cos(radian), 25,		-math.pi+radian)
 
 	-- here to create tips
 	self:addTipsList(Lang.tips_mayoiba_yabureru, 20, -80, Base.gui.border*2)
