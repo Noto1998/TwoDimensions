@@ -29,7 +29,7 @@ require 'lib.shape.allForOne'
 
 Player = require 'lib.game.player'
 EndCube = require 'lib.game.endCube'
-require 'lib.game.keyTips'
+KeyTips = require 'lib.game.keyTips'
 
 -- level
 Shift = require 'lib.game.shift' -- frist

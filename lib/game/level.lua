@@ -41,7 +41,7 @@ function Level:update(dt, canShift)
 
 	canShift = not (self.shiftMode == 1 and not player:isOnGround()) and
 			   (not self.isFinish) and
-			   (not keyTips:getShowFlag()) and
+			   (not keyTips:isShow()) and
 	   		   (not canShift ~= false)--same as (== nil or == true)
 	Level.super.update(self, dt, canShift)
 
@@ -50,7 +50,7 @@ function Level:update(dt, canShift)
 		keyTips:update()
 	end
 
-	if (not self.isFinish) and (not keyTips:getShowFlag()) then
+	if (not self.isFinish) and (not keyTips:isShow()) then
 
 		-- reset
 		if Base.isPressed(Base.keys.reset) then

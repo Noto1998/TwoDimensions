@@ -1,30 +1,36 @@
-KeyTips = Object:extend()
+local KeyTips = Object:extend()
 
-local tipsList
-local showFlag
+local tipsList, isShow
 
 function KeyTips:new()
-    tipsList = {}
-    for i, string in ipairs(Lang.ui_key_keyTipsList) do
-        table.insert(tipsList, Tips(string, Base.gui.border, Base.gui.height/(#Lang.ui_key_keyTipsList+1)*i, 0, 'left', 'center'))
-    end
 
-    showFlag = false
+    isShow = false
+
+    tipsList = {}
+    local w = Base.gui.height / (#Lang.ui_key_keyTipsList + 1)
+
+    for i, string in ipairs(Lang.ui_key_keyTipsList) do
+        table.insert(
+            tipsList,
+            Tips(string, Base.gui.border, w * i, 0, 'left', 'center')
+        )
+    end
 end
 
 function KeyTips:update()
     if Base.isPressed(Base.keys.keyTips) then
-		showFlag = not showFlag
+		isShow = not isShow
 	end
 end
 
 function KeyTips:draw()
-    if showFlag then
+    if isShow then
         -- bg
         local c = Base.cloneTable(Base.color.black)
         c[4] = 0.75
         love.graphics.setColor(c)
         love.graphics.rectangle('fill', 0, 0, Base.gui.width, Base.gui.height)
+
         --text
         for i, tips in ipairs(tipsList) do
             tips:draw(0)
@@ -32,6 +38,11 @@ function KeyTips:draw()
     end
 end
 
-function KeyTips:getShowFlag()
-    return showFlag
+
+---@return boolean
+function KeyTips:isShow()
+    return isShow
 end
+
+
+return KeyTips
