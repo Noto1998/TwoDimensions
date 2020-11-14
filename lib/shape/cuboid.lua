@@ -1,20 +1,28 @@
 local Cuboid = Shape:extend()
 
-local rectangle1, rectangle2
-
 local function initRectangles(self)
+
+    local rectangleTable = {}
     local radian = 0
     local x = self.position.x
 
     local y1 = self.position.y
     local z1 = self.position.z
     local lenY1 = self.lenY
-    rectangle1 = Rectangle(x, y1, z1, self.lenX, lenY1, radian, self.colorFill, self.colorLine, self.colorMesh)
+    table.insert(
+        rectangleTable,
+        Rectangle(x, y1, z1, self.lenX, lenY1, radian, self.colorFill, self.colorLine, self.colorMesh)
+    )
 
     local y2 = self.position.z
     local z2 = self.position.y + self.lenY
     local lenY2 = self.lenZ
-    rectangle2 = Rectangle(x, y2, z2, self.lenX, lenY2, radian, self.colorFill, self.colorLine, self.colorMesh)
+    table.insert(
+        rectangleTable,
+        Rectangle(x, y2, z2, self.lenX, lenY2, radian, self.colorFill, self.colorLine, self.colorMesh)
+    )
+
+    return rectangleTable
 end
 
 function Cuboid:new(x, y, z, lenX, lenY, lenZ, colorFill, colorLine, colorMesh)
@@ -24,17 +32,17 @@ function Cuboid:new(x, y, z, lenX, lenY, lenZ, colorFill, colorLine, colorMesh)
     self.lenY = lenY
     self.lenZ = lenZ
 
-    initRectangles(self)
+    self.rectangles = initRectangles(self)
 end
 
 function Cuboid:draw(mode)
 
     if mode ~= 1 then
-        rectangle1:draw(mode)
+        self.rectangles[1]:draw(mode)
     end
 
     if mode ~= 0 then
-        rectangle2:draw(1 - mode)
+        self.rectangles[2]:draw(1 - mode)
     end
 end
 
