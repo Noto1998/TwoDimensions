@@ -27,9 +27,9 @@ require 'lib.shape.allForOne'
 --require 'lib.shape.circle'
 --require 'lib.shape.fourD'
 
-require 'lib.game.player'-- player
-EndCube = require 'lib.game.endCube'-- endCube
-require 'lib.game.keyTips'-- keyTips
+Player = require 'lib.game.player'
+EndCube = require 'lib.game.endCube'
+require 'lib.game.keyTips'
 
 -- level
 Shift = require 'lib.game.shift' -- frist
