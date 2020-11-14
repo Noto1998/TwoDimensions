@@ -43,14 +43,16 @@ end
 function ScreenManager:view(path, ...)
 	for _, route in pairs(self.routes) do
 		if path == route.path then
-			route.instance:activate(...)
+			route.instance:activate()--test, original is route.instance:activate(...)
 			self.activeScreen = route.instance
 			self.currentPath = path
+
+			-- test, for reset level
+			self.activeScreen.resetLevelPath = path
+			-- test, send {...} to level
+			self.activeScreen:record(...)
 		end
 	end
-
-	-- for reset level
-	RESET_LEVEL_PATH = path
 end
 
 

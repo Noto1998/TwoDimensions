@@ -7,6 +7,10 @@ function Shift:new(ScreenManager)
 	self.screen = ScreenManager
 end
 
+function Shift:record(...)
+	-- get {...}
+end
+
 
 function Shift:activate()
 

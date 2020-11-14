@@ -89,8 +89,7 @@ function Screen:update(dt)
 
 		-- start level
 		if Base.isPressed(Base.keys.enter) and index <= (#LEVEL_STRING - pageHide) then
-			LEVEL_CHOICE = index
-			self.screen:view(LEVEL_STRING[LEVEL_CHOICE])
+			self.screen:view(LEVEL_STRING[index], index)
 		end
 	end
 end

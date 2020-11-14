@@ -33,7 +33,7 @@ require 'lib.game.keyTips'
 
 -- level
 Shift = require 'lib.game.shift' -- frist
-require 'lib.game.level'
+Level = require 'lib.game.level'
 
 local ScreenManager = require 'lib.game.screenManager'
 local BgmManager = require 'lib.game.bgmManager'
@@ -63,10 +63,6 @@ function love.load()
     DEBUG_MODE = true        -- work when ./debug/ have files, so remember not git ./debug/
     DEBUG_LEVEL = nil        -- pressed f1 to run level
 
-    -- level
-    LEVEL_CHOICE = 1         -- for goto next level
-    RESET_LEVEL_PATH = nil  -- for reset level, set in screenManager.lua
-
     -- sound
     SFX_MENU        = love.audio.newSource('sound/bibi.mp3', 'static')
     SFX_TOUCH_GOUND = love.audio.newSource('sound/touchGound.mp3', 'static')
@@ -75,7 +71,6 @@ function love.load()
     SFX_RESTART     = love.audio.newSource('sound/dead.mp3', 'static')
     SFX_SHOOT       = love.audio.newSource('sound/shoot.mp3', 'static')
     BGM_MAIN        = love.audio.newSource('sound/bgm_191208.mp3', 'stream')
-
     bgmManager = BgmManager(BGM_MAIN)
 
     -- canvas
