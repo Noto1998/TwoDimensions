@@ -63,7 +63,9 @@ function Rectangle:draw(mode)
         -- draw mesh
         if mode ~= 0 then-- update points position
             for i = 1, 4 do
-                self.mesh:setVertexAttribute(i, 1, xyTable[i * 2 - 1], xyTable[i * 2])
+                local x = xyTable[i * 2 - 1]
+                local y = xyTable[i * 2]
+                self.mesh:setVertexAttribute(i, 1, x, y)
             end
         end
         love.graphics.setColor(self.colorMesh)
@@ -154,8 +156,6 @@ function Rectangle:isCollisionInXZ(x, z)
     local checkBorder = 2-- todo:why?
     local flag = false
     local checkTimes = self:getDistance()
-
-    print(checkTimes)
 
     local lenPartX = ( self:getVectorX() / checkTimes)
     local lenPartZ = ( self:getVectorZ() / checkTimes)

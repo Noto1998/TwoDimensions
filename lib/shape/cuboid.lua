@@ -47,13 +47,16 @@ function Cuboid:draw(mode)
 end
 
 function Cuboid:isCollisionInXZ(x, z)
+
     local flag = false
     local checkBorder = 2
 
-    if x >= self.position.x - checkBorder and
-       z >= self.position.z - checkBorder and
-       x <= self.position.x + self.lenX + checkBorder and
-       z <= self.position.z + self.lenZ + checkBorder then
+    local left   = self.position.x - checkBorder
+    local right  = self.position.x + self.lenX + checkBorder
+    local top    = self.position.z - checkBorder
+    local bottom = self.position.z + self.lenZ + checkBorder
+
+    if x >= left and x <= right and z >= top and z <= bottom then
         flag = true
     end
 
