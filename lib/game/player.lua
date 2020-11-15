@@ -156,9 +156,9 @@ end
 function Player:setCollisionXY(dt, shapeList)
 	self.stuck = false
 
-	local left = self:getPointX(self:getPointIndex('left'))
-	local right = self:getPointX(self:getPointIndex('right'))
-	local top = self.position.y
+	local left 	 = self:getPointX(self:getPointIndex('left'))
+	local right  = self:getPointX(self:getPointIndex('right'))
+	local top 	 = self.position.y
 	local bottom = self.position.y + self.lenY
 	local centerX = (left + right) / 2
 	local centerY = (top + bottom) / 2
@@ -239,9 +239,9 @@ function Player:isCollisionInXY(obj)
 		return flag
 	end
 
-	local left = self:getPointX(self:getPointIndex('left'))
-	local right = self:getPointX(self:getPointIndex('right'))
-	local top = self.position.y
+	local left 	 = self:getPointX(self:getPointIndex('left'))
+	local right  = self:getPointX(self:getPointIndex('right'))
+	local top 	 = self.position.y
 	local bottom = self.position.y + self.lenY
 
 	local oLeft, oRight
