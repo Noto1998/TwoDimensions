@@ -273,6 +273,7 @@ function Laser:hitPlayer(player, mode)
 end
 
 
+-- todo: dont work! need fix!
 function Laser:hitDraw2(obj)
     local flag = false
 

@@ -1,8 +1,7 @@
 ---@class Rectangle : Shape
 local Rectangle = Shape:extend()
 
-local function initMesh(self)
-
+local function getVertices(self)
     local vertices = {}
     local xyTable = {
         {self:getPointX(1), self.position.y},
@@ -10,14 +9,24 @@ local function initMesh(self)
         {self:getPointX(2), self.position.y + self.lenY},
         {self:getPointX(1), self.position.y + self.lenY}
     }
-
     for i, value in ipairs(xyTable) do
+
+        local x = value[1]
+        local y = value[2]
+
         vertices[i] = {
-            value[1], value[2],                                  -- position of the vertex
-            value[1]/Base.gui.width, value[2]/Base.gui.height,   -- texture coordinate at the vertex position(0~1)
-            1, 1, 1                                              -- color of the vertex
+            x, y,                                    -- position of the vertex
+            x / Base.gui.width, y / Base.gui.height, -- texture coordinate at the vertex position(0~1)
+            1, 1, 1                                  -- color of the vertex
         }
     end
+
+    return vertices
+end
+
+local function initMesh(self)
+
+    local vertices = getVertices(self)
 
     local mesh = love.graphics.newMesh(vertices, 'fan')
     mesh:setTexture(CANVAS_BG)
@@ -60,14 +69,16 @@ function Rectangle:draw(mode)
         love.graphics.setColor(self.colorFill)
         love.graphics.polygon('fill', xyTable)
 
-        -- draw mesh
-        if mode ~= 0 then-- update points position
+        -- update mesh position
+        if mode ~= 0 then
             for i = 1, 4 do
                 local x = xyTable[i * 2 - 1]
                 local y = xyTable[i * 2]
                 self.mesh:setVertexAttribute(i, 1, x, y)
             end
         end
+
+        -- draw mesh
         love.graphics.setColor(self.colorMesh)
         love.graphics.draw(self.mesh)
 
@@ -172,6 +183,12 @@ function Rectangle:isCollisionInXZ(x, z)
     end
 
     return flag
+end
+
+
+function Rectangle:updateVertices()
+    local vertices = getVertices(self)
+    self.mesh:setVertices(vertices)
 end
 
 

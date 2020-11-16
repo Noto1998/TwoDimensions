@@ -1,90 +1,88 @@
-MoveCuboid = Cuboid:extend()
+local MoveCuboid = Cuboid:extend()
 
-local spd = 30
+local SPD = 20
 
-function MoveCuboid:new(position, lenX, lenY, lenZ, moveX, moveY, moveZ)
+
+function MoveCuboid:new(position, lenX, lenY, lenZ, movePosition)
     MoveCuboid.super.new(self, position, lenX, lenY, lenZ, nil, Base.color.loaser.danger, nil)
-    -- record
-    self.oX = self.position.x
-    self.oY = self.position.y
-    self.oZ = self.position.z
 
-    self.moveX = self.position.x
-    self.moveY = self.position.y
-    self.moveZ = self.position.z
-    if moveX ~= nil then
-        self.moveX = moveX
-    end
-    if moveY ~= nil then
-        self.moveY = moveY
-    end
-    if moveZ ~= nil then
-        self.moveZ = moveZ
-    end
-    --
+    self.movePosition = Base.ternary(movePosition ~= nil, Base.cloneTable(movePosition), Base.cloneTable(self.position))
+    self.oPosition = Base.cloneTable(self.position)    -- record position
+    self.position = Base.cloneTable(self.movePosition) -- init
 end
 
+
 function MoveCuboid:update(dt, shiftMode, shapeList)
-    local spdX = 0
-    local spdY = 0
-    local spdZ = 0
 
-    -- move
+    -- update position
     if shiftMode == 0 or shiftMode == 1 then
-        if self.position.x ~= self.oX then
-            local dx = self.oX-self.position.x
-            if math.abs(dx) > spd*dt then
-                spdX = spd*Base.sign(dx)
-            else
-                spdX = dx/dt
-            end
+
+        -- position += dis means position = oPosition
+        if self.position.x ~= self.oPosition.x then
+            local disX = self.oPosition.x - self.position.x
+            local spdX = Base.ternary(math.abs(disX) > SPD * dt, Base.sign(disX) * SPD * dt, disX)
+
+            self.position.x = self.position.x + spdX
         end
 
-        if self.position.y ~= self.oY then
-            local dy = self.oY-self.position.y
-            if math.abs(dy) > spd*dt then
-                spdY = spd*Base.sign(dy)
-            else
-                spdY = dy/dt
-            end
+        if self.position.y ~= self.oPosition.y then
+            local disY = self.oPosition.y - self.position.y
+            local spdY = Base.ternary(math.abs(disY) > SPD * dt, Base.sign(disY) * SPD * dt, disY)
+
+            self.position.y = self.position.x + spdY
         end
 
-        if self.position.z ~= self.oZ then
-            local dz = self.oZ-self.position.z
-            if math.abs(dz) > spd*dt then
-                spdZ = spd*Base.sign(dz)
-            else
-                spdZ = dz/dt
-            end
+        if self.position.z ~= self.oPosition.z then
+            local disZ = self.oPosition.z - self.position.z
+            local spdZ = Base.ternary(math.abs(disZ) > SPD * dt, Base.sign(disZ) * SPD * dt, disZ)
+
+            self.position.z = self.position.z + spdZ
         end
     end
 
     -- reset
     if shiftMode == 1 then
-        local flag
-        for i = 1, #shapeList do
-
-            -- todo:dont work!!!need fix
-            if shapeList[i]:is(Laser) then
-                if shapeList[i]:hitDraw2(self) then
-                    flag = true
-                end
-                if flag then
-                    self.position.x = self.moveX
-                    self.position.y = self.moveY
-                    self.position.z = self.moveZ
-                    break
-                end
+        for key, shape in pairs(shapeList) do
+            if shape:is(Laser) and shape:hitDraw2(self) then
+                self.position.x = self.movePosition.x
+                self.position.y = self.movePosition.y
+                self.position.z = self.movePosition.z
+                break
             end
         end
     end
 
-    -- update
-    self.position.x = self.position.x + spdX*dt
-    self.position.y = self.position.y + spdY*dt
-    self.position.z = self.position.z + spdZ*dt
+    -- update draw position
+    self:updateRectanglesPosition()
+    -- update mesh vertices
+    for key, rectangle in pairs(self.rectangles) do
+        rectangle:updateVertices()
+    end
 end
+
 
 function MoveCuboid:hitPlayer(player, mode)
     return player:isTouch(self, mode)
 end
+
+
+function MoveCuboid:updateRectanglesPosition()
+    local x = self.position.x
+
+    local y1 = self.position.y
+    local z1 = self.position.z
+
+    self.rectangles[1].position.x = x
+    self.rectangles[1].position.y = y1
+    self.rectangles[1].position.z = z1
+
+    local y2 = self.position.z
+    local z2 = self.position.y + self.lenY
+
+    self.rectangles[2].position.x = x
+    self.rectangles[2].position.y = y2
+    self.rectangles[2].position.z = z2
+end
+
+
+return MoveCuboid

@@ -148,6 +148,7 @@ end
 ---@param obj Shape
 function Level:addShape(obj, x, y, z, ...)
 	local position = Base.createPosition(x, y, z)
+
 	table.insert(self.shapeList, obj(position, ...))
 	table.insert(self.drawList, self.shapeList[#self.shapeList])
 end
