@@ -1,53 +1,87 @@
-Laser = Shape:extend()
+local Laser = Shape:extend()
 
 local radius = 10
-local len = math.sqrt(Base.gui.height^2 + Base.gui.width^2) + 1
+local len = math.sqrt(Base.gui.height ^ 2 + Base.gui.width ^ 2) + 1
 local timeMax = 2-- second
+local warningTime = 0.3
+local player
+local ballList
 
-function Laser:new(x, y, z, sx, sy, sz, cFill, cLine, cMesh)
-    Laser.super.new(self, x, y, z, cFill, cLine, cMesh)
-    -- 0~1
-    self.sx = sx
-    self.sy = sy
-    self.sz = sz
-    -- turn on/off
+local function initDrawPosition(self)
+    self.drawX1 = self.position.x + self.scaleX * len
+    self.drawZ2 = self.position.z + self.scaleZ * len
+    self.drawX2 = self.drawX1 + self.scaleX * len
+    self.drawZ2 = self.drawZ2 + self.scaleZ * len
+end
+
+local function initBallList(shapeList)
+    if ballList ~= nil then
+        return
+    end
+
+    ballList = {}
+    for key, shape in pairs(shapeList) do
+        if shape:is(Ball) then
+            table.insert(ballList, shape)
+        end
+    end
+end
+
+local function initPlayer(shapeList)
+
+    if player ~= nil then
+        return
+    end
+
+    for key, shape in pairs(shapeList) do
+        if shape:is(Player) then
+            player = shape
+        end
+    end
+end
+
+function Laser:new(x, y, z, scaleX, scaleY, scaleZ, colorFill, colorLine, colorMesh)
+    Laser.super.new(self, x, y, z, colorFill, colorLine, colorMesh)
+
+    -- scale
+    self.scaleX = scaleX
+    self.scaleY = scaleY
+    self.scaleZ = scaleZ
+
     self.timer = 0
-    self.turnOn = false
-    -- len
     self.len = len
-    --
-    self.drawX = self.x + self.sx*len
-    self.drawZ = self.z + self.sz*len
-    self.drawX2 = self.drawX + self.sx*len
-    self.drawZ2 = self.drawZ + self.sz*len
+    self.isTurnOn = false
+
+    initDrawPosition(self)
+
+    ballList = nil
+    player = nil
 end
 
 
-function Laser:update(dt, mode, shapeList, player)
-    -- update TrunOn/Off
+function Laser:update(dt, mode, shapeList)
+    initBallList(shapeList)
+    initPlayer(shapeList)
+
+    -- update isTurnOn
     if mode == 0 or mode == 1 then
         self.timer = self.timer + dt
+
         if self.timer > timeMax then
             self.timer = 0
-            self.turnOn = not self.turnOn
+            self.isTurnOn = not self.isTurnOn
+
             -- play sfx
-            if self.turnOn then
+            if self.isTurnOn then
                 love.audio.play(SFX_SHOOT)
             end
         end
     end
-    --reset
-    self.drawX = self.x + self.sx*len
-    self.drawZ = self.z + self.sz*len
-    self.drawX2 = self.drawX + self.sx*len
-    self.drawZ2 = self.drawZ + self.sz*len
-    -- ball block laser
-    local ballList = {}
-    for i = 1, #shapeList do
-        if shapeList[i]:is(Ball) then
-            table.insert(ballList, shapeList[i])
-        end
-    end
+
+    -- reset
+    initDrawPosition(self)
+
+    -- block
     self:block(ballList)
 
     -- reflex
@@ -58,105 +92,103 @@ end
 
 
 function Laser:draw(mode)
-    local _x = self.x
-    local _y = self.y*(1-mode) + self.z*mode
-    local _lenX = self.sx*self.len
-    local _lenY = (self.sy*(1-mode)+self.sz*mode)*self.len
+    local x = self.position.x
+    local y = self.position.y * (1 - mode) + self.position.z * mode
+    local lenX = self.scaleX * self.len
+    local lenY = (self.scaleY * (1 - mode) + self.scaleZ * mode) * self.len
 
     -- draw self
-    love.graphics.setColor(self.cFill)
-    love.graphics.circle('fill', self.x, _y, radius*2)
-    love.graphics.setColor(self.cLine)
-    love.graphics.circle('line', self.x, _y, radius)
-    love.graphics.circle('line', self.x, _y, radius*2)
+    love.graphics.setColor(self.colorFill)
+    love.graphics.circle('fill', x, y, radius * 2)
+    love.graphics.setColor(self.colorLine)
+    love.graphics.circle('line', x, y, radius)
+    love.graphics.circle('line', x, y, radius * 2)
 
     -- draw shoot line
-    if self.turnOn then
-        local cTable1 = Base.cloneTable(Base.color.loaser.safe)
-        local cTable2 = Base.cloneTable(Base.color.loaser.danger)
 
-        for i = 1, #cTable1 do
-            cTable1[i] = cTable1[i]*mode + cTable2[i]*(1-mode)
-        end
-
-        love.graphics.setColor(cTable1)
-        if mode == 1 then
-            love.graphics.line(_x, _y, self.drawX, self.drawZ)
-            love.graphics.line(self.drawX, self.drawZ, self.drawX2, self.drawZ2)
-        else
-            love.graphics.line(_x, _y, _x + _lenX, _y + _lenY)
-        end
-    -- warning
-    else
-        if self.timer > timeMax * (1-0.3) then
+    if not self.isTurnOn then
+        -- warning
+        if self.timer > timeMax - warningTime then
             love.graphics.setColor(Base.color.loaser.warning)
-            love.graphics.line(_x, _y, _x + _lenX, _y + _lenY)
+            love.graphics.line(x, y, x + lenX, y + lenY)
+        end
+    else
+        -- shooting
+        local colorSafe = Base.color.loaser.safe
+        local colorDanger = Base.color.loaser.danger
+        local color = {}
+
+        for i = 1, #colorSafe do
+            color[i] = colorSafe[i] * mode + colorDanger[i] * (1 - mode)
+        end
+
+        love.graphics.setColor(color)
+        if mode == 1 then
+            love.graphics.line(x, y, self.drawX1, self.drawZ2)
+            love.graphics.line(self.drawX1, self.drawZ2, self.drawX2, self.drawZ2)
+        else
+            -- todo: work wrong! fix!
+            love.graphics.line(x, y, x + lenX, y + lenY)
         end
     end
 end
 
-
-function Laser:hitRectangle(x1, y1, x2, y2, selfY, selfSY)
+-- todo: why ?
+function Laser:hitRectangle(x1, y1, x2, y2, selfY, selfScaleY)
     local flag
 
-    if selfY == nil then
-        selfY = self.y
-    end
-    if selfSY == nil then
-        selfSY = self.sy
-    end
+    selfY = Base.ternary(selfY ~= nil, selfY, self.position.y)
+    selfScaleY = Base.ternary(selfScaleY ~= nil, selfScaleY, self.scaleY)
 
     -- x
-    local xLeft = self.x
-    local xRight = self.x + self.sx * self.len
+    local xLeft = self.position.x
+    local xRight = self.position.x + self.scaleX * self.len
     if xLeft > xRight then
         xLeft, xRight = xRight, xLeft
     end
     -- y
     local yTop = selfY
-    local yBottom = selfY + selfSY * self.len
+    local yBottom = selfY + selfScaleY * self.len
     if yTop > yBottom then
         yTop, yBottom = yBottom, yTop
     end
 
     -- check rectangle
-    if  x2 > xLeft
-    and x1 < xRight
-    and y2 > yTop
-    and y1 < yBottom then
-        if self.sx == 0 and selfSY == 0 then
+    if x2 > xLeft and x1 < xRight and
+       y2 > yTop  and y1 < yBottom then
+
+        if self.scaleX == 0 and selfScaleY == 0 then
             -- point, do nothing
-        elseif self.sx == 0 or selfSY == 0 then
+        elseif self.scaleX == 0 or selfScaleY == 0 then
             -- vertical or horizontal
             flag = true
         else
             -- fix
-            if y1 < yTop+1 then
-                y1 = yTop+1
+            if y1 < yTop + 1 then
+                y1 = yTop + 1
             end
-            if y2 > yBottom-1 then
-                y2 = yBottom-1
+            if y2 > yBottom - 1 then
+                y2 = yBottom - 1
             end
-            --
-            local pTable = {
+
+            local xyTable = {
                 {x1, y1},
                 {x2, y1},
                 {x2, y2},
                 {x1, y2},
             }
             local sign = nil
-            -- real
-            local dirReal = math.atan2(selfSY, self.sx)
-            --
+            local radianReal = math.atan2(selfScaleY, self.scaleX)
+
             for i = 1, 4 do
-                local vX = pTable[i][1]
-                local vY = pTable[i][2]
+                local vX = xyTable[i][1]
+                local vY = xyTable[i][2]
                 -- laser to 4 point
-                local lenX = vX-self.x
-                local lenY = vY-selfY
+                local lenX = vX - self.position.x
+                local lenY = vY - selfY
                 local radian = math.atan2(lenY, lenX)
-                local pSign = Base.sign(dirReal-radian)
-                --
+                local pSign = Base.sign(radianReal - radian)
+
                 if sign == nil then
                     sign = pSign
                 else
@@ -172,53 +204,59 @@ function Laser:hitRectangle(x1, y1, x2, y2, selfY, selfSY)
 
     return flag
 end
+
+
 function Laser:hit(obj)
     local flag = false
 
     -- x
-    local xLeft = self.x
-    local xRight = self.x + self.sx * self.len
+    local xLeft = self.position.x
+    local xRight = self.position.x + self.scaleX * self.len
     if xLeft > xRight then
         xLeft, xRight = xRight, xLeft
     end
+
     -- y
-    local yTop = self.y
-    local yBottom = self.y + self.sy * self.len
+    local yTop = self.position.y
+    local yBottom = self.position.y + self.scaleY * self.len
     if yTop > yBottom then
         yTop, yBottom = yBottom, yTop
     end
-    --
+
     if obj:is(Rectangle) then
-        local x1 = obj:getX(obj:getLeftX())
-        local x2 = obj:getX(obj:getRightX())
-        local y1 = obj.y
-        local y2 = obj.y+obj.lenY
+        local x1 = obj:getPointX(obj:getPointIndex('left'))
+        local x2 = obj:getPointX(obj:getPointIndex('right'))
+        local y1 = obj.position.y
+        local y2 = obj.position.y + obj.lenY
+
         flag = self:hitRectangle(x1, y1, x2, y2)
+
     elseif obj:is(Ball) then
         -- check rectangle
-        if  obj.x + obj.radius > xLeft
-        and obj.x - obj.radius < xRight
-        and obj.y + obj.radius > yTop
-        and obj.y - obj.radius < yBottom then
-            if self.sx == 0 and self.sy == 0 then
+        if obj.position.x + obj.radius > xLeft and
+           obj.position.x - obj.radius < xRight and
+           obj.position.y + obj.radius > yTop and
+           obj.position.y - obj.radius < yBottom then
+
+            if self.scaleX == 0 and self.scaleY == 0 then
                 -- point, do nothing
-            elseif self.sx == 0 or self.sy == 0 then
+            elseif self.scaleX == 0 or self.scaleY == 0 then
                 -- vertical or horizontal
                 flag = true
             else
                 -- both ~= 0
-                -- real
-                local dirReal = math.atan2(self.sy, self.sx)
+
+                local radianReal = math.atan2(self.scaleY, self.scaleX)
                 -- laser to ball
-                local lenX = obj.x - self.x
-                local lenY = obj.y - self.y
+                local lenX = obj.position.x - self.position.x
+                local lenY = obj.position.y - self.position.y
                 local dirBall = math.atan2(lenY, lenX)
                 -- min
-                local c = math.sqrt(lenX^2 + lenY^2)
-                local sin = obj.radius/c
+                local c = math.sqrt(lenX ^ 2 + lenY ^ 2)
+                local sin = obj.radius / c
                 local dirMin = math.asin(sin)
                 --
-                if math.abs(dirBall - dirReal) < dirMin then
+                if math.abs(dirBall - radianReal) < dirMin then
                     flag = true
                 end
             end
@@ -227,35 +265,40 @@ function Laser:hit(obj)
 
     return flag
 end
-function Laser:hitPlayer(player)
-    return self.turnOn and self:hit(player)
+
+
+function Laser:hitPlayer(player, mode)
+    return mode == 0 and self.isTurnOn and self:hit(player)
     -- body
 end
+
+
 function Laser:hitDraw2(obj)
     local flag = false
 
-    local x1 = obj.x
-    local z1 = obj.z
-    local x2 = obj.x + obj.lenX
-    local z2 = obj.z + obj.lenZ
+    local x1 = obj.position.x
+    local z1 = obj.position.z
+    local x2 = obj.position.x + obj.lenX
+    local z2 = obj.position.z + obj.lenZ
 
     -- x
-    local xLeft = self.drawX
+    local xLeft = self.drawX1
     local xRight = self.drawX2
     if xLeft > xRight then
         xLeft, xRight = xRight, xLeft
     end
+
     -- z
-    local zTop = self.drawZ
+    local zTop = self.drawZ2
     local zBottom = self.drawZ2
     if zTop > zBottom then
         zTop, zBottom = zBottom, zTop
     end
+
     -- check rectangle
-    if  x2 > xLeft
-    and x1 < xRight
-    and z2 > zTop
-    and z1 < zBottom then
+    if x2 > xLeft and x1 < xRight and
+       z2 > zTop and z1 < zBottom then
+
         if xLeft == xRight and zBottom == zTop then
             -- point, do nothing
         elseif xLeft == xRight or zBottom == zTop then
@@ -263,32 +306,31 @@ function Laser:hitDraw2(obj)
             flag = true
         else
             -- fix
-            if z1 < zTop+1 then
-                z1 = zTop+1
+            if z1 < zTop + 1 then
+                z1 = zTop + 1
             end
-            if z2 > zBottom-1 then
-                z2 = zBottom-1
+            if z2 > zBottom - 1 then
+                z2 = zBottom - 1
             end
-            --
-            local pTable = {
+
+            local xyTable = {
                 {x1, z1},
                 {x2, z1},
                 {x2, z2},
                 {x1, z2},
             }
             local sign = nil
-            -- real
-            local dirReal = math.atan2(self.drawZ2-self.drawZ, self.drawX2-self.drawX)
-            --
+            local radianReal = math.atan2(self.drawZ2 - self.drawZ2, self.drawX2 - self.drawX1)
+
             for i = 1, 4 do
-                local vX = pTable[i][1]
-                local vY = pTable[i][2]
+                local vX = xyTable[i][1]
+                local vY = xyTable[i][2]
                 -- laser to 4 point
-                local lenX = vX-self.drawX
-                local lenY = vY-self.drawZ
+                local lenX = vX - self.drawX1
+                local lenY = vY - self.drawZ2
                 local radian = math.atan2(lenY, lenX)
-                local pSign = Base.sign(dirReal-radian)
-                --
+                local pSign = Base.sign(radianReal-radian)
+
                 if sign == nil then
                     sign = pSign
                 else
@@ -306,23 +348,22 @@ function Laser:hitDraw2(obj)
 end
 
 
--- block
 function Laser:block(ballList)
     local lenMin = len
 
-    for key, obj in pairs(ballList) do
-        if self:hit(obj) then
-            local lenX = math.abs(self.x - obj.x)
-            local lenY = math.abs(self.y - obj.y)
-            local c = math.sqrt(lenX^ 2 + lenY^2)
-            local c2 = math.sqrt(self.sx^2 + self.sy^2)
-            local _len = c/c2
+    for key, ball in pairs(ballList) do
+
+        if self:hit(ball) then
+            local lenX = math.abs(self.position.x - ball.position.x)
+            local lenY = math.abs(self.position.y - ball.position.y)
+            local c = math.sqrt(lenX ^ 2 + lenY ^ 2)
+            local c2 = math.sqrt(self.scaleX ^ 2 + self.scaleY ^ 2)
+            local _len = c / c2
 
             -- record min len
             if _len < lenMin then
                 lenMin = _len
             end
-
         end
     end
 
@@ -331,69 +372,76 @@ end
 
 
 function Laser:reflex(obj)
-    if self.turnOn then
-        local x1 = obj:getX(obj:getLeftX())
-        local x2 = obj:getX(obj:getRightX())
-        local z1 = obj:getZ(1)
-        local z2 = obj:getZ(2)
-        if z1 > z2 then
-            z1, z2 = z2, z1
-        end
+    if not self.isTurnOn then
+        return
+    end
 
-        local function setDir(self)
+    local x1 = obj:getPointX(obj:getPointIndex('left'))
+    local x2 = obj:getPointX(obj:getPointIndex('right'))
+    local z1 = obj:getPointZ(1)-- why?
+    local z2 = obj:getPointZ(2)
+    if z1 > z2 then
+        z1, z2 = z2, z1
+    end
 
-            local oDir = math.atan2(self.drawZ-obj:getZ(obj:getLeftX()), self.drawX-obj:getX(obj:getLeftX()))
-            local dir1 = math.atan2(-self.sz, -self.sx)
-            local dir2 = dir1-oDir
-            local radian = oDir-math.pi-dir2
+    -- check rectangle
+    if not self:hitRectangle(x1, z1, x2, z2, self.position.z, self.scaleZ) then
+        return
+    end
 
-            self.drawX2 = self.drawX + Base.getXYbyDir(radian, len).x
-            self.drawZ2 = self.drawZ + Base.getXYbyDir(radian, len).y
-        end
-        -- check rectangle
-        if self:hitRectangle(x1, z1, x2, z2, self.z, self.sz) then
-            local absX = math.abs(obj:getXByDir())
-            local absZ = math.abs(obj:getZByDir())
-            local absMax = absX
+    local function setDir(self)
 
-            if absZ > absMax then
-                absMax = absZ
+        local oDir = math.atan2(self.drawZ2 - obj:getPointZ(obj:getPointIndex('left')), self.drawX1 - obj:getPointX(obj:getPointIndex('left')))
+        local dir1 = math.atan2(-self.scaleZ, -self.scaleX)
+        local dir2 = dir1 - oDir
+        local radian = oDir - math.pi-dir2
+
+        self.drawX2 = self.drawX1 + Base.getVector(radian, len).x
+        self.drawZ2 = self.drawZ2 + Base.getVector(radian, len).y
+    end
+
+    local absX = math.abs(obj:getVectorX())
+    local absZ = math.abs(obj:getVectorZ())
+    local checkTime = Base.ternary(absX > absZ, absX, absZ)
+    local partX = obj:getPointX(1) + obj:getVectorX() / checkTime
+    local partZ = obj:getPointZ(1) + obj:getVectorZ() / checkTime
+
+    for i = 1, checkTime do
+        local oX = partX * i
+        local oZ = partZ * i
+
+        if self.scaleX == 0 and self.scaleZ == 0 then
+            -- nothing
+        elseif self.scaleX == 0 then
+
+            if math.abs(oX - self.position.x) < 1 then
+                self.drawX1 = oX
+                self.drawZ2 = oZ
+
+                setDir(self)
+                break
             end
+        elseif self.scaleZ == 0 then
+            if math.abs(oZ - self.position.z) < 1 then
+                self.drawX1 = oX
+                self.drawZ2 = oZ
 
-            for i = 1, absMax do
-                local oX = obj:getX(1) + obj:getXByDir()/absMax*i
-                local oZ = obj:getZ(1) + obj:getZByDir()/absMax*i
+                setDir(self)
+                break
+            end
+        else
+            local d1 = self.scaleZ / self.scaleX
+            local d2 = (oZ - self.position.z) / (oX - self.position.x)
+            if math.abs(d2 - d1) < 0.05 then-- todo: why ?
+                self.drawX1 = oX
+                self.drawZ2 = oZ
 
-                if self.sx == 0 and self.sz == 0 then
-                    -- nothing
-                elseif self.sx == 0 then
-                    if math.abs(oX-self.x)<1 then
-                        self.drawX = oX
-                        self.drawZ = oZ
-
-                        setDir(self)
-                        break
-                    end
-                elseif self.sz == 0 then
-                    if math.abs(oZ-self.z)<1 then
-                        self.drawX = oX
-                        self.drawZ = oZ
-
-                        setDir(self)
-                        break
-                    end
-                else
-                    local d1 = self.sz/self.sx
-                    local d2 = (oZ-self.z)/(oX-self.x)
-                    if math.abs(d2-d1)<0.05 then
-                        self.drawX = oX
-                        self.drawZ = oZ
-
-                        setDir(self)
-                        break
-                    end
-                end
+                setDir(self)
+                break
             end
         end
     end
 end
+
+
+return Laser
