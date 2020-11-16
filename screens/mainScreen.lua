@@ -10,10 +10,10 @@ local function getLevelName(index)
 	local levelName, levelNameLang
 
 	-- hiden level
-	if index > (#LEVEL_STRING - pageHide) then
+	if index > (#LEVEL_STRINGS - pageHide) then
 		levelNameLang = '???'
 	else
-		levelName = LEVEL_STRING[index]
+		levelName = LEVEL_STRINGS[index]
 		levelNameLang = Lang[levelName]
 	end
 
@@ -72,7 +72,7 @@ function Screen:update(dt)
 	-- switch level
 	if Base.isPressed(Base.keys.right) or Base.isPressed(Base.keys.left) then
 
-		local levelMax = #LEVEL_STRING - pageHide + 1-- 1 is the '???' level
+		local levelMax = #LEVEL_STRINGS - pageHide + 1-- 1 is the '???' level
 
 		-- change index
 		if Base.isPressed(Base.keys.right) then
@@ -90,8 +90,8 @@ function Screen:update(dt)
 	end
 
 	-- start level
-	if Base.isPressed(Base.keys.enter) and index <= (#LEVEL_STRING - pageHide) then
-		self.screen:view(LEVEL_STRING[index], index)
+	if Base.isPressed(Base.keys.enter) and index <= (#LEVEL_STRINGS - pageHide) then
+		self.screen:view(LEVEL_STRINGS[index], index)
 	end
 end
 

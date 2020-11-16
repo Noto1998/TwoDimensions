@@ -15,6 +15,7 @@ love.graphics.setFont(font)
 Object = require 'lib.Base.classic'-- oop
 Base = require 'lib.Base.Base'-- helpful tool
 Tips = require 'lib.shape.tips'
+
 -- shape
 Shape = require 'lib.shape.shape'
 Rectangle = require 'lib.shape.rectangle'
@@ -22,8 +23,8 @@ Cuboid = require 'lib.shape.cuboid'
 Ball = require 'lib.shape.ball'
 Laser = require 'lib.shape.laser'
 MoveCuboid = require 'lib.shape.moveCuboid'
-require 'lib.shape.conPolygon'
-require 'lib.shape.allForOne'
+ConPolygon = require 'lib.shape.conPolygon'
+AllForOne = require 'lib.shape.allForOne'
 --require 'lib.shape.circle'
 --require 'lib.shape.fourD'
 
@@ -31,7 +32,6 @@ Player = require 'lib.game.player'
 EndCube = require 'lib.game.endCube'
 KeyTips = require 'lib.game.keyTips'
 
--- level
 Shift = require 'lib.game.shift' -- frist
 Level = require 'lib.game.level'
 
@@ -46,14 +46,35 @@ local MainScreen = require 'screens.mainScreen'
 local LangSwitchScreen = require 'screens.langSwitchScreen'
 
 -- load level data
-LEVEL_STRING = require 'screens.level.levelConf'
+LEVEL_STRINGS = require 'screens.level.levelConf'
 local LevelScreenList = {}
-for i, value in ipairs(LEVEL_STRING) do
-    local fileName = 'screens/level/all/' .. value .. '.lua'
+for i, levelString in ipairs(LEVEL_STRINGS) do
+    local fileName = 'screens/level/all/' .. levelString .. '.lua'
     local file = love.filesystem.getInfo(fileName)
     if file ~= nil then
-        table.insert(LevelScreenList, require('screens.level.all.' .. value))
+        table.insert(LevelScreenList, require('screens.level.all.' .. levelString))
     end
+end
+
+local function setCanvas()
+    local canvas = love.graphics.newCanvas()
+
+    love.graphics.setCanvas(canvas)
+        love.graphics.clear()
+        local lineBorder = 40
+
+        love.graphics.setColor(Base.color.darkGray)
+        for i = 1, Base.gui.height / lineBorder - 1 do
+            local y = i * lineBorder
+            love.graphics.line(0, y, Base.gui.width, y)
+        end
+        for i = 1, Base.gui.width / lineBorder - 1 do
+            local x = i * lineBorder
+            love.graphics.line(x, 0, x, Base.gui.height)
+        end
+    love.graphics.setCanvas()
+
+    return canvas
 end
 
 
@@ -74,20 +95,7 @@ function love.load()
     bgmManager = BgmManager(BGM_MAIN)
 
     -- canvas
-    CANVAS_BG = love.graphics.newCanvas()
-    love.graphics.setCanvas(CANVAS_BG)
-        love.graphics.clear()
-        local lineBorder = 40
-        love.graphics.setColor(Base.color.darkGray)
-        for i = 1, Base.gui.height/lineBorder-1 do
-            local y = i * lineBorder
-            love.graphics.line(0, y, Base.gui.width, y)
-        end
-        for i = 1, Base.gui.width/lineBorder-1 do
-            local x = i * lineBorder
-            love.graphics.line(x, 0, x, Base.gui.height)
-        end
-    love.graphics.setCanvas()
+    CANVAS_BG = setCanvas()
 
     -- register screens
     local screenManager = ScreenManager()
@@ -96,7 +104,7 @@ function love.load()
 
     -- register level
     for i, level in ipairs(LevelScreenList) do
-        local levelName = LEVEL_STRING[i]
+        local levelName = LEVEL_STRINGS[i]
         screenManager:register(levelName, level)
     end
 end

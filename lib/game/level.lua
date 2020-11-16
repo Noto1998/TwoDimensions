@@ -70,7 +70,7 @@ function Level:update(dt, canShift)
 	if self.isFinish and Base.isPressed(Base.keys.enter) then
 
 		local nextLevelIndex = self.levelIndex + 1
-		local levelName = LEVEL_STRING[nextLevelIndex]
+		local levelName = LEVEL_STRINGS[nextLevelIndex]
 
 		self.screen:view(levelName, nextLevelIndex)
 	end
