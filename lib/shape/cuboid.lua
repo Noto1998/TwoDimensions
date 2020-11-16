@@ -2,31 +2,33 @@ local Cuboid = Shape:extend()
 
 local function initRectangles(self)
 
-    local rectangleTable = {}
+    local rectangles = {}
     local radian = 0
     local x = self.position.x
 
     local y1 = self.position.y
     local z1 = self.position.z
     local lenY1 = self.lenY
+    local position1 = Base.createPosition(x, y1, z1)
     table.insert(
-        rectangleTable,
-        Rectangle(x, y1, z1, self.lenX, lenY1, radian, self.colorFill, self.colorLine, self.colorMesh)
+        rectangles,
+        Rectangle(position1, self.lenX, lenY1, radian, self.colorFill, self.colorLine, self.colorMesh)
     )
 
     local y2 = self.position.z
     local z2 = self.position.y + self.lenY
     local lenY2 = self.lenZ
+    local position2 = Base.createPosition(x, y2, z2)
     table.insert(
-        rectangleTable,
-        Rectangle(x, y2, z2, self.lenX, lenY2, radian, self.colorFill, self.colorLine, self.colorMesh)
+        rectangles,
+        Rectangle(position2, self.lenX, lenY2, radian, self.colorFill, self.colorLine, self.colorMesh)
     )
 
-    return rectangleTable
+    return rectangles
 end
 
-function Cuboid:new(x, y, z, lenX, lenY, lenZ, colorFill, colorLine, colorMesh)
-    Cuboid.super.new(self, x, y, z, colorFill, colorLine, colorMesh)
+function Cuboid:new(position, lenX, lenY, lenZ, colorFill, colorLine, colorMesh)
+    Cuboid.super.new(self, position, colorFill, colorLine, colorMesh)
 
     self.lenX = lenX
     self.lenY = lenY

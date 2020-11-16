@@ -26,7 +26,9 @@ function Screen:activate(tipstable, levelName, waitTime)
 	local endCubeY = Base.gui.height+1
 	local endCubeZ = Base.gui.height+1
 	-- create player and endCube
-	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
+	local playerPosition = Base.createPosition(playerX, playerY, playerZ)
+	local endCubePosition = Base.createPosition(endCubeX, endCubeY, endCubeZ)
+	Screen.super.activate(self, playerPosition, endCubePosition, levelName)
 
 	--- here to create shape
 	c1 = Cuboid(1, 1, cZ,	cLenX, cLenY, cLenZ)

@@ -15,7 +15,7 @@ function Level:record(...)
 	self.levelIndex = levelIndex
 end
 
-function Level:activate(playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName, isTutorial)
+function Level:activate(playerPosition, endCubePosition, levelName, isTutorial)
 	Level.super.activate(self)
 
 	self.shapeList = {}
@@ -28,8 +28,8 @@ function Level:activate(playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ,
 	keyTips = KeyTips()
 
 	-- init player and endCube
-	player = Player(playerX, playerY, playerZ)
-	endCube = EndCube(endCubeX, endCubeY, endCubeZ)
+	player = Player(playerPosition)
+	endCube = EndCube(endCubePosition)
 	table.insert(self.shapeList, player)
 	table.insert(self.shapeList, endCube)
 	table.insert(self.drawList, player)
@@ -146,14 +146,16 @@ end
 
 
 ---@param obj Shape
-function Level:addShape(obj, ...)
-	table.insert(self.shapeList, obj(...))
+function Level:addShape(obj, x, y, z, ...)
+	local position = Base.createPosition(x, y, z)
+	table.insert(self.shapeList, obj(position, ...))
 	table.insert(self.drawList, self.shapeList[#self.shapeList])
 end
 
 
-function Level:addTipsList(...)
-	table.insert(self.tipsList, Tips(...))
+function Level:addTipsList(string, x, y, z, ...)
+	local position = Base.createPosition(x, y, z)
+	table.insert(self.tipsList, Tips(string, position, ...))
 end
 
 

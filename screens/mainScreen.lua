@@ -4,6 +4,7 @@ local index
 local pageHide = 4	--hide
 local imgGameLogo, imgMofishLogo
 local tipsList
+local levelChoiceTips
 
 local function getLevelName(index)
 	local levelName, levelNameLang
@@ -25,77 +26,78 @@ end
 
 
 function Screen:activate()
-	-- shift
 	Screen.super.activate(self)
 
-	-- img
 	index = 1
+
+	-- img
 	imgGameLogo = love.graphics.newImage('img/gameLogo.png')
 	imgMofishLogo = love.graphics.newImage('img/mofishLogo.png')
 
 	--- tips
-	local y1 = Base.gui.height-Base.gui.fontHeight
-	local y2 = y1-(Base.gui.fontHeight+Base.gui.border)
+	local y1 = Base.gui.height - Base.gui.fontHeight
+	local y2 = y1 - (Base.gui.fontHeight + Base.gui.border)
 	local creditsY = Base.gui.fontHeight
+	local widthCenter = Base.gui.width / 2
+	local positon1 = Base.createPosition(widthCenter, y2, -50)
+	local positon2 = Base.createPosition(widthCenter, y1, -50)
+	local positon3 = Base.createPosition(widthCenter, Base.gui.height + 50, creditsY)
+	local uiLevelChoice = Lang.ui_level_choice(index, getLevelName(index))
 
+	levelChoiceTips = Tips(uiLevelChoice,   positon1, 'center', 'bottom')
 	tipsList = {
-		Tips(Lang.ui_level_choice(index, getLevelName(index)), Base.gui.width/2, y2, -50, 'center', 'bottom'),
-		Tips(Lang.ui_key_start_and_move,	Base.gui.width/2, y1, -50, 'center', 'bottom')
+		levelChoiceTips,
+		Tips(Lang.ui_key_start_and_move,    positon2, 'center', 'bottom'),
+		Tips(Lang.ui_thank_you_for_playing, positon3, 'center')
 	}
-	table.insert(
-		tipsList,
-		Tips(Lang.ui_thank_you_for_playing,		Base.gui.width/2, Base.gui.height+50, creditsY, 'center')
-	)
+
 	for i, tipsString in ipairs(Lang.ui_credits) do
+		local positon = Base.createPosition(widthCenter, Base.gui.height + 50, creditsY + (Base.gui.fontHeight + Base.gui.border / 2) * i)
+
 		table.insert(
 			tipsList,
-			Tips(tipsString,		Base.gui.width/2, Base.gui.height+50, creditsY + (Base.gui.fontHeight+Base.gui.border/2)*i,	'center')
+			Tips(tipsString, positon, 'center')
 		)
 	end
 end
 
 
 function Screen:update(dt)
-	-- shift/bgmManager/pressedSetting
 	Screen.super.update(self, dt)
 
+	if self.shiftMode ~= 0 then
+		return
+	end
+
 	-- switch level
-	if self.shiftMode == 0 then
-		if Base.isPressed(Base.keys.right) or Base.isPressed(Base.keys.left) then
-			local levelMax = #LEVEL_STRING - pageHide + 1-- show the laser
+	if Base.isPressed(Base.keys.right) or Base.isPressed(Base.keys.left) then
 
-			-- change index
-			if Base.isPressed(Base.keys.right) then
-				if index < levelMax then
-					index = index + 1
-				else
-					index = 1
-				end
-			elseif Base.isPressed(Base.keys.left) then
-				if index > 1 then
-					index = index - 1
-				else
-					index = levelMax
-				end
-			end
+		local levelMax = #LEVEL_STRING - pageHide + 1-- 1 is the '???' level
 
-			-- update levelName string
-			local levelName = Lang.ui_level_choice(index, getLevelName(index))
-			tipsList[1]:changeText(levelName)
-
-			-- play sfx
-			love.audio.play(SFX_MENU)
+		-- change index
+		if Base.isPressed(Base.keys.right) then
+			index = Base.ternary(index < levelMax, index + 1, 1)
+		else
+			index = Base.ternary(index > 1, index - 1, levelMax)
 		end
 
-		-- start level
-		if Base.isPressed(Base.keys.enter) and index <= (#LEVEL_STRING - pageHide) then
-			self.screen:view(LEVEL_STRING[index], index)
-		end
+		-- update levelName
+		local levelName = Lang.ui_level_choice(index, getLevelName(index))
+		levelChoiceTips:changeText(levelName)
+
+		-- play sfx
+		love.audio.play(SFX_MENU)
+	end
+
+	-- start level
+	if Base.isPressed(Base.keys.enter) and index <= (#LEVEL_STRING - pageHide) then
+		self.screen:view(LEVEL_STRING[index], index)
 	end
 end
 
 
 function Screen:draw()
+
 	-- draw BG
 	love.graphics.setColor(Base.color.black)
 	love.graphics.rectangle('fill', 0, 0, Base.gui.width, Base.gui.height)
@@ -104,27 +106,27 @@ function Screen:draw()
 	bgmManager:draw()
 
 	-- logo
-	local c1 = Base.cloneTable(Base.color.white)
-	local c2 = Base.cloneTable(Base.color.white)
+	local color1 = Base.cloneTable(Base.color.white)
+	local color2 = Base.cloneTable(Base.color.white)
 	local scale1 = 0.9
 	local scale2 = 0.3
-	c1[4] = 1 - self.shiftMode
-	c2[4] = self.shiftMode
-	love.graphics.setColor(c1)
-	love.graphics.draw(imgGameLogo, Base.gui.width*(1-scale1)/2, 10, 0, scale1, scale1)
-	love.graphics.setColor(c2)
-	love.graphics.draw(imgMofishLogo, Base.gui.width*(1-scale2)/2, Base.gui.height-imgMofishLogo:getHeight()*scale2, 0, scale2, scale2)
+	color1[4] = 1 - self.shiftMode
+	color2[4] = self.shiftMode
+	love.graphics.setColor(color1)
+	love.graphics.draw(imgGameLogo, Base.gui.width * ( 1 - scale1 ) / 2, 10, 0, scale1, scale1)
+	love.graphics.setColor(color2)
+	love.graphics.draw(imgMofishLogo, Base.gui.width * (1 - scale2) / 2, Base.gui.height - imgMofishLogo:getHeight() * scale2, 0, scale2, scale2)
 
 	-- tips
-	for key, obj in pairs(tipsList) do
-		obj:draw(self.shiftMode)
+	for key, tips in pairs(tipsList) do
+		tips:draw(self.shiftMode)
 	end
 
-	-- credits
-	local c3 = Base.cloneTable(Base.color.darkGray)
-	c3[4] = self.shiftMode
-	love.graphics.setColor(c3)
-	Base.print(Lang.ui_key_credits, Base.gui.width-Base.gui.border-Base.gui.fontHeight, 0, 'right')
+	-- key_credits
+	local color3 = Base.cloneTable(Base.color.darkGray)
+	color3[4] = self.shiftMode
+	love.graphics.setColor(color3)
+	Base.print(Lang.ui_key_credits, Base.gui.width - Base.gui.border - Base.gui.fontHeight, 0, 'right')
 end
 
 

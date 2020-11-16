@@ -8,7 +8,7 @@ local function initDrawXY(self)
     if (self.xMode == nil) or (self.xMode == 'left') then
         x = self.position.x
     elseif self.xMode == 'center' then
-        x = self.position.x - self.tipsWidth/2
+        x = self.position.x - self.tipsWidth / 2
     elseif self.xMode == 'right' then
         x = self.position.x - self.tipsWidth
     end
@@ -31,14 +31,10 @@ local function initTipsWidth(self)
     self.tipsWidth = stringWidth + RADIUS * 2
 end
 
-function Tips:new(string, x, y, z, xMode, yMode, colorBg, colorText)
+function Tips:new(string, position, xMode, yMode, colorBg, colorText)
 
     self.string = string
-
-    local x2 = Base.ternary(x ~= nil, x, 0)
-    local y2 = Base.ternary(y ~= nil, y, 0)
-    local z2 = Base.ternary(z ~= nil, z, 0)
-    self.position = Base.createPosition(x2, y2, z2)
+    self.position = Base.cloneTable(position)
 
     self.xMode = xMode
     self.yMode = yMode
@@ -52,7 +48,7 @@ end
 
 
 function Tips:draw(mode)
-    local y = self.drawY + (-self.position.y +self.position.z) * mode
+    local y = self.drawY * (1 - mode) + self.position.z * mode
 
     -- bg
     love.graphics.setColor(self.colorBg)

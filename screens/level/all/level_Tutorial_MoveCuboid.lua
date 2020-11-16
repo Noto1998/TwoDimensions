@@ -14,10 +14,12 @@ function Screen:activate()
 	local endCubeY = Base.gui.height/2-Base.lenEndCube/2
 	local endCubeZ = 200+20
 	-- create player and endCube
-	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
+	local playerPosition = Base.createPosition(playerX, playerY, playerZ)
+	local endCubePosition = Base.createPosition(endCubeX, endCubeY, endCubeZ)
+	Screen.super.activate(self, playerPosition, endCubePosition, levelName)
 
 	--- here to create shape
-	self:addShape(Rectangle,	200, 0, 200,											500, 500, -math.pi+math.pi/8)
+	self:addShape(Rectangle,	200, 0, 200,											500, 500, -math.pi + math.pi / 8)
 	self:addShape(MoveCuboid,	120, Base.gui.height/2-50/2, 100,						50, 50, 50)
 	self:addShape(Laser,		100, Base.gui.height/2, 20,								-0.5, -1, 1)
 end

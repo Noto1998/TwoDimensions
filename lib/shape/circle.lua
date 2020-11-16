@@ -1,7 +1,7 @@
 local Circle = Shape:extend()
 
-function Circle:new(x, y, z, radius, colorFill, colorLine, colorMesh)
-	Circle.super.new(self, x, y, z, colorFill, colorLine, colorMesh)
+function Circle:new(position, radius, colorFill, colorLine, colorMesh)
+	Circle.super.new(self, position, colorFill, colorLine, colorMesh)
 
 	self.radius = radius
 end

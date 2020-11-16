@@ -10,9 +10,10 @@ function KeyTips:new()
     local w = Base.gui.height / (#Lang.ui_key_keyTipsList + 1)
 
     for i, string in ipairs(Lang.ui_key_keyTipsList) do
+        local positon = Base.createPosition(Base.gui.border, w * i, 0)
         table.insert(
             tipsList,
-            Tips(string, Base.gui.border, w * i, 0, 'left', 'center')
+            Tips(string, positon, 'left', 'center')
         )
     end
 end

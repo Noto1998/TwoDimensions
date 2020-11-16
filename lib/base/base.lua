@@ -79,10 +79,37 @@ end
 ---@return table
 function Base.cloneTable(table)
     local newTable = {}
-    for i = 1, #table do
-        newTable[i] = table[i]
+    for key, value in pairs(table) do
+        newTable[key] = value
     end
     return newTable
+end
+
+--- create PositionType table.
+---@param x number
+---@param y number
+---@param z number
+---@return PositionType
+function Base.createPosition(x, y, z)
+    ---@class PositionType
+    local position = {}
+
+    ---@type number
+    position.x = x
+    ---@type number
+    position.y = y
+    ---@type number
+    position.z = z
+
+    -- set toString fn in position.metatable.
+    local toStringTable = {
+        __tostring = function(table)
+            return '{ ' .. table.x .. ', ' .. table.y .. ', ' .. table.z .. ' }'
+        end
+    }
+    setmetatable(position, toStringTable)
+
+    return position
 end
 
 --- create a KeyType table.
@@ -240,10 +267,10 @@ function Base.drawRoundedRectangle(x, y, width, height, segments)
 end
 
 local function smoothStart(t)
-    return t*t*t
+    return t * t * t
 end
 local function smoothStop(t)
-    return 1-(1-t)*(1-t)*(1-t)
+    return 1 - (1 - t) * (1 - t) * (1 - t)
 end
 --- return 0 to 1 with non-linear. base on "Fast and Funky 1D Nonlinear Tramsformations" GDC talk.
 ---@param t number
@@ -255,34 +282,7 @@ function Base.mix(t)
 
     local weight = t
 
-    return smoothStart(t) * (1-weight) + smoothStop(t) * weight
-end
-
---- create PositionType table.
----@param x number
----@param y number
----@param z number
----@return PositionType
-function Base.createPosition(x, y, z)
-    ---@class PositionType
-    local position = {}
-
-    ---@type number
-    position.x = x
-    ---@type number
-    position.y = y
-    ---@type number
-    position.z = z
-
-    -- set toString fn in position.metatable.
-    local toStringTable = {
-        __tostring = function(table)
-            return '{ ' .. table.x .. ', ' .. table.y .. ', ' .. table.z .. ' }'
-        end
-    }
-    setmetatable(position, toStringTable)
-
-    return position
+    return smoothStart(t) * (1 - weight) + smoothStop(t) * weight
 end
 
 

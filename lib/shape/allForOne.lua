@@ -2,8 +2,8 @@ AllForOne = Shape:extend()
 
 local dirR
 
-function AllForOne:new(x, y, z, num, len, radian, cFill, cLine, cMesh)
-    AllForOne.super.new(self, x, y, z, cFill, cLine, cMesh)
+function AllForOne:new(position, num, len, radian, colorFill, colorLine, colorMesh)
+    AllForOne.super.new(self, position, colorFill, colorLine, colorMesh)
 
     self.num = num
     self.len = len
@@ -28,17 +28,17 @@ function AllForOne:update(dt)
 end
 
 function AllForOne:draw()
-    love.graphics.setColor(self.cLine)
+    love.graphics.setColor(self.colorLine)
     for i = 1, self.num do
         local radian = math.pi*2*(i/self.num)
-        local _x = self.x + Base.getXYbyDir(self.radian+radian, self.len).x
-        local _y = self.z + Base.getXYbyDir(self.radian+radian, self.len).y
+        local _x = self.position.x + Base.getVector(self.radian+radian, self.len).x
+        local _y = self.position.z + Base.getVector(self.radian+radian, self.len).y
 
         local minDir = math.pi*2*(1/self.num)
         local len2 = self.len*math.sin(minDir/2)*2
         local dir2 = math.pi-(math.pi/2-minDir/2)
-        local _x2 = _x + Base.getXYbyDir(self.radian+radian+dir2+dirR, len2).x
-        local _y2 = _y + Base.getXYbyDir(self.radian+radian+dir2+dirR, len2).y
+        local _x2 = _x + Base.getVector(self.radian+radian+dir2+dirR, len2).x
+        local _y2 = _y + Base.getVector(self.radian+radian+dir2+dirR, len2).y
 
         love.graphics.line(_x, _y, _x2, _y2)
     end

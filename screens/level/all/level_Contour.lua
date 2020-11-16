@@ -28,7 +28,9 @@ function Screen:activate()
 	local endCubeY = Base.gui.height-Base.gui.height/4-Base.lenEndCube/2
 	local endCubeZ = 200-Base.lenEndCube
 	-- create player and endCube
-	Screen.super.activate(self, playerX, playerY, playerZ, endCubeX, endCubeY, endCubeZ, levelName)
+	local playerPosition = Base.createPosition(playerX, playerY, playerZ)
+	local endCubePosition = Base.createPosition(endCubeX, endCubeY, endCubeZ)
+	Screen.super.activate(self, playerPosition, endCubePosition, levelName)
 
 	--- here to create shape
 	-- left-top

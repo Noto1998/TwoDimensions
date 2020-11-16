@@ -23,8 +23,8 @@ local function isOnGround(self, shapeList)
     return flag
 end
 
-function Ball:new(x, y, z, radius, colorFill, colorLine, colorMesh)
-    Ball.super.new(self, x, y, z, colorFill, colorLine, colorMesh)
+function Ball:new(position, radius, colorFill, colorLine, colorMesh)
+    Ball.super.new(self, position, colorFill, colorLine, colorMesh)
 
     self.radius = radius
     self.isOnGround = false

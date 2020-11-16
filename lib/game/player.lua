@@ -19,13 +19,13 @@ local function setSfx(self)
 	end
 end
 
-function Player:new(x, y, z)
+function Player:new(position)
 
 	local len = Base.player.len
 	local colorFill = Base.cloneTable(Base.color.gray)
 	colorFill[4] = 0.5
 	local colorMesh = {0, 0, 0, 0}
-	Player.super.new(self, x, y, z, len, len, 0, colorFill, Base.color.line, colorMesh)
+	Player.super.new(self, position, len, len, 0, colorFill, Base.color.line, colorMesh)
 
 	self.stuck = false
 	self.spdX = 0

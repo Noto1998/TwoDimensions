@@ -40,8 +40,8 @@ local function initPlayer(shapeList)
     end
 end
 
-function Laser:new(x, y, z, scaleX, scaleY, scaleZ, colorFill, colorLine, colorMesh)
-    Laser.super.new(self, x, y, z, colorFill, colorLine, colorMesh)
+function Laser:new(position, scaleX, scaleY, scaleZ, colorFill, colorLine, colorMesh)
+    Laser.super.new(self, position, colorFill, colorLine, colorMesh)
 
     -- scale
     self.scaleX = scaleX

@@ -26,8 +26,8 @@ local function initMesh(self)
 end
 
 
-function Rectangle:new(x, y, z, lenX, lenY, radian, colorFill, colorLine, colorMesh)
-    Rectangle.super.new(self, x, y, z, colorFill, colorLine, colorMesh)
+function Rectangle:new(position, lenX, lenY, radian, colorFill, colorLine, colorMesh)
+    Rectangle.super.new(self, position, colorFill, colorLine, colorMesh)
 
     self.lenX = lenX
     self.lenY = lenY

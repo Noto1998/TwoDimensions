@@ -3,8 +3,8 @@ FourD = Shape:extend()
 local modeMin = 0.1
 local mode1 = 0.33
 
-function FourD:new(x, y, z, lenX, lenY)
-    FourD.super.new(self, x, y, z)
+function FourD:new(position, lenX, lenY)
+    FourD.super.new(self, position)
 
     self.lenX = lenX
     self.lenY = lenY
@@ -23,27 +23,27 @@ end
 
 
 function FourD:draw(mode)
-    local _x = self.x
-    local _y = self.y*(1-mode) + self.z*mode
+    local _x = self.position.x
+    local _y = self.position.y*(1-mode) + self.position.z*mode
 
     --[[
     local tableT = {
-        self.x,             _y - self.lenY,
-        self.x + self.lenX, _y,
-        self.x,             _y + self.lenY,
-        self.x - self.lenX, _y,
+        self.position.x,             _y - self.lenY,
+        self.position.x + self.lenX, _y,
+        self.position.x,             _y + self.lenY,
+        self.position.x - self.lenX, _y,
     }
     local tableT1 = {
-        self.x,             _y - self.lenY*mode,
-        self.x + self.lenX, _y,
-        self.x,             _y + self.lenY*mode,
-        self.x - self.lenX, _y,
+        self.position.x,             _y - self.lenY*mode,
+        self.position.x + self.lenX, _y,
+        self.position.x,             _y + self.lenY*mode,
+        self.position.x - self.lenX, _y,
     }
     local tableT2 = {
-        self.x,             _y - self.lenY*(1-mode),
-        self.x + self.lenX, _y,
-        self.x,             _y + self.lenY*(1-mode),
-        self.x - self.lenX, _y,
+        self.position.x,             _y - self.lenY*(1-mode),
+        self.position.x + self.lenX, _y,
+        self.position.x,             _y + self.lenY*(1-mode),
+        self.position.x - self.lenX, _y,
     }
     --
     local modeMin = 0.01
