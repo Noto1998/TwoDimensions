@@ -4,6 +4,8 @@ local BgmManager = Object:extend()
 function BgmManager:new(bgm)
     self.bgm = bgm
     self.isTurnOn = true
+
+    self.bgm:play()
 end
 
 
