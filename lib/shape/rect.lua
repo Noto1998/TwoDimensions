@@ -25,9 +25,7 @@ local function getVertices(self)
 end
 
 local function initMesh(self)
-
     local vertices = getVertices(self)
-
     local mesh = love.graphics.newMesh(vertices, 'fan')
     mesh:setTexture(CANVAS_BG)
 
@@ -149,40 +147,20 @@ end
 
 ---@return number
 function Rect:getDistance()
-
-    local x1 = self:getPointX(1)
-    local z1 = self:getPointZ(1)
-    local x2 = self:getPointX(2)
-    local z2 = self:getPointZ(2)
-
-    return Base.getDistance(x1, z1, x2, z2)
+    return self.lenX
 end
 
 
----@param x number
----@param z number
+---@param pointX number
+---@param pointZ number
 ---@return boolean
-function Rect:isCollisionWithPointInXZ(x, z)
-
+function Rect:isCollisionPointInXZ(pointX, pointZ)
+    local x = self:getPointX(1)
+    local z = self:getPointZ(1)
+    local len = self:getDistance()
     local checkBorder = 2-- todo:why?
-    local flag = false
-    local checkTimes = self:getDistance()
 
-    local lenPartX = ( self:getVectorX() / checkTimes)
-    local lenPartZ = ( self:getVectorZ() / checkTimes)
-
-    -- check from point1 to point 2
-    for i = 0, checkTimes do
-        local checkX = self:getPointX(1) + i * lenPartX
-        local checkZ = self:getPointZ(1) + i * lenPartZ
-
-        if math.abs(x - checkX) <= 1 and math.abs(z - checkZ) <= checkBorder then
-            flag = true
-            break
-        end
-    end
-
-    return flag
+    return Base.isLineWithPoint(x, z, self.radian, len, pointX, pointZ, nil, checkBorder)
 end
 
 

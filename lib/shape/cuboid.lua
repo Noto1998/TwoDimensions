@@ -48,19 +48,15 @@ function Cuboid:draw(mode)
     end
 end
 
-function Cuboid:isCollisionWithPointInXZ(x, z)
+function Cuboid:isCollisionPointInXZ(pointX, pointZ)
 
-    local flag = false
     local checkBorder = 2
+    local x = self.position.x - checkBorder
+    local z = self.position.z - checkBorder
+    local lenX = self.lenX + checkBorder
+    local lenZ = self.lenZ + checkBorder
 
-    local left   = self.position.x - checkBorder
-    local right  = self.position.x + self.lenX + checkBorder
-    local top    = self.position.z - checkBorder
-    local bottom = self.position.z + self.lenZ + checkBorder
-
-    if x >= left and x <= right and z >= top and z <= bottom then
-        flag = true
-    end
+    local flag = Base.isRectWithPoint(x, z, lenX, lenZ, pointX, pointZ)
 
     return flag
 end

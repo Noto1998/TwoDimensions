@@ -83,7 +83,7 @@ function Player:isPointOnGroundWithShapeList(index, shapeList)
 
 	for key, shape in pairs(shapeList) do
 		if shape:is(Rect) or shape:is(Cuboid) or shape:is(Ball) then
-			flag = shape:isCollisionWithPointInXZ(x, z)
+			flag = shape:isCollisionPointInXZ(x, z)
 
 			if flag then
 				break
@@ -231,7 +231,7 @@ end
 
 ---@param obj Shape
 ---@return boolean
-function Player:isCollisionInXY(obj)
+function Player:isCollisionObjInXY(obj)
 
 	local flag = false
 
@@ -272,7 +272,7 @@ function Player:isTouch(obj, mode)
 	local flag = false
 
 	if mode == 0 then
-		if self:isCollisionInXY(obj) then
+		if self:isCollisionObjInXY(obj) then
 			flag = true
 		end
 	elseif mode == 1 then
