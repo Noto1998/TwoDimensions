@@ -114,13 +114,8 @@ function Laser:draw(mode)
         end
     else
         -- shooting
-        local colorSafe = Base.color.loaser.safe
-        local colorDanger = Base.color.loaser.danger
         local color = {}
-
-        for i = 1, #colorSafe do
-            color[i] = colorSafe[i] * mode + colorDanger[i] * (1 - mode)
-        end
+        Base.mixColor(color, Base.color.loaser.safe, Base.color.loaser.danger, mode)
 
         love.graphics.setColor(color)
         if mode == 1 then

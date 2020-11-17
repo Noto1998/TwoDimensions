@@ -85,6 +85,12 @@ function Base.cloneTable(table)
     return newTable
 end
 
+function Base.mixColor(colorTable, color1, color2, t)
+    for i = 1, #color1 do
+        colorTable[i] = color1[i] * t + color2[i] * (1 - t)
+    end
+end
+
 --- create PositionType table.
 ---@param x number
 ---@param y number
