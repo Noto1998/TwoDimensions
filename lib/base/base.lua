@@ -213,6 +213,16 @@ function Base.getDistance(x1, y1, x2, y2)
     return math.sqrt(disX ^ 2 + disY ^ 2)
 end
 
+
+function Base.getRadian(x1, y1, x2, y2)
+    local disX = math.abs(x1 - x2)
+    local disY = math.abs(y1 - y2)
+    local radian = math.atan(disX / disY)
+
+    return radian
+end
+
+
 --- get { x = , y = } by direction and distance.
 ---@param radian number
 ---@param len number
@@ -234,6 +244,130 @@ end
 function Base.getVectorLenY(radian, lenX)
     return lenX * math.tan(radian)
 end
+
+
+-- test, base shape collision
+
+function Base.isLineWithPoint(lineX, lineY, lineRadian, lineLen, pointX, pointY, checkBorderX, checkBorderY)
+    local flag = false
+
+    checkBorderX = Base.ternary(checkBorderX ~= nil, checkBorderX, 1)
+    checkBorderY = Base.ternary(checkBorderY ~= nil, checkBorderY, 1)
+
+    local checkTime = lineLen
+
+    local lenPartX = Base.getVector(lineRadian, lineLen).x / checkTime
+    local lenPartY = Base.getVector(lineRadian, lineLen).y / checkTime
+
+    -- check from point1 to point 2
+    for i = 0, checkTime do
+        local checkX = lineX + lenPartX
+        local checkY = lineY + lenPartY
+
+        -- checkBorder default is 1
+        if math.abs(pointX - checkX) <= checkBorderX and math.abs(pointY - checkY) <= checkBorderY then
+            flag = true
+            break
+        end
+    end
+
+    return flag
+end
+
+function Base.isRectWithPoint(rectX, rectY, rectLenX, rectLenY, pointX, pointY)
+    local flag = false
+    local rectX2 = rectX + rectLenX
+    local rectY2 = rectY + rectLenY
+    local left = Base.ternary(rectX < rectX2, rectX, rectX2)
+    local right = Base.ternary(rectX > rectX2, rectX, rectX2)
+    local top = Base.ternary(rectY < rectY2, rectY, rectY2)
+    local bottom = Base.ternary(rectY > rectY2, rectY, rectY2)
+
+    if pointX > left and pointX < right and pointY > top and pointY < bottom then
+        flag = true
+    end
+
+    return flag
+end
+
+function Base.isRectWithLine(rectX, rectY, rectLenX, rectLenY, lineX, lineY, lineRadian, lineLen)
+    local flag = false
+
+    local lineX2 = lineX + Base.getVector(lineRadian, lineLen).x
+    local lineY2 = lineY + Base.getVector(lineRadian, lineLen).y
+
+    -- check two points
+    if Base.isRectWithPoint(rectX, rectY, rectLenX, rectLenY, lineX, lineY) or
+    Base.isRectWithPoint(rectX, rectY, rectLenX, rectLenY, lineX2, lineY2) then
+        return true
+    end
+
+    local rectX2 = rectX + rectLenX
+    local rectY2 = rectY + rectLenY
+    local left = Base.ternary(rectX < rectX2, rectX, rectX2)
+    local right = Base.ternary(rectX > rectX2, rectX, rectX2)
+    local top = Base.ternary(rectY < rectY2, rectY, rectY2)
+    local bottom = Base.ternary(rectY > rectY2, rectY, rectY2)
+
+    -- vertical
+    if lineX == lineX2 then
+        local lineYTop = Base.ternary(lineY < lineY2, lineY, lineY2)
+        local lineYBottom = Base.ternary(lineY > lineY2, lineY, lineY2)
+
+        if (bottom > lineYTop and top < lineYBottom) and
+   	       (lineX > left and lineX < right) then
+            return true
+        end
+    end
+
+    -- horizontal
+    if lineY == lineY2 then
+        local lineXLeft = Base.ternary(lineX < lineX2, lineX, lineX2)
+        local lineYRight = Base.ternary(lineX > lineX2, lineX, lineX2)
+
+        if (left > lineYRight and right < lineXLeft) and
+   	       (lineY > top and lineY < bottom) then
+            return true
+        end
+    end
+
+    -- must through
+    -- todo:
+
+    return flag
+end
+
+function Base.isBallWithPoint(ballX, ballY, ballRadius, pointX, pointY)
+    local dis = Base.getDistance(ballX, ballY, pointX, pointY)
+    local flag = dis < ballRadius
+
+    return flag
+end
+
+function Base.isBallWithLine(ballX, ballY, ballRadius, lineX, lineY, lineRadian, lineLen)
+    local flag = false
+
+    local lineX2 = lineX + Base.getVector(lineRadian, lineLen).x
+    local lineY2 = lineY + Base.getVector(lineRadian, lineLen).y
+
+    -- check two points
+    if Base.isBallWithPoint(lineX, lineY) or Base.isBallWithPoint(lineX2, lineY2) then
+        return true
+    end
+
+    -- points not in circle, so must be goes through circle
+    local bigRadian = Base.getRadian(lineX, lineY, ballX, ballY)
+    local dis = Base.getDistance(lineX, lineY, ballX, ballY)
+    local smallRadian = lineRadian - bigRadian
+    local disToCenter = math.sin(smallRadian) * dis
+
+    if disToCenter < ballRadius then
+        return true
+    end
+
+    return flag
+end
+
 
 --- draw a rounded rect.
 ---@param x number
