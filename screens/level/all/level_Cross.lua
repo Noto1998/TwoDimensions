@@ -61,7 +61,7 @@ function Screen:activate()
 	--Ball
 	self:addShape(Ball, 85,115,150,12.5)
 	--Slope
-	self:addShape(Rectangle, Base.gui.width/2, 105, 210,		(210/2)/math.cos(radian), 25,		-math.pi+radian)
+	self:addShape(Rect, Base.gui.width/2, 105, 210,		(210/2)/math.cos(radian), 25,		-math.pi+radian)
 
 	-- here to create tips
 	self:addTipsList(Lang.tips_mayoiba_yabureru, 20, -80, Base.gui.border*2)

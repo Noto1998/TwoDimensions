@@ -53,10 +53,10 @@ function MoveCuboid:update(dt, shiftMode, shapeList)
     end
 
     -- update draw position
-    self:updateRectanglesPosition()
+    self:updateRectsPosition()
     -- update mesh vertices
-    for key, rectangle in pairs(self.rectangles) do
-        rectangle:updateVertices()
+    for key, rect in pairs(self.rects) do
+        rect:updateVertices()
     end
 end
 
@@ -66,22 +66,22 @@ function MoveCuboid:hitPlayer(player, mode)
 end
 
 
-function MoveCuboid:updateRectanglesPosition()
+function MoveCuboid:updateRectsPosition()
     local x = self.position.x
 
     local y1 = self.position.y
     local z1 = self.position.z
 
-    self.rectangles[1].position.x = x
-    self.rectangles[1].position.y = y1
-    self.rectangles[1].position.z = z1
+    self.rects[1].position.x = x
+    self.rects[1].position.y = y1
+    self.rects[1].position.z = z1
 
     local y2 = self.position.z
     local z2 = self.position.y + self.lenY
 
-    self.rectangles[2].position.x = x
-    self.rectangles[2].position.y = y2
-    self.rectangles[2].position.z = z2
+    self.rects[2].position.x = x
+    self.rects[2].position.y = y2
+    self.rects[2].position.z = z2
 end
 
 

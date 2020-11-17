@@ -18,7 +18,7 @@ Tips = require 'lib.shape.tips'
 
 -- shape
 Shape = require 'lib.shape.shape'
-Rectangle = require 'lib.shape.rectangle'
+Rect = require 'lib.shape.rect'
 Cuboid = require 'lib.shape.cuboid'
 Ball = require 'lib.shape.ball'
 Laser = require 'lib.shape.laser'

@@ -1,8 +1,8 @@
 local Cuboid = Shape:extend()
 
-local function initRectangles(self)
+local function initRects(self)
 
-    local rectangles = {}
+    local rects = {}
     local radian = 0
     local x = self.position.x
 
@@ -11,8 +11,8 @@ local function initRectangles(self)
     local lenY1 = self.lenY
     local position1 = Base.createPosition(x, y1, z1)
     table.insert(
-        rectangles,
-        Rectangle(position1, self.lenX, lenY1, radian, self.colorFill, self.colorLine, self.colorMesh)
+        rects,
+        Rect(position1, self.lenX, lenY1, radian, self.colorFill, self.colorLine, self.colorMesh)
     )
 
     local y2 = self.position.z
@@ -20,11 +20,11 @@ local function initRectangles(self)
     local lenY2 = self.lenZ
     local position2 = Base.createPosition(x, y2, z2)
     table.insert(
-        rectangles,
-        Rectangle(position2, self.lenX, lenY2, radian, self.colorFill, self.colorLine, self.colorMesh)
+        rects,
+        Rect(position2, self.lenX, lenY2, radian, self.colorFill, self.colorLine, self.colorMesh)
     )
 
-    return rectangles
+    return rects
 end
 
 function Cuboid:new(position, lenX, lenY, lenZ, colorFill, colorLine, colorMesh)
@@ -34,21 +34,21 @@ function Cuboid:new(position, lenX, lenY, lenZ, colorFill, colorLine, colorMesh)
     self.lenY = lenY
     self.lenZ = lenZ
 
-    self.rectangles = initRectangles(self)
+    self.rects = initRects(self)
 end
 
 function Cuboid:draw(mode)
 
     if mode ~= 1 then
-        self.rectangles[1]:draw(mode)
+        self.rects[1]:draw(mode)
     end
 
     if mode ~= 0 then
-        self.rectangles[2]:draw(1 - mode)
+        self.rects[2]:draw(1 - mode)
     end
 end
 
-function Cuboid:isCollisionInXZ(x, z)
+function Cuboid:isCollisionWithPointInXZ(x, z)
 
     local flag = false
     local checkBorder = 2

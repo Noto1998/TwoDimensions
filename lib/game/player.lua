@@ -1,4 +1,4 @@
-local Player = Rectangle:extend()
+local Player = Rect:extend()
 
 local function setPointsOnGround(self, shapeList)
 	for i = 1, #self.points do
@@ -82,8 +82,8 @@ function Player:isPointOnGroundWithShapeList(index, shapeList)
 	local z = self:getPointZ(index)
 
 	for key, shape in pairs(shapeList) do
-		if shape:is(Rectangle) or shape:is(Cuboid) or shape:is(Ball) then
-			flag = shape:isCollisionInXZ(x, z)
+		if shape:is(Rect) or shape:is(Cuboid) or shape:is(Ball) then
+			flag = shape:isCollisionWithPointInXZ(x, z)
 
 			if flag then
 				break
@@ -164,12 +164,12 @@ function Player:setCollisionXY(dt, shapeList)
 	local centerY = (top + bottom) / 2
 
 	for key, obj in pairs(shapeList) do
-		if not (obj:is(Rectangle) or obj:is(Cuboid)) then
+		if not (obj:is(Rect) or obj:is(Cuboid)) then
 			goto continue
 		end
 
 		local oLeft, oRight
-		if obj:is(Rectangle) then
+		if obj:is(Rect) then
 			oLeft = obj:getPointX(obj:getPointIndex('left'))
 			oRight = obj:getPointX(obj:getPointIndex('right'))
 		else
@@ -235,7 +235,7 @@ function Player:isCollisionInXY(obj)
 
 	local flag = false
 
-	if not (obj:is(Rectangle) or obj:is(Cuboid)) then
+	if not (obj:is(Rect) or obj:is(Cuboid)) then
 		return flag
 	end
 
@@ -245,7 +245,7 @@ function Player:isCollisionInXY(obj)
 	local bottom = self.position.y + self.lenY
 
 	local oLeft, oRight
-	if obj:is(Rectangle) then
+	if obj:is(Rect) then
 		oLeft = obj:getPointX(obj:getPointIndex('left'))
 		oRight = obj:getPointX(obj:getPointIndex('right'))
 	else

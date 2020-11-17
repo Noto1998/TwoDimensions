@@ -17,7 +17,7 @@ function Screen:activate()
 	Screen.super.activate(self, playerPosition, endCubePosition, levelName)
 
 	--- here to create shape
-	self:addShape(Rectangle,	200, 0, 200,											500, 500, -math.pi + math.pi / 8)
+	self:addShape(Rect,	200, 0, 200,											500, 500, -math.pi + math.pi / 8)
 
 	local position = Base.createPosition(20, Base.gui.height/2-50/2, 100)
 	local movePosition = Base.createPosition(200, 200, 200)

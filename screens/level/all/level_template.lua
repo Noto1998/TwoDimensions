@@ -13,7 +13,7 @@ function Screen:activate()
 	-- use [ self:addShape(...) ] to create shape.
 	-- e.g. self:addShape(Cuboid, 0, 0, 0, 50, 50, 50)
 
-	-- Rectangle,	position, lenX, lenY, radian(0 ~ -math.pi)
+	-- Rect,	position, lenX, lenY, radian(0 ~ -math.pi)
 	-- Cuboid,		position, lenX, lenY, lenZ
 	-- Laser,		position, scaleX, scaleY, scaleZ(0 ~ 1)
 	-- FourD,		position, lenX, lenY

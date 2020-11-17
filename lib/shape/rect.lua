@@ -1,5 +1,5 @@
----@class Rectangle : Shape
-local Rectangle = Shape:extend()
+---@class Rect : Shape
+local Rect = Shape:extend()
 
 local function getVertices(self)
     local vertices = {}
@@ -35,8 +35,8 @@ local function initMesh(self)
 end
 
 
-function Rectangle:new(position, lenX, lenY, radian, colorFill, colorLine, colorMesh)
-    Rectangle.super.new(self, position, colorFill, colorLine, colorMesh)
+function Rect:new(position, lenX, lenY, radian, colorFill, colorLine, colorMesh)
+    Rect.super.new(self, position, colorFill, colorLine, colorMesh)
 
     self.lenX = lenX
     self.lenY = lenY
@@ -49,7 +49,7 @@ function Rectangle:new(position, lenX, lenY, radian, colorFill, colorLine, color
 end
 
 
-function Rectangle:draw(mode)
+function Rect:draw(mode)
 
     if mode == 1 then
         love.graphics.setColor(self.colorLine)
@@ -91,21 +91,21 @@ end
 
 --- get LenX between Points
 ---@return number x
-function Rectangle:getVectorX()
+function Rect:getVectorX()
     return Base.getVector(self.radian, self.lenX).x
 end
 
 
 --- get LenZ between Points
 ---@return number z
-function Rectangle:getVectorZ()
+function Rect:getVectorZ()
     return Base.getVector(self.radian, self.lenX).y
 end
 
 
 ---@param index number
 ---@return number pointX
-function Rectangle:getPointX(index)
+function Rect:getPointX(index)
     if index == 1 then
         return self.position.x
     elseif index == 2 then
@@ -118,7 +118,7 @@ end
 
 ---@param index number
 ---@return number pointZ
-function Rectangle:getPointZ(index)
+function Rect:getPointZ(index)
 
     if index == 1 then
         return self.position.z
@@ -132,7 +132,7 @@ end
 
 ---@param string string
 ---@return number index
-function Rectangle:getPointIndex(string)
+function Rect:getPointIndex(string)
 
     local x1 = self:getPointX(1)
     local x2 = self:getPointX(2)
@@ -148,7 +148,7 @@ end
 
 
 ---@return number
-function Rectangle:getDistance()
+function Rect:getDistance()
 
     local x1 = self:getPointX(1)
     local z1 = self:getPointZ(1)
@@ -162,7 +162,7 @@ end
 ---@param x number
 ---@param z number
 ---@return boolean
-function Rectangle:isCollisionInXZ(x, z)
+function Rect:isCollisionWithPointInXZ(x, z)
 
     local checkBorder = 2-- todo:why?
     local flag = false
@@ -186,10 +186,10 @@ function Rectangle:isCollisionInXZ(x, z)
 end
 
 
-function Rectangle:updateVertices()
+function Rect:updateVertices()
     local vertices = getVertices(self)
     self.mesh:setVertices(vertices)
 end
 
 
-return Rectangle
+return Rect

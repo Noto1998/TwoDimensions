@@ -5,7 +5,7 @@ function Screen:activate()
 	-- Cuboid
 	local cZ = 200
 	local cLenZ = 25
-	-- Rectangle
+	-- Rect
 	local reLenX = Base.gui.width-50
 	local reLenY = Base.gui.height/2
 	local reDir = math.pi/20
@@ -42,9 +42,9 @@ function Screen:activate()
 	--- here to create shape
 	-- floor
 	self:addShape(Cuboid,		0, 0, cZ,				Base.gui.width+2, Base.gui.height+2, cLenZ)
-	-- rectangle
-	self:addShape(Rectangle,	Base.gui.width-reX, Base.gui.height+2, reZ,			reLenX, reLenY, 		 -math.pi+reDir)
-	self:addShape(Rectangle,	reX, reY-2, reZ+reZBorder,							reLenX, reLenY, 		 -reDir)
+	-- rect
+	self:addShape(Rect,	Base.gui.width-reX, Base.gui.height+2, reZ,			reLenX, reLenY, 		 -math.pi+reDir)
+	self:addShape(Rect,	reX, reY-2, reZ+reZBorder,							reLenX, reLenY, 		 -reDir)
 	-- ball
 	self:addShape(Ball,		bX, bY, bZ,												bR)
 	self:addShape(Ball,		Base.gui.width-bX, Base.gui.height-bY, bZ+reZBorder,		bR)

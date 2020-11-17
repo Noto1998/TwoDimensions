@@ -2,7 +2,7 @@ local Screen = Level:extend()
 
 function Screen:activate()
 	--- shape value
-	-- Rectangle
+	-- Rect
 	local reZ = 100
 	local reLenX = Base.gui.width-75
 	local reLenY = Base.gui.height/2
@@ -29,8 +29,8 @@ function Screen:activate()
 
 	--- here to create shape
 	self:addShape(Ball,		Base.gui.width-reBorder, Base.gui.height/4, 0,			bR)
-	self:addShape(Rectangle, reBorder, 0, reZ,								reLenX, reLenY,			-reDir)
-	self:addShape(Rectangle, Base.gui.width-reBorder, reLenY, reZ+50,		reLenX, reLenY, 		-math.pi+reDir)
+	self:addShape(Rect, reBorder, 0, reZ,								reLenX, reLenY,			-reDir)
+	self:addShape(Rect, Base.gui.width-reBorder, reLenY, reZ+50,		reLenX, reLenY, 		-math.pi+reDir)
 end
 
 return Screen

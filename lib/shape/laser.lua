@@ -134,7 +134,7 @@ function Laser:draw(mode)
 end
 
 -- todo: why ?
-function Laser:hitRectangle(x1, y1, x2, y2, selfY, selfScaleY)
+function Laser:hitRect(x1, y1, x2, y2, selfY, selfScaleY)
     local flag
 
     selfY = Base.ternary(selfY ~= nil, selfY, self.position.y)
@@ -153,7 +153,7 @@ function Laser:hitRectangle(x1, y1, x2, y2, selfY, selfScaleY)
         yTop, yBottom = yBottom, yTop
     end
 
-    -- check rectangle
+    -- check rect
     if x2 > xLeft and x1 < xRight and
        y2 > yTop  and y1 < yBottom then
 
@@ -223,16 +223,16 @@ function Laser:hit(obj)
         yTop, yBottom = yBottom, yTop
     end
 
-    if obj:is(Rectangle) then
+    if obj:is(Rect) then
         local x1 = obj:getPointX(obj:getPointIndex('left'))
         local x2 = obj:getPointX(obj:getPointIndex('right'))
         local y1 = obj.position.y
         local y2 = obj.position.y + obj.lenY
 
-        flag = self:hitRectangle(x1, y1, x2, y2)
+        flag = self:hitRect(x1, y1, x2, y2)
 
     elseif obj:is(Ball) then
-        -- check rectangle
+        -- check rect
         if obj.position.x + obj.radius > xLeft and
            obj.position.x - obj.radius < xRight and
            obj.position.y + obj.radius > yTop and
@@ -296,7 +296,7 @@ function Laser:hitDraw2(obj)
         zTop, zBottom = zBottom, zTop
     end
 
-    -- check rectangle
+    -- check rect
     if x2 > xLeft and x1 < xRight and
        z2 > zTop and z1 < zBottom then
 
@@ -385,8 +385,8 @@ function Laser:reflex(obj)
         z1, z2 = z2, z1
     end
 
-    -- check rectangle
-    if not self:hitRectangle(x1, z1, x2, z2, self.position.z, self.scaleZ) then
+    -- check rect
+    if not self:hitRect(x1, z1, x2, z2, self.position.z, self.scaleZ) then
         return
     end
 

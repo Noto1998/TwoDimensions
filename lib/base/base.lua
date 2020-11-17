@@ -228,13 +228,20 @@ function Base.getVector(radian, len)
     return table
 end
 
---- draw a rounded rectangle.
+function Base.getVectorLenX(radian, lenY)
+    return lenY / math.tan(radian)
+end
+function Base.getVectorLenY(radian, lenX)
+    return lenX * math.tan(radian)
+end
+
+--- draw a rounded rect.
 ---@param x number
 ---@param y number
 ---@param width number
 ---@param height number
 ---@param segments number
-function Base.drawRoundedRectangle(x, y, width, height, segments)
+function Base.drawRoundedRect(x, y, width, height, segments)
 
     -- default segments
     if segments == nil then

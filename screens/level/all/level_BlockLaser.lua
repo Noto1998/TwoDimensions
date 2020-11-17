@@ -29,7 +29,7 @@ function Screen:activate()
 	--- here to create shape
 	-- floor
 	self:addShape(Cuboid,		cX, cY, cZ,		cLenX, cLenY, cLenZ)
-	self:addShape(Rectangle,	Base.gui.width, Base.gui.height+10, 150,		Base.gui.width+40, Base.gui.height/2, 		 -math.pi+math.pi/10)
+	self:addShape(Rect,	Base.gui.width, Base.gui.height+10, 150,		Base.gui.width+40, Base.gui.height/2, 		 -math.pi+math.pi/10)
 	self:addShape(Ball,			bR, 80, 0,		bR)
 	self:addShape(Laser,		Base.gui.width/2, 1, 1,		0, 1, 1)
 end

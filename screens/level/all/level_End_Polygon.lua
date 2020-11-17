@@ -20,7 +20,7 @@ function Screen:activate()
 	for i = 1, 150 do
 		local _x = love.math.random(0, Base.gui.width)
 		local _y = love.math.random(0, Base.gui.height)
-		reList[i] = Rectangle(_x, -10, -Base.gui.height*2.7+_y, Base.player.len, 0)
+		reList[i] = Rect(_x, -10, -Base.gui.height*2.7+_y, Base.player.len, 0)
 
 		table.insert(self.shapeList, reList[i])
 		table.insert(self.drawList, reList[i])

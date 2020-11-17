@@ -52,7 +52,7 @@ function Tips:draw(mode)
 
     -- bg
     love.graphics.setColor(self.colorBg)
-    Base.drawRoundedRectangle(self.drawX, y, self.tipsWidth, Base.gui.fontHeight)
+    Base.drawRoundedRect(self.drawX, y, self.tipsWidth, Base.gui.fontHeight)
     -- text
     love.graphics.setColor(self.colorText)
     Base.print(self.string, self.drawX + self.tipsWidth / 2, y, 'center')
