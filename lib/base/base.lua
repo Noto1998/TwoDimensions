@@ -364,16 +364,21 @@ function Base.isCircleWithLine(circleX, circleY, circleRadius, lineX, lineY, lin
     end
 
     -- points not in circle, so the line must be goes through circle
-    local bigRadian = Base.getRadian(lineX, lineY, circleX, circleY)
-    local dis = Base.getDistance(lineX, lineY, circleX, circleY)
-    local smallRadian = lineRadian - bigRadian
-    local disToCenter = math.sin(smallRadian) * dis
-
-    if disToCenter < circleRadius then
+    local dis = Base.getDistanceWithPointAndLine(circleX, circleY, lineX, lineY, lineRadian)
+    if dis < circleRadius then
         return true
     end
 
     return flag
+end
+
+function Base.getDistanceWithPointAndLine(pointX, pointY, lineX, lineY, lineRadian)
+    local bigRadian = Base.getRadian(lineX, lineY, pointX, pointY)
+    local dis1 = Base.getDistance(lineX, lineY, pointX, pointY)
+    local smallRadian = lineRadian - bigRadian
+    local dis = math.sin(smallRadian) * dis1
+
+    return dis
 end
 
 

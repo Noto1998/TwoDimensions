@@ -71,7 +71,7 @@ function Player:draw(mode)
 	end
 end
 
---- lua don't have overloaded!
+--- why name so long: lua don't have overloaded
 ---@param index number
 ---@param shapeList table
 ---@return boolean
