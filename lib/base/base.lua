@@ -337,37 +337,39 @@ function Base.isRectWithLine(rectX, rectY, rectLenX, rectLenY, lineX, lineY, lin
         end
     end
 
-    -- must through
+    -- points not in rect, so the line must be goes through rect
     -- todo:
 
     return flag
 end
 
-function Base.isBallWithPoint(ballX, ballY, ballRadius, pointX, pointY)
-    local dis = Base.getDistance(ballX, ballY, pointX, pointY)
-    local flag = dis < ballRadius
+-- todo: rect with rect
+
+function Base.isCircleWithPoint(circleX, circleY, circleRadius, pointX, pointY)
+    local dis = Base.getDistance(circleX, circleY, pointX, pointY)
+    local flag = dis < circleRadius
 
     return flag
 end
 
-function Base.isBallWithLine(ballX, ballY, ballRadius, lineX, lineY, lineRadian, lineLen)
+function Base.isCircleWithLine(circleX, circleY, circleRadius, lineX, lineY, lineRadian, lineLen)
     local flag = false
 
     local lineX2 = lineX + Base.getVector(lineRadian, lineLen).x
     local lineY2 = lineY + Base.getVector(lineRadian, lineLen).y
 
     -- check two points
-    if Base.isBallWithPoint(lineX, lineY) or Base.isBallWithPoint(lineX2, lineY2) then
+    if Base.isCircleWithPoint(circleX, circleY, circleRadius, lineX, lineY) or Base.isCircleWithPoint(circleX, circleY, circleRadius, lineX2, lineY2) then
         return true
     end
 
-    -- points not in circle, so must be goes through circle
-    local bigRadian = Base.getRadian(lineX, lineY, ballX, ballY)
-    local dis = Base.getDistance(lineX, lineY, ballX, ballY)
+    -- points not in circle, so the line must be goes through circle
+    local bigRadian = Base.getRadian(lineX, lineY, circleX, circleY)
+    local dis = Base.getDistance(lineX, lineY, circleX, circleY)
     local smallRadian = lineRadian - bigRadian
     local disToCenter = math.sin(smallRadian) * dis
 
-    if disToCenter < ballRadius then
+    if disToCenter < circleRadius then
         return true
     end
 

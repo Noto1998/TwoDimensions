@@ -116,81 +116,24 @@ end
 
 
 function Ball:isCollisionPointInXZ(pointX, pointZ)
-
-    local flag = false
-    local lenX = math.abs(pointX - self.position.x)
-    local lenZ = math.abs(pointZ - self.position.z)
-    local disbetween = math.sqrt(lenX ^ 2 + lenZ ^ 2)
-
-    if disbetween <= self.radius then
-        flag = true
-    end
-
+    local flag = Base.isCircleWithPoint(self.position.x, self.position.z, self.radius, pointX, pointZ)
     return flag
 end
 
 
---- new version, but not good enough
 ---@param rect Rect
 function Ball:isCollisionRectInXZ(rect)
-    local flag = false
-
-    local leftIndex = rect:getPointIndex('left')
-    local rightInedx = rect:getPointIndex('right')
-    local x1 = rect:getPointX(leftIndex)
-    local x2 = rect:getPointX(rightInedx)
-
-    if self.position.x + self.radius < x1 or self.position.x - self.radius > x2 then
-        return flag
-    end
-
-    local z1 = rect:getPointZ(leftIndex)
-    local startX = self.position.x - self.radius
-    if startX < x1 then
-        startX = x1
-    end
-    local disX = startX - x1
-    local startZ = z1 + Base.getVectorLenY(rect.radian, disX)
-    local checkTime = self.radius * 2
-    if startX + checkTime > x2 then
-        checkTime = x2 - startX
-    end
-
-    for i = 0, checkTime do
-        local checkX = startX + i
-        local checkZ = startZ + Base.getVectorLenY(rect.radian, i)
-
-        if self:isCollisionPointInXZ(checkX, checkZ) then
-            flag = true
-            break
-        end
-    end
+    local ballX = self.position.x
+    local ballZ = self.position.z
+    local ballRadius = self.radius
+    local lineX = rect.getPointX(1)
+    local lineZ = rect.getPointZ(1)
+    local radian = rect.radian
+    local len = rect:getDistance()
+    local flag = Base.isCircleWithLine(ballX, ballZ, ballRadius, lineX, lineZ, radian, len)
 
     return flag
 end
-
-
-function Ball:isCollisionLineInXZ(lineX, lineZ, lineRadian, lineLen)
-    local flag = false
-
-    local x1 = lineX
-    local z1 = lineZ
-    local vector = Base.getVector(lineRadian, lineLen)
-    local x2 = lineX + vector.x
-    local z2 = lineZ + vector.y
-
-    -- check points in circle
-    if self:isCollisionPointInXZ(x1, z1) or self:isCollisionPointInXZ(x2, z2) then
-        flag = true
-        return flag
-    end
-
-    -- points not in circle, so if isCollision, must be goes through circle
-
-
-    return flag
-end
-
 
 
 function Ball:hitPlayer(player, shiftMode)
